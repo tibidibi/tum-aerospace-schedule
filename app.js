@@ -23,7 +23,12 @@ const STATE = {
   },
   skippedClasses: new Set(),
   showGhostGroups: true,
-  currentView: 'week', // 'week' | 'matrix' | 'agenda'
+  currentView: 'today', // 'today' | 'week' | 'matrix' | 'agenda'
+  weekIdx: 0, // semester week shown in week/agenda views (0 = week of 12 Oct)
+  detectedGroups: {}, // groups TUMonline has you in
+  manualGroups: new Set(), // courses whose group you picked yourself (TUMonline won't override)
+  attendance: {}, // 'YYYY-MM-DD|classId' -> 'went' | 'skipped'
+  autopilot: 'latestStart',
   activeModalClassId: null,
   agendaMode: 'columns', // 'columns' | 'list'
   selectedAgendaDay: 'all', // 'all' | 0 | 1 | 2 | 3 | 4
@@ -51,9 +56,10 @@ function groupsLabel(groups) {
   return groups.join(', ');
 }
 
-function selectGroup(courseId, groupName) {
+function selectGroup(courseId, groupName, { manual = true } = {}) {
   const course = COURSES.find(c => c.id === courseId);
   STATE.selectedGroups[courseId] = groupName;
+  if (manual) STATE.manualGroups.add(courseId);
   persistState();
   updateAll();
   showToast(`Switched ${course ? course.shortName : courseId} to ${groupName}`);
@@ -75,6 +81,9 @@ function loadPersistedState() {
     if (parsed.agendaMode === 'columns' || parsed.agendaMode === 'list') {
       STATE.agendaMode = parsed.agendaMode;
     }
+    if (Array.isArray(parsed.manualGroups)) STATE.manualGroups = new Set(parsed.manualGroups);
+    if (parsed.attendance && typeof parsed.attendance === 'object') STATE.attendance = parsed.attendance;
+    if (parsed.autopilot in OBJECTIVES) STATE.autopilot = parsed.autopilot;
   } catch (e) {
     console.warn('Failed to load persisted state:', e);
   }
@@ -88,7 +97,10 @@ function persistState() {
       courseVisibility: STATE.courseVisibility,
       skippedClasses: Array.from(STATE.skippedClasses),
       showGhostGroups: STATE.showGhostGroups,
-      agendaMode: STATE.agendaMode
+      agendaMode: STATE.agendaMode,
+      manualGroups: Array.from(STATE.manualGroups),
+      attendance: STATE.attendance,
+      autopilot: STATE.autopilot
     };
     localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
   } catch (e) {
@@ -104,17 +116,49 @@ function formatMinutes(min) {
   return `${h}h ${m}m`;
 }
 
-// Get all active draft classes (matching course visibility and group selection)
+// Your weekly PDF sessions (course visibility + group selection), before TUMonline is merged in
+function getTemplateClasses() {
+  return scheduleFor(STATE.selectedGroups, { visibility: STATE.courseVisibility });
+}
+
+// One semester week with TUMonline merged in: { items, closures, covered, days } (see mergeWeek)
+const weekCache = new Map();
+function getWeek(weekIdx = STATE.weekIdx) {
+  const key = `${weekIdx}|${JSON.stringify(STATE.selectedGroups)}|${JSON.stringify(STATE.courseVisibility)}|${TUM.syncedAt}|${TUM.status}`;
+  if (!weekCache.has(key)) {
+    if (weekCache.size > 40) weekCache.clear();
+    const connected = TUM.status === 'connected';
+    const week = mergeWeek({
+      template: getTemplateClasses(),
+      tumEvents: connected ? TUM.events : [],
+      weekIdx,
+      coverage: connected ? TUM.coverage : null
+    });
+    week.items = week.items.filter(c => STATE.courseVisibility[c.courseId] !== false);
+    weekCache.set(key, week);
+  }
+  return weekCache.get(key);
+}
+
+// Sessions of the shown week; cancelled ones stay in (shown struck through) but never count
 function getDraftClasses() {
-  return CLASSES.filter(cls => {
-    if (STATE.courseVisibility[cls.courseId] === false) return false;
-    const course = COURSES.find(c => c.id === cls.courseId);
-    if (course && course.hasGroups && cls.group) {
-      const selected = STATE.selectedGroups[cls.courseId];
-      if (selected && cls.group !== selected) return false;
-    }
-    return true;
-  });
+  return getWeek().items;
+}
+
+function findEvent(id) {
+  return getDraftClasses().find(c => c.id === id) || CLASSES.find(c => c.id === id);
+}
+
+function currentWeekIndex() {
+  return clampWeek(weekIndexOf(munichNow().date));
+}
+
+function setWeek(weekIdx) {
+  const next = clampWeek(weekIdx);
+  if (next === STATE.weekIdx) return;
+  STATE.weekIdx = next;
+  if (STATE.currentView === 'today') setView('week');
+  else updateAll();
 }
 
 // Calculate comprehensive time statistics
@@ -133,6 +177,7 @@ function calculateTimeStats() {
   }
 
   for (const cls of draftClasses) {
+    if (cls.cancelled) continue;
     scheduledMin += cls.durationMin;
     const isSkipped = STATE.skippedClasses.has(cls.id);
     if (isSkipped) {
@@ -143,7 +188,7 @@ function calculateTimeStats() {
     } else {
       attendedMin += cls.durationMin;
       dayStats[cls.day] += cls.durationMin;
-      campusStats[cls.campus] += cls.durationMin;
+      if (cls.campus in campusStats) campusStats[cls.campus] += cls.durationMin;
       if (courseStats[cls.courseId]) {
         courseStats[cls.courseId].attendedMin += cls.durationMin;
       }
@@ -159,7 +204,7 @@ function calculateTimeStats() {
 // Detect time conflicts among active, non-skipped classes
 function detectConflicts() {
   const draftClasses = getDraftClasses();
-  const active = draftClasses.filter(c => !STATE.skippedClasses.has(c.id));
+  const active = draftClasses.filter(c => !STATE.skippedClasses.has(c.id) && !c.cancelled);
   const conflicts = {}; // classId -> array of conflicting classes
 
   for (let i = 0; i < active.length; i++) {
@@ -256,6 +301,15 @@ function renderStats() {
     }
   }
 
+  // Attendance you've logged on the Today view
+  const att = document.getElementById('attendanceSummary');
+  if (att) {
+    const marks = Object.entries(STATE.attendance);
+    const went = marks.filter(([, v]) => v === 'went').length;
+    att.hidden = !marks.length;
+    att.innerHTML = marks.length ? `<strong>${went}/${marks.length}</strong> logged sessions attended${marks.length - went ? ` · ${marks.length - went} skipped` : ''}` : '';
+  }
+
   // Day hours grid
   for (const day of DAYS) {
     const el = document.getElementById(`dayHours_${day}`);
@@ -301,6 +355,7 @@ function renderGroupChoosers() {
           ${course.shortName}
         </span>
         ${currentConflict ? `<span class="conflict-warning-tag" title="Overlaps with ${currentConflict.course}"><span class="material-symbols-outlined icon-xs">warning</span> Overlap</span>` : ''}
+        ${STATE.detectedGroups[course.id] === currentSelected ? '<span class="tag tag-ok" title="Your registration in TUMonline">TUMonline</span>' : ''}
       </div>
       <select class="group-select" data-course-id="${course.id}">
         ${groups.map(g => {
@@ -314,11 +369,7 @@ function renderGroupChoosers() {
 
     const select = item.querySelector('select');
     if (select) {
-      select.addEventListener('change', (e) => {
-        STATE.selectedGroups[course.id] = e.target.value;
-        persistState();
-        updateAll();
-      });
+      select.addEventListener('change', (e) => selectGroup(course.id, e.target.value));
     }
 
     container.appendChild(item);
@@ -346,12 +397,17 @@ function renderWeekGrid() {
     : Math.min(96, Math.max(minHour, Math.floor((scrollArea.clientHeight - daysHeaderPx - 16) / 12)));
   weekContainer.style.setProperty('--hour-height', `${hourHeight}px`);
 
+  const week = getWeek();
+  renderWeekToolbar(week);
+  renderDayHeaders(week);
+  const closedDays = new Set(week.closures.filter(x => !SEMESTER.partial.some(p => p.date === x.date)).map(x => x.dayIndex));
+
   // Alternative groups ("ghosts"); groups of one course sharing a time slot merge into one card
   let visibleClasses = draftClasses.map(c => ({ ...c })); // copies: layout fields are written onto them
   if (STATE.showGhostGroups && !isPrinting) {
     const merged = new Map();
     for (const c of CLASSES) {
-      if (!c.group || STATE.courseVisibility[c.courseId] === false) continue;
+      if (!c.group || STATE.courseVisibility[c.courseId] === false || closedDays.has(c.dayIndex)) continue;
       const course = COURSES.find(co => co.id === c.courseId);
       if (!course?.hasGroups || c.group === STATE.selectedGroups[c.courseId]) continue;
       const key = `${c.courseId}|${c.dayIndex}|${c.startMin}|${c.endMin}`;
@@ -364,8 +420,15 @@ function renderWeekGrid() {
   // Create columns for Monday through Friday
   const columns = DAYS.map((day, dayIndex) => {
     const col = document.createElement('div');
-    col.className = `day-column ${dayIndex === STATE.mobileDay ? 'is-mobile-active' : ''}`;
+    col.className = `day-column ${dayIndex === STATE.mobileDay ? 'is-mobile-active' : ''} ${closedDays.has(dayIndex) ? 'is-closed' : ''}`;
     col.dataset.dayIndex = dayIndex;
+    const closure = week.closures.find(x => x.dayIndex === dayIndex);
+    if (closure) {
+      const note = document.createElement('div');
+      note.className = 'closure-note';
+      note.textContent = closure.label;
+      col.appendChild(note);
+    }
     return col;
   });
 
@@ -435,10 +498,10 @@ function renderWeekGrid() {
 
       const isLecture = ev.type === 'L' || ev.type === 'VI';
       const narrow = colWidthPercent < 100;
-      const title = narrow ? course.shortName : ev.course;
+      const title = narrow ? (course.shortName || ev.course) : ev.course;
 
       const card = document.createElement('div');
-      card.className = `event-card ${isSkipped ? 'skipped' : ''} ${isConflict ? 'conflict' : ''} ${ev.isGhost ? 'ghost-group' : ''}`;
+      card.className = `event-card ${isSkipped ? 'skipped' : ''} ${isConflict ? 'conflict' : ''} ${ev.isGhost ? 'ghost-group' : ''} ${ev.pdfOnly ? 'pdf-only' : ''} ${ev.cancelled ? 'cancelled' : ''} ${ev.extra ? 'tum-extra' : ''} ${ev.isExam ? 'exam' : ''}`;
       card.style.top = `${topPx}px`;
       card.style.height = `${heightPx}px`;
       card.style.left = `${leftPercent}%`;
@@ -481,14 +544,18 @@ function renderWeekGrid() {
           </div>`;
         card.addEventListener('click', () => openGroupChoice(ev));
       } else {
-        card.style.backgroundColor = isSkipped ? 'var(--card-skipped-bg)' : `var(--c-${ev.courseId}-${isLecture ? 'lecture' : 'exercise'})`;
-        card.style.color = isSkipped ? 'var(--text-tertiary)' : `var(--c-${ev.courseId}-text)`;
-        card.style.borderLeftColor = isSkipped ? 'var(--text-tertiary)' : `var(--c-${ev.courseId}-border)`;
-        card.setAttribute('aria-label', `${ev.course}, ${ev.day} ${ev.startTime}–${ev.endTime}${isSkipped ? ', skipped' : ''}`);
+        const muted = isSkipped || ev.pdfOnly || ev.cancelled;
+        const hasCourse = COURSES.some(c => c.id === ev.courseId);
+        card.style.backgroundColor = muted ? 'var(--card-skipped-bg)' : hasCourse ? `var(--c-${ev.courseId}-${isLecture ? 'lecture' : 'exercise'})` : 'var(--surface-high)';
+        card.style.color = muted ? 'var(--text-tertiary)' : hasCourse ? `var(--c-${ev.courseId}-text)` : 'var(--text-primary)';
+        card.style.setProperty('--band', hasCourse ? `var(--c-${ev.courseId}-border)` : 'var(--fd-amber)');
+        const status = [ev.cancelled && 'cancelled', ev.pdfOnly && 'only in the timetable PDF', ev.changed?.room && 'room changed', ev.isExam && 'exam', isSkipped && 'skipped'].filter(Boolean);
+        card.setAttribute('aria-label', `${ev.course}, ${ev.day} ${ev.startTime}–${ev.endTime}${status.length ? `, ${status.join(', ')}` : ''}`);
+        const friends = ev.source && !ev.extra ? squadIn(ev.id) : [];
         card.innerHTML = `
           <div class="event-card-inner">
             <div class="event-top-line">
-              <span class="event-title" title="${ev.course}">${title}</span>
+              <span class="event-time">${ev.startTime}</span>
               <span class="event-type-badge">${ev.type}</span>
               <span class="event-card-actions">
                 <button class="quick-skip-btn" title="${isSkipped ? 'Mark as attending' : 'Skip this class'}">
@@ -496,10 +563,11 @@ function renderWeekGrid() {
                 </button>
               </span>
             </div>
-            <div class="event-time">${ev.startTime} – ${ev.endTime}</div>
-            <div class="event-meta" title="${ev.room} • ${ev.lecturer || ''}">
-              ${ev.group ? `<strong>${ev.group}</strong> • ` : ''}${ev.room.split('(')[0].trim()}
+            <span class="event-title" title="${escapeHtml(ev.course)}">${escapeHtml(title)}</span>
+            <div class="event-meta" title="${escapeHtml(ev.room)} • ${escapeHtml(ev.lecturer || '')}">
+              ${ev.group ? `<strong>${ev.group}</strong> · ` : ''}${escapeHtml(ev.room.split('(')[0].trim())}
             </div>
+            <div class="event-tags">${ev.pdfOnly ? '<span class="tag tag-pdf">PDF</span>' : ''}${ev.cancelled ? '<span class="tag tag-red">Cancelled</span>' : ''}${ev.changed?.room ? '<span class="tag tag-amber">Room</span>' : ''}${ev.changed?.time ? '<span class="tag tag-amber">Time</span>' : ''}${ev.isExam ? '<span class="tag tag-amber">Exam</span>' : ''}${friends.map(f => `<span class="avatar avatar-xs" title="${escapeHtml(f.name)} is in this class">${escapeHtml(initials(f.name))}</span>`).join('')}</div>
           </div>
           ${isConflict ? `
             <div class="conflict-pill-on-card" title="Overlaps with another class">
@@ -529,6 +597,45 @@ function renderWeekGrid() {
   renderMobileDayBar();
 }
 
+// ‹ Week 2 of 17 · 19–23 Oct › with "This week" and the TUMonline / PDF legend
+function renderWeekToolbar(week) {
+  for (const bar of document.querySelectorAll('[data-week-toolbar]')) {
+    const isCurrent = STATE.weekIdx === currentWeekIndex();
+    const connected = TUM.status === 'connected';
+    bar.innerHTML = `
+      <div class="week-nav">
+        <button class="icon-btn" type="button" data-week-step="-1" aria-label="Previous week" ${STATE.weekIdx === 0 ? 'disabled' : ''}><span class="material-symbols-outlined">chevron_left</span></button>
+        <div class="week-label">
+          <strong>Week ${STATE.weekIdx + 1}<span> of ${semesterWeeks()}</span></strong>
+          <span class="week-dates">${formatDateShort(week.days[0])} – ${formatDateShort(week.days[4])}</span>
+        </div>
+        <button class="icon-btn" type="button" data-week-step="1" aria-label="Next week" ${STATE.weekIdx === semesterWeeks() - 1 ? 'disabled' : ''}><span class="material-symbols-outlined">chevron_right</span></button>
+        ${isCurrent ? '' : '<button class="btn btn-outline btn-sm" type="button" data-week-step="now">This week</button>'}
+      </div>
+      <div class="week-legend">
+        ${connected ? `
+          <span><span class="tag tag-ok">TUMonline</span> from your calendar</span>
+          ${week.covered ? '<span><span class="tag tag-pdf">PDF</span> only in the timetable PDF: check TUMonline</span>' : '<span class="field-note">TUMonline has no data for this week yet</span>'}`
+        : `<span class="field-note">From the timetable PDF (status ${SEMESTER.pdfStatus}).</span>
+           <button class="link-btn" type="button" data-open-settings="set-tum">Connect TUMonline</button>`}
+      </div>`;
+  }
+}
+
+// Day headers get their date and campus for the shown week
+function renderDayHeaders(week) {
+  document.querySelectorAll('.calendar-days-header .day-header-cell').forEach((cell, i) => {
+    const items = week.items.filter(c => c.dayIndex === i && !c.cancelled);
+    const campus = items.some(c => c.campus === 'Garching') ? 'Garching' : items.length ? 'Ottobrunn' : null;
+    const isToday = week.days[i] === munichNow().date;
+    cell.classList.toggle('is-today', isToday);
+    cell.innerHTML = `
+      <span class="day-name">${DAYS[i].slice(0, 3)} <span class="day-date">${parseISODate(week.days[i]).getUTCDate()}</span></span>
+      ${campus ? `<span class="day-campus-chip ${campus.toLowerCase()}"><span class="material-symbols-outlined icon-xs">${campus === 'Garching' ? 'directions_bus' : 'rocket_launch'}</span> ${campus}</span>`
+        : `<span class="day-campus-chip off">${week.closures.find(x => x.dayIndex === i)?.label || 'No classes'}</span>`}`;
+  });
+}
+
 // Current time in Munich, since all class times are local to campus
 function getCampusNow() {
   const parts = new Intl.DateTimeFormat('en-GB', {
@@ -543,7 +650,7 @@ function getCampusNow() {
 function renderNowLine() {
   document.querySelectorAll('.now-line').forEach(el => el.remove());
   const { dayIndex, minutes } = getCampusNow();
-  if (dayIndex < 0 || minutes < 480 || minutes >= 1200) return;
+  if (dayIndex < 0 || minutes < 480 || minutes >= 1200 || STATE.weekIdx !== weekIndexOf(munichNow().date)) return;
   const col = document.querySelector(`#daysGrid .day-column[data-day-index="${dayIndex}"]`);
   if (!col) return;
   const line = document.createElement('div');
@@ -603,7 +710,7 @@ function renderMobileDayBar() {
     const mins = stats.dayStats[day];
     return `
       <button class="mobile-day-chip ${active ? 'active' : ''}" data-day="${i}" role="tab" aria-selected="${active}" aria-label="${day}, ${formatMinutes(mins)} of classes">
-        <span class="day-chip-name">${day.slice(0, 3)}</span>
+        <span class="day-chip-name">${day.slice(0, 3)} ${parseISODate(dateFor(i, STATE.weekIdx)).getUTCDate()}</span>
         <span class="day-chip-hours">${mins ? formatMinutes(mins) : '—'}</span>
       </button>`;
   }).join('');
@@ -614,8 +721,8 @@ function renderMobileDayBar() {
 
   if (summary) {
     const day = DAYS[STATE.mobileDay];
-    const count = draftClasses.filter(c => c.dayIndex === STATE.mobileDay && !STATE.skippedClasses.has(c.id)).length;
-    const garching = STATE.mobileDay === 0;
+    const count = draftClasses.filter(c => c.dayIndex === STATE.mobileDay && !STATE.skippedClasses.has(c.id) && !c.cancelled).length;
+    const garching = draftClasses.some(c => c.dayIndex === STATE.mobileDay && c.campus === 'Garching');
     summary.innerHTML = `
       <span class="day-campus-chip ${garching ? 'garching' : 'ottobrunn'}">
         <span class="material-symbols-outlined icon-xs">${garching ? 'directions_bus' : 'rocket_launch'}</span>
@@ -646,7 +753,7 @@ function setMobileDay(dayIdx) {
 
 // Toggle skipping a class
 function toggleSkipClass(classId) {
-  const cls = CLASSES.find(c => c.id === classId);
+  const cls = findEvent(classId);
   if (!cls) return;
 
   if (STATE.skippedClasses.has(classId)) {
@@ -666,6 +773,7 @@ function renderGroupMatrix() {
   if (!container) return;
   container.querySelectorAll('.matrix-course-block').forEach(el => el.remove());
 
+  renderAutopilot();
   const coursesWithGroups = COURSES.filter(c => c.hasGroups);
   if (!STATE.matrixOpen) {
     STATE.matrixOpen = new Set(isMobile() ? [] : coursesWithGroups.map(c => c.id));
@@ -767,6 +875,64 @@ function renderGroupMatrix() {
   }
 }
 
+// Autopilot: the best conflict-free group picks for what you care about
+function renderAutopilot() {
+  const box = document.getElementById('autopilotPanel');
+  if (!box) return;
+  const fixed = {};
+  for (const [courseId, g] of Object.entries(STATE.detectedGroups)) if (!STATE.manualGroups.has(courseId)) fixed[courseId] = g;
+  let results = optimize(STATE.autopilot, { fixed, visibility: STATE.courseVisibility, skipped: STATE.skippedClasses, limit: 3 });
+  // Your TUMonline groups may themselves overlap: then suggest changing them
+  const unpinned = !results.length && Object.keys(fixed).length > 0;
+  if (unpinned) {
+    results = optimize(STATE.autopilot, { visibility: STATE.courseVisibility, skipped: STATE.skippedClasses, limit: 3 });
+    for (const k of Object.keys(fixed)) delete fixed[k];
+  }
+  const current = scoreSchedule(scheduleFor(STATE.selectedGroups, { visibility: STATE.courseVisibility, skipped: STATE.skippedClasses }));
+  const describe = m => `${minutesToTime(Math.round(m.startSum / m.campusDays))} avg start · ${minutesToTime(Math.round(m.endSum / m.campusDays))} avg finish · ${formatMinutes(m.gapMin)} gaps · ${m.campusDays} days${m.noLunchDays ? ` · ${m.noLunchDays} without lunch` : ''}`;
+  const groupNames = groups => Object.entries(groups).map(([id, g]) => `<span><strong>${COURSES.find(c => c.id === id).shortName}</strong> ${g}</span>`).join('');
+  box.innerHTML = `
+    <div class="autopilot-head">
+      <h3><span class="material-symbols-outlined icon-sm" aria-hidden="true">auto_awesome</span> Autopilot</h3>
+      <p>Tries all ${groupOptions().reduce((n, o) => n * o.groups.length, 1).toLocaleString('en-GB')} group combinations${Object.keys(fixed).length ? ', keeping the groups TUMonline has you in' : ''}.</p>
+      ${unpinned ? '<p class="late">The groups TUMonline has you in overlap each other. These suggestions change some of them; you would need to switch your registration in TUMonline too.</p>' : ''}
+    </div>
+    <div class="segmented" role="group" aria-label="Optimize for">
+      ${Object.entries(OBJECTIVES).map(([k, o]) => `<button type="button" data-objective="${k}" class="${STATE.autopilot === k ? 'on' : ''}" aria-pressed="${STATE.autopilot === k}" title="${o.hint}">${o.label}</button>`).join('')}
+    </div>
+    <p class="autopilot-now">Now: ${current.conflict ? '<strong class="late">has overlaps</strong>' : describe(current)}</p>
+    <ol class="autopilot-results">${results.map((r, i) => {
+      const same = Object.entries(r.groups).every(([id, g]) => STATE.selectedGroups[id] === g);
+      return `<li>
+        <div class="ap-groups">${groupNames(r.groups)}</div>
+        <div class="ap-metrics">${describe(r.metrics)}</div>
+        ${same ? '<span class="tag tag-ok">Your current pick</span>' : `<button class="btn btn-sm ${i === 0 ? 'btn-primary' : 'btn-outline'}" type="button" data-apply-groups='${JSON.stringify(r.groups)}'>Apply</button>`}
+      </li>`;
+    }).join('') || '<li class="field-note">No conflict-free combination with these constraints.</li>'}</ol>`;
+  box.querySelectorAll('[data-objective]').forEach(b => b.addEventListener('click', () => {
+    STATE.autopilot = b.dataset.objective;
+    persistState();
+    renderAutopilot();
+  }));
+  box.querySelectorAll('[data-apply-groups]').forEach(b => b.addEventListener('click', () => applyGroups(JSON.parse(b.dataset.applyGroups))));
+}
+
+function applyGroups(groups) {
+  for (const [courseId, g] of Object.entries(groups)) {
+    if (STATE.selectedGroups[courseId] !== g) STATE.manualGroups.add(courseId);
+    STATE.selectedGroups[courseId] = g;
+  }
+  persistState();
+  updateAll();
+  showToast(`Applied: ${Object.entries(groups).map(([id, g]) => `${COURSES.find(c => c.id === id).shortName} ${g}`).join(', ')}`);
+}
+
+function applyAutopilot(objective) {
+  STATE.autopilot = objective;
+  const best = optimize(objective, { visibility: STATE.courseVisibility, skipped: STATE.skippedClasses, limit: 1 })[0];
+  if (best) applyGroups(best.groups);
+}
+
 // Render Agenda View
 function renderAgendaView() {
   const container = document.getElementById('agendaContainer');
@@ -794,16 +960,15 @@ function renderAgendaView() {
   header.className = 'agenda-header';
 
   const totalAttendedMin = draftClasses
-    .filter(c => !STATE.skippedClasses.has(c.id))
+    .filter(c => !STATE.skippedClasses.has(c.id) && !c.cancelled)
     .reduce((acc, c) => acc + c.durationMin, 0);
 
   header.innerHTML = `
+    <div class="week-toolbar" data-week-toolbar></div>
     <div class="agenda-header-top">
       <div class="agenda-title-box">
-        <h2 class="agenda-title">Weekly Agenda</h2>
-        <p class="agenda-subtitle">
-          ${formatMinutes(totalAttendedMin)} weekly class time across 5 days • Independent day schedules with skip toggles
-        </p>
+        <h2 class="agenda-title">Agenda</h2>
+        <p class="agenda-subtitle">${formatMinutes(totalAttendedMin)} of classes this week</p>
       </div>
       <div class="agenda-layout-toggle desktop-only" title="Switch layout format">
         <button class="agenda-toggle-btn ${STATE.agendaMode === 'columns' ? 'active' : ''}" data-mode="columns">
@@ -880,6 +1045,7 @@ function renderAgendaView() {
   });
 
   container.appendChild(header);
+  renderWeekToolbar(getWeek());
 
   // Render appropriate content view
   if (mode === 'columns') {
@@ -897,6 +1063,17 @@ function renderAgendaView() {
   }
 }
 
+// Campus of a day from its sessions, or why there are none
+function campusChip(dayClasses, dayIndex) {
+  const live = dayClasses.filter(c => !c.cancelled);
+  if (!live.length) {
+    const closure = getWeek().closures.find(x => x.dayIndex === dayIndex);
+    return `<span class="day-campus-chip off">${closure ? closure.label : 'No classes'}</span>`;
+  }
+  const garching = live.some(c => c.campus === 'Garching');
+  return `<span class="day-campus-chip ${garching ? 'garching' : 'ottobrunn'}"><span class="material-symbols-outlined icon-xs">${garching ? 'directions_bus' : 'rocket_launch'}</span> ${garching ? 'Garching' : 'Ottobrunn'}</span>`;
+}
+
 // Render Mode 1: Day Columns (Each day independently scrollable vertically)
 function renderColumnsBoard(container, draftClasses) {
   const board = document.createElement('div');
@@ -907,7 +1084,7 @@ function renderColumnsBoard(container, draftClasses) {
     dayClasses.sort((a, b) => a.startMin - b.startMin);
 
     const dayAttendedMin = dayClasses
-      .filter(c => !STATE.skippedClasses.has(c.id))
+      .filter(c => !STATE.skippedClasses.has(c.id) && !c.cancelled)
       .reduce((acc, c) => acc + c.durationMin, 0);
 
     const col = document.createElement('div');
@@ -917,10 +1094,8 @@ function renderColumnsBoard(container, draftClasses) {
     col.innerHTML = `
       <div class="agenda-day-header">
         <div style="display:flex; align-items:center; justify-content:space-between; gap:6px;">
-          <span style="font-weight:600; font-size:13.5px; color:var(--text-primary);">${day}</span>
-          <span class="day-campus-chip ${dayIndex === 0 ? 'garching' : 'ottobrunn'}">
-            ${dayIndex === 0 ? '<span class="material-symbols-outlined icon-xs">directions_bus</span> Garching' : '<span class="material-symbols-outlined icon-xs">rocket_launch</span> Ottobrunn'}
-          </span>
+          <span style="font-weight:600; font-size:13.5px; color:var(--text-primary);">${day} <span class="day-date">${formatDateShort(dateFor(dayIndex, STATE.weekIdx))}</span></span>
+          ${campusChip(dayClasses, dayIndex)}
         </div>
         <div style="font-size:11px; color:var(--text-secondary); margin-top:4px; display:flex; justify-content:space-between;">
           <span>${dayClasses.length} ${dayClasses.length === 1 ? 'class' : 'classes'}</span>
@@ -941,7 +1116,7 @@ function renderColumnsBoard(container, draftClasses) {
           const badgeBg = isLecture ? (course.lectureBg || course.bgColor) : (course.exerciseBg || course.bgColor);
 
           return `
-            <div class="agenda-col-item ${isSkipped ? 'skipped' : ''}" data-id="${cls.id}">
+            <div class="agenda-col-item ${isSkipped ? 'skipped' : ''} ${cls.pdfOnly ? 'pdf-only' : ''} ${cls.cancelled ? 'cancelled' : ''}" data-id="${cls.id}">
               <div class="agenda-col-top">
                 <span class="agenda-col-time">
                   <span class="material-symbols-outlined icon-xs" style="vertical-align:middle; font-size:13px;">schedule</span>
@@ -959,6 +1134,7 @@ function renderColumnsBoard(container, draftClasses) {
                 <span class="event-type-badge" style="background:var(--c-${cls.courseId}-${isLecture ? 'lecture' : 'exercise'}); color:var(--c-${cls.courseId}-text); font-size:10.5px;">${cls.type}</span>
                 ${cls.group ? `<span class="event-type-badge" style="background:var(--c-${cls.courseId}-exercise); color:var(--c-${cls.courseId}-text); font-weight:600; font-size:10.5px;">${cls.group}</span>` : ''}
                 ${isSkipped ? '<span class="conflict-warning-tag" style="background:var(--card-skipped-bg); color:var(--text-tertiary); font-size:10px; padding:1px 6px;">Skipped</span>' : ''}
+                ${statusTags(cls)}
               </div>
               <div class="agenda-col-meta">
                 <span class="material-symbols-outlined icon-xs">location_on</span>
@@ -1008,16 +1184,14 @@ function renderListFeed(container, draftClasses) {
     dayCard.id = `agenda-day-${dayIndex}`;
 
     const dayMinutes = dayClasses
-      .filter(c => !STATE.skippedClasses.has(c.id))
+      .filter(c => !STATE.skippedClasses.has(c.id) && !c.cancelled)
       .reduce((acc, c) => acc + c.durationMin, 0);
 
     dayCard.innerHTML = `
       <div class="agenda-day-header">
         <span class="agenda-day-title">
-          ${day}
-          <span class="day-campus-chip ${dayIndex === 0 ? 'garching' : 'ottobrunn'}">
-            ${dayIndex === 0 ? '<span class="material-symbols-outlined icon-xs">directions_bus</span> Garching Campus' : '<span class="material-symbols-outlined icon-xs">rocket_launch</span> Ottobrunn Campus'}
-          </span>
+          ${day} <span class="day-date">${formatDateShort(dateFor(dayIndex, STATE.weekIdx))}</span>
+          ${campusChip(dayClasses, dayIndex)}
         </span>
         <span class="stats-detail">${dayClasses.length} ${dayClasses.length === 1 ? 'class' : 'classes'} • ${formatMinutes(dayMinutes)} attended</span>
       </div>
@@ -1032,7 +1206,7 @@ function renderListFeed(container, draftClasses) {
           const isLecture = cls.type === 'L' || cls.type === 'VI';
 
           return `
-            <div class="agenda-item ${isSkipped ? 'skipped' : ''}" data-id="${cls.id}">
+            <div class="agenda-item ${isSkipped ? 'skipped' : ''} ${cls.pdfOnly ? 'pdf-only' : ''} ${cls.cancelled ? 'cancelled' : ''}" data-id="${cls.id}">
               <div class="agenda-item-left">
                 <span class="agenda-time-pill">${cls.startTime} – ${cls.endTime}</span>
                 <span class="course-color-indicator" style="background:var(--c-${cls.courseId}-border, ${course.color}); width:12px; height:12px;"></span>
@@ -1042,7 +1216,8 @@ function renderListFeed(container, draftClasses) {
                     <span class="event-type-badge" style="background:var(--c-${cls.courseId}-${isLecture ? 'lecture' : 'exercise'}); color:var(--c-${cls.courseId}-text);">${cls.type}</span>
                     ${cls.group ? `<span class="event-type-badge" style="background:var(--c-${cls.courseId}-exercise); color:var(--c-${cls.courseId}-text); font-weight:600;">${cls.group}</span>` : ''}
                   </span>
-                  <span class="agenda-item-sub">${cls.room} • ${cls.lecturer || 'Faculty'}</span>
+                  <span class="agenda-item-sub">${escapeHtml(cls.room)} • ${escapeHtml(cls.lecturer || 'Faculty')}</span>
+                  <span class="strip-tags">${statusTags(cls)}</span>
                 </div>
               </div>
               <button class="btn btn-sm ${isSkipped ? 'btn-primary' : 'btn-outline'} agenda-skip-toggle" data-id="${cls.id}">
@@ -1076,7 +1251,7 @@ function renderListFeed(container, draftClasses) {
 
 // Modal handling
 function openEventModal(classId) {
-  const cls = CLASSES.find(c => c.id === classId);
+  const cls = findEvent(classId);
   if (!cls) return;
 
   STATE.activeModalClassId = classId;
@@ -1092,13 +1267,13 @@ function openEventModal(classId) {
   const title = document.getElementById('modalEventTitle');
   const typeBadge = document.getElementById('modalEventTypeBadge');
   const timeInfo = document.getElementById('modalTimeInfo');
-  const roomInfo = document.getElementById('modalRoomInfo');
+  const roomEl = document.getElementById('modalRoomInfo');
   const lecturerInfo = document.getElementById('modalLecturerInfo');
   const campusInfo = document.getElementById('modalCampusInfo');
   const conflictRow = document.getElementById('modalConflictRow');
   const skipBtn = document.getElementById('modalSkipBtn');
 
-  if (bar) bar.style.backgroundColor = `var(--c-${cls.courseId}-border, ${course.color || 'var(--md-primary)'})`;
+  if (bar) bar.style.backgroundColor = course.color ? `var(--c-${cls.courseId}-border, ${course.color})` : 'var(--fd-amber)';
   if (title) title.textContent = cls.course;
   if (typeBadge) {
     typeBadge.textContent = `${cls.typeName} (${cls.type})${cls.group ? ` • ${cls.group}` : ''}`;
@@ -1106,8 +1281,21 @@ function openEventModal(classId) {
     typeBadge.style.backgroundColor = `var(--c-${cls.courseId}-${isLecture ? 'lecture' : 'exercise'})`;
     typeBadge.style.color = `var(--c-${cls.courseId}-text)`;
   }
-  if (timeInfo) timeInfo.textContent = `${cls.day}, ${cls.startTime} – ${cls.endTime} (${formatMinutes(cls.durationMin)})`;
-  if (roomInfo) roomInfo.textContent = cls.room;
+  if (timeInfo) timeInfo.textContent = `${cls.date ? formatDateLong(cls.date) : cls.day}, ${cls.startTime} – ${cls.endTime} (${formatMinutes(cls.durationMin)})${cls.changed?.time ? ` · PDF said ${cls.pdfTime}` : ''}`;
+  if (roomEl) {
+    roomEl.innerHTML = `<a href="${navLink(cls.room)}" target="_blank" rel="noopener">${escapeHtml(cls.room)} <span class="material-symbols-outlined icon-xs" aria-hidden="true">map</span></a>${cls.changed?.room ? `<br><small class="was">PDF said ${escapeHtml(cls.pdfRoom)}</small>` : ''}`;
+    roomInfo(cls.room).then(info => {
+      if (info && STATE.activeModalClassId === cls.id && campusInfo) campusInfo.textContent = `${info.building}${info.floor ? ` · ${info.floor}` : ''}`;
+    }).catch(() => {});
+  }
+  const note = document.getElementById('modalCheckNote');
+  if (note) {
+    note.className = `modal-check-note ${cls.pdfOnly ? 'pdf' : cls.cancelled ? 'bad' : cls.source === 'tum' ? 'ok' : ''}`;
+    note.querySelector('span:last-child').textContent = cls.cancelled ? 'Cancelled in your TUMonline calendar.'
+      : cls.pdfOnly ? `Not in your TUMonline calendar. Shown from the official timetable PDF (status ${SEMESTER.pdfStatus}); check TUMonline.`
+      : cls.source === 'tum' ? `Confirmed by your TUMonline calendar${TUM.syncedAt ? ` (synced ${timeAgo(TUM.syncedAt)})` : ''}.`
+      : 'From the timetable PDF. Connect TUMonline in settings to see cancellations and room changes.';
+  }
   if (lecturerInfo) lecturerInfo.textContent = cls.lecturer || 'Aerospace Department Faculty';
   if (campusInfo) campusInfo.textContent = cls.campus === 'Garching' ? 'Garching Campus (MW Buildings)' : 'Ottobrunn Campus (OTN Buildings)';
   setMoodleLink(moodleUrl(cls.courseId, cls.type));
@@ -1268,6 +1456,9 @@ function resetSchedule() {
     cf: 'Group 2',
     cad: 'Group 3 & 4'
   };
+  // Back to your TUMonline groups where it knows them
+  STATE.manualGroups.clear();
+  Object.assign(STATE.selectedGroups, STATE.detectedGroups);
   STATE.skippedClasses.clear();
   STATE.showGhostGroups = true;
   const ghostToggle = document.getElementById('ghostGroupsToggle');
@@ -1282,99 +1473,9 @@ function applyPreset(name) {
   resetSchedule();
 }
 
-// Export schedule to .ics (RFC 5545 iCalendar) format
-// Weekly series run from the first teaching week until the end of the lecture period (no breaks excluded)
-const SEMESTER_FIRST_MONDAY = { y: 2026, m: 10, d: 12 };
-const SEMESTER_UNTIL_UTC = '20270212T225959Z'; // end of Fri 12 Feb 2027, Munich time
-
-// Escape TEXT values (backslash, semicolon, comma, newline)
-function icsEscape(text) {
-  return String(text).replace(/\\/g, '\\\\').replace(/;/g, '\;').replace(/,/g, '\\,').replace(/\r?\n/g, '\\n');
-}
-
-// Fold lines longer than 75 octets (UTF-8), continuing with CRLF + space
-function icsFold(line) {
-  const enc = new TextEncoder();
-  const out = [];
-  let cur = '', curBytes = 0;
-  for (const ch of line) {
-    const n = enc.encode(ch).length;
-    if (curBytes + n > (out.length ? 74 : 75)) { out.push(cur); cur = ''; curBytes = 0; }
-    cur += ch; curBytes += n;
-  }
-  out.push(cur);
-  return out.join('\r\n ');
-}
-
-function buildICS(classes, now = new Date()) {
-  const pad = n => String(n).padStart(2, '0');
-  const stamp = now.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '');
-  const lines = [
-    'BEGIN:VCALENDAR',
-    'VERSION:2.0',
-    'PRODID:-//Unofficial Student Tool//TUM Aerospace Draft Schedule Planner//EN',
-    'CALSCALE:GREGORIAN',
-    'METHOD:PUBLISH',
-    'X-WR-CALNAME:TUM Aerospace 1st Semester (unofficial)',
-    'X-WR-TIMEZONE:Europe/Berlin',
-    'BEGIN:VTIMEZONE',
-    'TZID:Europe/Berlin',
-    'BEGIN:DAYLIGHT',
-    'TZOFFSETFROM:+0100',
-    'TZOFFSETTO:+0200',
-    'TZNAME:CEST',
-    'DTSTART:19700329T020000',
-    'RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU',
-    'END:DAYLIGHT',
-    'BEGIN:STANDARD',
-    'TZOFFSETFROM:+0200',
-    'TZOFFSETTO:+0100',
-    'TZNAME:CET',
-    'DTSTART:19701025T030000',
-    'RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU',
-    'END:STANDARD',
-    'END:VTIMEZONE'
-  ];
-
-  for (const cls of classes) {
-    const course = COURSES.find(c => c.id === cls.courseId) || {};
-    const first = new Date(Date.UTC(SEMESTER_FIRST_MONDAY.y, SEMESTER_FIRST_MONDAY.m - 1, SEMESTER_FIRST_MONDAY.d + cls.dayIndex));
-    const date = `${first.getUTCFullYear()}${pad(first.getUTCMonth() + 1)}${pad(first.getUTCDate())}`;
-    const time = t => t.split(':').map(pad).join('') + '00';
-    const moodle = moodleUrl(cls.courseId, cls.type);
-    const description = [
-      `${cls.course} – ${cls.typeName}${cls.group ? ` (${cls.group})` : ''}`,
-      `Lecturer: ${cls.lecturer || 'Faculty'}`,
-      `Campus: ${cls.campus}`,
-      ...(moodle ? [`Moodle: ${moodle}`] : []),
-      '',
-      'Generic weekly slot: cancellations, room changes and holidays are NOT included.',
-      'Unofficial draft – always check TUMonline before you go.'
-    ].join('\n');
-
-    lines.push(
-      'BEGIN:VEVENT',
-      `UID:tum-aero-wise2627-${cls.id}@unofficial-draft-planner`,
-      `DTSTAMP:${stamp}`,
-      `DTSTART;TZID=Europe/Berlin:${date}T${time(cls.startTime)}`,
-      `DTEND;TZID=Europe/Berlin:${date}T${time(cls.endTime)}`,
-      `RRULE:FREQ=WEEKLY;UNTIL=${SEMESTER_UNTIL_UTC}`,
-      `SUMMARY:${icsEscape(`${course.shortName || cls.course} · ${cls.typeName}${cls.group ? ` (${cls.group})` : ''}`)}`,
-      `LOCATION:${icsEscape(cls.room)}`,
-      ...(moodle ? [`URL:${moodle}`] : []),
-      `DESCRIPTION:${icsEscape(description)}`,
-      'STATUS:CONFIRMED',
-      'TRANSP:OPAQUE',
-      'END:VEVENT'
-    );
-  }
-
-  lines.push('END:VCALENDAR');
-  return lines.map(icsFold).join('\r\n') + '\r\n';
-}
-
+// .ics export: weekly series from the PDF slots you picked (buildICS lives in calendar.js)
 function exportToICS() {
-  const classes = getDraftClasses().filter(c => !STATE.skippedClasses.has(c.id));
+  const classes = getTemplateClasses().filter(c => !STATE.skippedClasses.has(c.id));
   if (!classes.length) {
     showToast('Nothing to export: every class is hidden or skipped.');
     return;
@@ -1391,7 +1492,7 @@ function exportToICS() {
   // Revoking right away can cancel the download in some browsers
   setTimeout(() => URL.revokeObjectURL(url), 1000);
 
-  showToast(`Exported ${classes.length} weekly classes (.ics) – import into Google, Apple or Outlook Calendar.`);
+  showToast(`Exported ${classes.length} weekly classes (.ics), Christmas break excluded. For live updates, subscribe to the feed in settings.`);
 }
 
 // Print: always the week grid in light colours, with a summary header, whatever view is open
@@ -1426,7 +1527,7 @@ function renderPrintHeader() {
 
   header.innerHTML = `
     <div class="print-title-row">
-      <h1 class="print-title">TUM Aerospace · B.Sc. 1st semester · WiSe 2026/27</h1>
+      <h1 class="print-title">TUM Aerospace · B.Sc. 1st semester · Week ${STATE.weekIdx + 1}, ${formatDateShort(dateFor(0, STATE.weekIdx))} – ${formatDateShort(dateFor(4, STATE.weekIdx))}</h1>
       <div class="print-hours">
         <strong>${formatMinutes(stats.attendedMin)}</strong> per week${stats.skippedMin ? ` · ${formatMinutes(stats.skippedMin)} skipped` : ''}
       </div>
@@ -1434,7 +1535,7 @@ function renderPrintHeader() {
     <div class="print-groups">${groups.join('')}${hidden.length ? `<span><strong>Hidden:</strong> ${hidden.join(', ')}</span>` : ''}</div>
     <div class="print-footnote">
       L Lecture · VI Lecture with integrated exercise · CE Central exercise · E Exercise ·
-      Generic week: cancellations, room changes and holidays are not shown. Unofficial draft, always check TUMonline · Printed ${printed}
+      ${TUM.status === 'connected' ? 'Merged with your TUMonline calendar; "PDF" marks sessions only in the timetable PDF.' : 'From the timetable PDF: cancellations and room changes are not shown.'} Unofficial, always check TUMonline · Printed ${printed}
     </div>`;
 }
 
@@ -1457,8 +1558,12 @@ function showToast(msg) {
 function updateAll() {
   renderStats();
   renderGroupChoosers();
+  renderSquad();
+  renderTumPanel();
 
-  if (STATE.currentView === 'week') {
+  if (STATE.currentView === 'today') {
+    renderToday();
+  } else if (STATE.currentView === 'week') {
     renderWeekGrid();
   } else if (STATE.currentView === 'matrix') {
     renderGroupMatrix();
@@ -1480,10 +1585,15 @@ function setView(viewName) {
   const weekContainer = document.getElementById('weekViewContainer');
   const matrixContainer = document.getElementById('groupMatrixContainer');
   const agendaContainer = document.getElementById('agendaContainer');
+  const todayContainer = document.getElementById('todayContainer');
 
+  if (todayContainer) todayContainer.style.display = viewName === 'today' ? 'grid' : 'none';
   if (weekContainer) weekContainer.style.display = viewName === 'week' ? 'flex' : 'none';
   if (matrixContainer) matrixContainer.style.display = viewName === 'matrix' ? 'flex' : 'none';
   if (agendaContainer) agendaContainer.style.display = viewName === 'agenda' ? 'flex' : 'none';
+  // The generic-week notice only belongs above the PDF-based week views
+  const notice = document.getElementById('scheduleNotice');
+  if (notice) notice.classList.toggle('view-hidden', viewName === 'today' || TUM.status === 'connected');
 
   updateAll();
 }
@@ -1491,6 +1601,11 @@ function setView(viewName) {
 // Initialize Application
 document.addEventListener('DOMContentLoaded', () => {
   loadPersistedState();
+  loadSettings();
+  loadTum();
+  pruneCache();
+  STATE.weekIdx = currentWeekIndex();
+  if (TUM.status === 'connected') STATE.detectedGroups = detectGroups(TUM.events);
 
   // Initialize Theme (respects localStorage or system preference)
   setTheme(getPreferredTheme(), false);
@@ -1664,8 +1779,30 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Render initial view
-  setView('week');
+  // Week navigation (week view toolbar and agenda header)
+  document.addEventListener('click', (e) => {
+    const step = e.target.closest('[data-week-step]');
+    if (!step) return;
+    setWeek(step.dataset.weekStep === 'now' ? currentWeekIndex() : STATE.weekIdx + Number(step.dataset.weekStep));
+  });
+
+  document.getElementById('settingsBtn')?.addEventListener('click', () => openSettings());
+  wireSettings();
+  wireToday();
+  wirePalette();
+  handleJoinLink();
+  window.addEventListener('hashchange', handleJoinLink);
+
+  // Render initial view, then refresh TUMonline in the background (at most every 15 min)
+  setView('today');
+  if (TUM.status === 'pending') pollTumToken();
+  if (TUM.status === 'connected' && (!TUM.syncedAt || Date.now() - TUM.syncedAt > 15 * 60e3)) tumSync({ quiet: true });
+  setInterval(() => { if (TUM.status === 'connected' && document.visibilityState === 'visible') tumSync({ quiet: true }); }, 30 * 60e3);
+
+  // Offline support + installable app (needs http(s), not file://)
+  if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
+    navigator.serviceWorker.register('sw.js').catch(err => console.warn('Service worker not registered:', err));
+  }
 });
 
 // Expose on window for inline handlers & testing

@@ -12,13 +12,17 @@ const CACHE_PREFIX = 'fd_cache:';
  * copy is returned whatever its age, so the app keeps working offline.
  * `key` stores live queries (whose URL changes every minute) under one stable slot.
  */
+const notFound = new Map(); // url -> time of a 404, so e.g. an unpublished menu isn't re-requested every render
+
 async function cachedFetch(url, { ttl = 3600e3, as = 'json', key = url, init } = {}) {
   const slot = CACHE_PREFIX + key;
   let hit = null;
   try { hit = JSON.parse(localStorage.getItem(slot)); } catch (e) {}
   if (hit && hit.url === url && Date.now() - hit.t < ttl) return hit.data;
+  if (Date.now() - (notFound.get(url) || 0) < 30 * 60e3) throw new Error('404 Not Found');
   try {
     const res = await fetch(url, init);
+    if (res.status === 404) notFound.set(url, Date.now());
     if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
     const data = as === 'json' ? await res.json() : await res.text();
     try { localStorage.setItem(slot, JSON.stringify({ t: Date.now(), url, data })); } catch (e) {} // full storage: still use the fresh data
@@ -52,11 +56,11 @@ async function mvgSearch(query) {
     .map(l => ({ name: l.name, place: l.place || '', type: l.type, lat: l.latitude, lon: l.longitude, globalId: l.globalId || null }));
 }
 
-// Connections from `from` to `to` ({lat, lon}) arriving by `arriveBy` (Date), normalized and unsorted
-async function mvgRoutes(from, to, arriveBy, { cacheKey } = {}) {
+// Connections from `from` to `to` ({lat, lon}) arriving by `when` (or leaving after it), normalized and unsorted
+async function mvgRoutes(from, to, when, { arrive = true, cacheKey } = {}) {
   const url = `${MVG_API}routes?originLatitude=${from.lat}&originLongitude=${from.lon}` +
     `&destinationLatitude=${to.lat}&destinationLongitude=${to.lon}` +
-    `&routingDateTime=${arriveBy.toISOString()}&routingDateTimeIsArrival=true&transportTypes=${MVG_TRANSPORT_TYPES}`;
+    `&routingDateTime=${when.toISOString()}&routingDateTimeIsArrival=${arrive}&transportTypes=${MVG_TRANSPORT_TYPES}`;
   const raw = await cachedFetch(url, { ttl: 50e3, key: cacheKey || 'mvg:routes' });
   return raw.map(normalizeMvgRoute);
 }
@@ -185,17 +189,15 @@ function isoWeek(dateStr) {
   return { year, week: 1 + daysBetween(week1Thursday, thursday) / 7 };
 }
 
-// { date, dishes: [{ name, dish_type, labels, prices }] } for one canteen and day, or null
-async function canteenDay(canteen, dateStr, workerUrl) {
-  let week;
+// Menu days [{ date, dishes: [{ name, dish_type, labels, prices }] }] around a date, or null without a source
+async function canteenWeek(canteen, dateStr, workerUrl) {
   if (canteen.viaWorker) {
     if (!workerUrl) return null;
-    week = await cachedFetch(`${workerUrl.replace(/\/$/, '')}/mensa/ottobrunn`, { ttl: 3 * 3600e3 });
-  } else {
-    const { year, week: w } = isoWeek(dateStr);
-    week = await cachedFetch(`${EAT_API}${canteen.id}/${year}/${String(w).padStart(2, '0')}.json`, { ttl: 6 * 3600e3 });
+    return (await cachedFetch(`${workerUrl.replace(/\/$/, '')}/mensa/ottobrunn`, { ttl: 3 * 3600e3 })).days || [];
   }
-  return (week.days || []).find(d => d.date === dateStr) || { date: dateStr, dishes: [] };
+  const { year, week } = isoWeek(dateStr);
+  const res = await cachedFetch(`${EAT_API}${canteen.id}/${year}/${String(week).padStart(2, '0')}.json`, { ttl: 6 * 3600e3 });
+  return res.days || [];
 }
 
 // Studierendenwerk prices go by dish type (Grill, Pasta, …), so a Garching price fills in Ottobrunn's
@@ -324,7 +326,7 @@ function walkMinutes(a, b) {
 
 async function weatherAt(lat, lon) {
   const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat.toFixed(3)}&longitude=${lon.toFixed(3)}` +
-    '&hourly=precipitation_probability,precipitation,temperature_2m,weather_code&timezone=Europe%2FBerlin&forecast_days=3';
+    '&hourly=precipitation_probability,precipitation,temperature_2m,weather_code&timezone=Europe%2FBerlin&forecast_days=7';
   const d = await cachedFetch(url, { ttl: 30 * 60e3 });
   return d.hourly.time.map((t, i) => ({
     date: t.slice(0, 10), hour: Number(t.slice(11, 13)),
