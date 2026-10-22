@@ -1,0 +1,9 @@
+name = "tum-flight-deck"
+main = "index.js"
+compatibility_date = "2025-06-01"
+
+[vars]
+# Set to your GitHub Pages origin (e.g. "https://you.github.io") to stop other sites using your TomTom quota
+ALLOWED_ORIGIN = "*"
+
+# Secret, not committed: npx wrangler secret put TOMTOM_KEY

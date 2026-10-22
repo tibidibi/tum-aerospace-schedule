@@ -8,6 +8,7 @@ const COURSES = [
     id: 'math',
     name: 'Advanced Mathematics for Engineers 1',
     shortName: 'Math 1',
+    tumTitles: ['advanced mathematics for engineers', 'höhere mathematik', 'mathematics for engineers'], // lower-case keywords that identify this course in TUMonline titles
     lecturer: 'Renger',
     color: '#7FA662',        // Sage Green anchor
     lectureBg: '#D5E8C8',    // Soft pastel sage green (from PDF #A9D08E)
@@ -24,6 +25,7 @@ const COURSES = [
     id: 'mech',
     name: 'Engineering Mechanics I',
     shortName: 'Mechanics I',
+    tumTitles: ['engineering mechanics', 'technische mechanik'],
     lecturer: 'Prof. Ryll',
     color: '#6586C8',        // Steel Blue anchor
     lectureBg: '#C2D2ED',    // Soft pastel periwinkle blue (from PDF #8EA9DB)
@@ -41,6 +43,7 @@ const COURSES = [
     id: 'cf',
     name: 'Computational Foundations I',
     shortName: 'Comp. Foundations I',
+    tumTitles: ['computational foundations'],
     lecturer: 'Prof. Werner',
     color: '#D4A017',        // Amber Gold anchor
     lectureBg: '#FFE8A3',    // Soft pastel golden yellow (from PDF #FFD966)
@@ -57,6 +60,7 @@ const COURSES = [
     id: 'ee',
     name: 'Electrical Engineering',
     shortName: 'Electrical Eng.',
+    tumTitles: ['electrical engineering', 'elektrotechnik'],
     lecturer: 'Prof. Herzog',
     color: '#737373',        // Slate Gray anchor
     lectureBg: '#D9D9D9',    // Soft pastel slate gray (from PDF #A6A6A6)
@@ -72,6 +76,7 @@ const COURSES = [
     id: 'cad',
     name: 'CAD/TD',
     shortName: 'CAD / TD',
+    tumTitles: ['cad', 'technical drawing', 'technisches zeichnen'],
     lecturer: 'Radeck',
     color: '#E05353',        // Coral Red anchor
     lectureBg: '#FFB8B8',    // Soft pastel coral red (from PDF #FF7171)
@@ -88,6 +93,7 @@ const COURSES = [
     id: 'aero_mat',
     name: 'Aerospace Materials',
     shortName: 'Aerospace Materials',
+    tumTitles: ['aerospace materials', 'werkstoffe'],
     lecturer: 'Prof. Drechsler',
     color: '#8E7AA8',        // Lavender anchor
     lectureBg: '#DFD8EC',    // Soft pastel lilac lavender (from PDF #C8BDDF)
@@ -104,6 +110,7 @@ const COURSES = [
     id: 'intro_aero',
     name: 'Introduction to Aerospace',
     shortName: 'Intro to Aerospace',
+    tumTitles: ['introduction to aerospace', 'einführung in die luft- und raumfahrt'],
     lecturer: 'Aerospace Faculty',
     color: '#D99B77',        // Apricot Peach anchor
     lectureBg: '#FDEEE5',    // Soft pastel apricot peach (from PDF #FCE4D6)
@@ -969,6 +976,50 @@ const CLASSES = [
   }
 ];
 
+// Lecture period and lecture-free days, from tum.de "Dates, periods and deadlines" (WiSe 2026/27)
+const SEMESTER = {
+  start: '2026-10-12', // Monday of the first teaching week
+  end: '2027-02-05',   // last day of the lecture period
+  breaks: [
+    { from: '2026-12-24', to: '2027-01-06', label: 'Christmas break' }
+  ],
+  // Lecture-free for part of a day only
+  partial: [
+    { date: '2026-10-12', from: '15:00', to: '23:59', label: 'Welcome@TUM' },
+    { date: '2026-12-03', from: '10:00', to: '13:00', label: 'Dies Academicus' }
+  ],
+  pdfStatus: '05.10.2026' // "Status" printed on the timetable PDF the CLASSES come from
+};
+
+// Where each campus is, for commute routing, canteens and the walk from the stop.
+// Coordinates are the main lecture building (NavigaTUM); carBufferMin = parking + walk to the room.
+const CAMPUSES = {
+  Garching: {
+    name: 'Garching Forschungszentrum',
+    lat: 48.265424, lon: 11.670841, // MW building 5510
+    canteens: [
+      { id: 'mensa-garching', name: 'Mensa Garching' },
+      { id: 'stucafe-garching', name: 'StuBistro Garching' },
+      { id: 'fmi-bistro', name: 'FMI Bistro' }
+    ],
+    carBufferMin: 10,
+    bikeBufferMin: 3
+  },
+  Ottobrunn: {
+    name: 'Ottobrunn / Taufkirchen',
+    lat: 48.04898, lon: 11.656928, // Hörsaalgebäude, Willy-Messerschmitt-Str. 5
+    canteens: [
+      { id: 'mensa-ottobrunn', name: 'Mensa Ottobrunn', viaWorker: true,
+        page: 'https://www.studierendenwerk-muenchen-oberbayern.de/gastronomie/speiseplan/speiseplan_433_-de.html' }
+    ],
+    carBufferMin: 6,
+    bikeBufferMin: 3
+  }
+};
+
+// Studierendenwerk canteens serve lunch 11:00–14:00
+const LUNCH_HOURS = { from: 11 * 60, to: 14 * 60 };
+
 if (typeof module !== 'undefined' && module.exports) {
-  module.exports = { COURSES, DAYS, CLASSES, timeToMinutes };
+  module.exports = { COURSES, DAYS, CLASSES, SEMESTER, CAMPUSES, LUNCH_HOURS, timeToMinutes, moodleUrl };
 }

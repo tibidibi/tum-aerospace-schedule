@@ -1,0 +1,1234 @@
+[
+ {
+  "uniqueId": 4444487566604663868,
+  "parts": [
+   {
+    "from": {
+     "latitude": 48.164772,
+     "longitude": 11.586659,
+     "stationGlobalId": "",
+     "place": "Milbertshofen-Am Hart",
+     "name": "Leopoldstraße 100",
+     "plannedDeparture": "2026-10-22T17:28:00+02:00",
+     "transportTypes": [],
+     "isViaStop": false,
+     "surroundingPlanLink": "",
+     "occupancy": "UNKNOWN",
+     "hasZoomData": false,
+     "hasOutOfOrderEscalator": false,
+     "hasOutOfOrderElevator": false
+    },
+    "to": {
+     "latitude": 48.1673,
+     "longitude": 11.587019,
+     "stationGlobalId": "de:09162:434",
+     "stationDivaId": 434,
+     "place": "München",
+     "name": "Potsdamer Straße",
+     "plannedDeparture": "2026-10-22T17:33:00+02:00",
+     "transportTypes": [
+      "BUS",
+      "TRAM"
+     ],
+     "isViaStop": false,
+     "surroundingPlanLink": "",
+     "occupancy": "UNKNOWN",
+     "hasZoomData": false,
+     "hasOutOfOrderEscalator": false,
+     "hasOutOfOrderElevator": false
+    },
+    "noChangeRequired": false,
+    "line": {
+     "label": "Fussweg",
+     "transportType": "PEDESTRIAN",
+     "destination": "",
+     "trainType": "",
+     "network": "unknown",
+     "divaId": "",
+     "sev": false
+    },
+    "exitLetter": "",
+    "distance": 321.925264895417,
+    "occupancy": "UNKNOWN",
+    "messages": [],
+    "infos": [],
+    "realTime": false,
+    "isCancelled": false
+   },
+   {
+    "from": {
+     "latitude": 48.1673,
+     "longitude": 11.587019,
+     "stationGlobalId": "de:09162:434",
+     "stationDivaId": 434,
+     "place": "München",
+     "name": "Potsdamer Straße",
+     "plannedDeparture": "2026-10-22T17:32:00+02:00",
+     "departureDelayInMinutes": 1,
+     "transportTypes": [
+      "BUS",
+      "TRAM"
+     ],
+     "isViaStop": false,
+     "surroundingPlanLink": "",
+     "occupancy": "UNKNOWN",
+     "hasZoomData": false,
+     "hasOutOfOrderEscalator": false,
+     "hasOutOfOrderElevator": false
+    },
+    "to": {
+     "latitude": 48.11814,
+     "longitude": 11.610006,
+     "stationGlobalId": "de:09162:1070",
+     "stationDivaId": 1070,
+     "place": "München",
+     "name": "Karl-Preis-Platz",
+     "plannedDeparture": "2026-10-22T17:54:00+02:00",
+     "arrivalDelayInMinutes": 1,
+     "transportTypes": [
+      "UBAHN",
+      "BUS"
+     ],
+     "isViaStop": false,
+     "surroundingPlanLink": "",
+     "occupancy": "UNKNOWN",
+     "hasZoomData": true,
+     "hasOutOfOrderEscalator": true,
+     "hasOutOfOrderElevator": false
+    },
+    "noChangeRequired": false,
+    "line": {
+     "label": "59",
+     "transportType": "BUS",
+     "destination": "Giesing Bf.",
+     "trainType": "",
+     "network": "swm",
+     "divaId": "03059",
+     "sev": false
+    },
+    "interchangePathDistance": 51.84731148509314,
+    "interchangePathDurationInMinutes": 2,
+    "exitLetter": "",
+    "distance": 6723.367089758603,
+    "occupancy": "UNKNOWN",
+    "messages": [],
+    "infos": [],
+    "realTime": true,
+    "isCancelled": false
+   },
+   {
+    "from": {
+     "latitude": 48.118164,
+     "longitude": 11.609782,
+     "stationGlobalId": "de:09162:1070",
+     "stationDivaId": 1070,
+     "place": "München",
+     "name": "Karl-Preis-Platz",
+     "plannedDeparture": "2026-10-22T18:00:00+02:00",
+     "transportTypes": [
+      "UBAHN",
+      "BUS"
+     ],
+     "isViaStop": false,
+     "surroundingPlanLink": "",
+     "occupancy": "UNKNOWN",
+     "hasZoomData": true,
+     "hasOutOfOrderEscalator": true,
+     "hasOutOfOrderElevator": false
+    },
+    "to": {
+     "latitude": 48.051284,
+     "longitude": 11.654958,
+     "stationGlobalId": "de:09184:2389",
+     "stationDivaId": 2389,
+     "place": "Taufkirchen (b München)",
+     "name": "Lilienthalstraße",
+     "plannedDeparture": "2026-10-22T18:15:00+02:00",
+     "transportTypes": [
+      "BUS"
+     ],
+     "isViaStop": false,
+     "surroundingPlanLink": "",
+     "occupancy": "UNKNOWN",
+     "hasZoomData": false,
+     "hasOutOfOrderEscalator": false,
+     "hasOutOfOrderElevator": false
+    },
+    "noChangeRequired": false,
+    "line": {
+     "label": "X200",
+     "transportType": "BUS",
+     "destination": "Taufkirchen, Lilienthalstraße",
+     "trainType": "",
+     "network": "mvv",
+     "divaId": "20200",
+     "sev": false
+    },
+    "changeStatus": "OK",
+    "exitLetter": "",
+    "distance": 11473.233548592261,
+    "occupancy": "UNKNOWN",
+    "messages": [],
+    "infos": [],
+    "realTime": true,
+    "isCancelled": false
+   },
+   {
+    "from": {
+     "latitude": 48.051284,
+     "longitude": 11.654958,
+     "stationGlobalId": "de:09184:2389",
+     "stationDivaId": 2389,
+     "place": "Taufkirchen (b München)",
+     "name": "Lilienthalstraße",
+     "plannedDeparture": "2026-10-22T18:18:00+02:00",
+     "transportTypes": [
+      "BUS"
+     ],
+     "isViaStop": false,
+     "surroundingPlanLink": "",
+     "occupancy": "UNKNOWN",
+     "hasZoomData": false,
+     "hasOutOfOrderEscalator": false,
+     "hasOutOfOrderElevator": false
+    },
+    "to": {
+     "latitude": 48.043212,
+     "longitude": 11.654428,
+     "stationGlobalId": "de:09184:2207",
+     "stationDivaId": 2207,
+     "place": "Taufkirchen (b München)",
+     "name": "Hugo-Junkers-Straße",
+     "plannedDeparture": "2026-10-22T18:22:00+02:00",
+     "transportTypes": [
+      "BUS"
+     ],
+     "isViaStop": false,
+     "surroundingPlanLink": "",
+     "occupancy": "UNKNOWN",
+     "hasZoomData": false,
+     "hasOutOfOrderEscalator": false,
+     "hasOutOfOrderElevator": false
+    },
+    "noChangeRequired": false,
+    "line": {
+     "label": "X200",
+     "transportType": "BUS",
+     "destination": "München, Ostbahnhof (U) (S)",
+     "trainType": "",
+     "network": "mvv",
+     "divaId": "20200",
+     "sev": false
+    },
+    "changeStatus": "TIGHT",
+    "exitLetter": "",
+    "distance": 1333.2310629018875,
+    "occupancy": "UNKNOWN",
+    "messages": [],
+    "infos": [],
+    "realTime": true,
+    "isCancelled": false
+   },
+   {
+    "from": {
+     "latitude": 48.043212,
+     "longitude": 11.654428,
+     "stationGlobalId": "de:09184:2207",
+     "stationDivaId": 2207,
+     "place": "Taufkirchen (b München)",
+     "name": "Hugo-Junkers-Straße",
+     "plannedDeparture": "2026-10-22T18:22:00+02:00",
+     "transportTypes": [
+      "BUS"
+     ],
+     "isViaStop": false,
+     "surroundingPlanLink": "",
+     "occupancy": "UNKNOWN",
+     "hasZoomData": false,
+     "hasOutOfOrderEscalator": false,
+     "hasOutOfOrderElevator": false
+    },
+    "to": {
+     "latitude": 48.04552,
+     "longitude": 11.653108,
+     "stationGlobalId": "",
+     "place": "Bergham",
+     "name": "Willy-Messerschmitt-Straße 1",
+     "plannedDeparture": "2026-10-22T18:27:00+02:00",
+     "transportTypes": [],
+     "isViaStop": false,
+     "surroundingPlanLink": "",
+     "occupancy": "UNKNOWN",
+     "hasZoomData": false,
+     "hasOutOfOrderEscalator": false,
+     "hasOutOfOrderElevator": false
+    },
+    "noChangeRequired": false,
+    "line": {
+     "label": "Fussweg",
+     "transportType": "PEDESTRIAN",
+     "destination": "",
+     "trainType": "",
+     "network": "unknown",
+     "divaId": "",
+     "sev": false
+    },
+    "exitLetter": "",
+    "distance": 298.06744025307563,
+    "occupancy": "UNKNOWN",
+    "messages": [],
+    "infos": [],
+    "realTime": false,
+    "isCancelled": false
+   }
+  ],
+  "distance": 20149.824406401243,
+  "bannerHash": "",
+  "refreshId": "1f8b08000000000000ffed5ddb721b4792fd15069f3cb1a2a22aeb8e375d685b23cb5248b4bd311b8e09886c8a0893000700e55bf85be62ff669dfe6c736b3bb4111429ec24536c7c3a01f44b8510775cb7b6556ffba7f399cce67fb83fff975ff743ab9d81ffcba7f3e9c8fe65727cdfec0e78736fa94e8c1fef964fcae7f6aedc390630ce5c1fe6cce6d27e32fce276f87e7cf4ef607fbfbf27072f96a321acf971f5ff2ef9e4ea617cfc6a713e9e6a4391dce5ef50fbf1e5e345db3c5e3f1b839f9f8dbdfda5f3996cf2f46e76f1b1ef9d9e4b4191f3cbad8fb92e7c1f071d7f4ab667239393f99cda7c37ffdb3d9b3c6f077c3939369339b5d0f47ba78dac8025c4d054486e28135074447360d280d9cf92f438316fb71f3a3c9d159f3a6399e8c4fd6209bd97c74319c57bbcadcf4e3ae1e4da7a3f7c3f335bf7e3c1c1f37e7e70d8fe274783e6b1eecf394c7b3cbc9747ef4f365233bfbfd83fdc9f1f1d525b7fc997fed9baf9f7ffdf2bbaf197b369c3d3a3ee61519bd1d9d8fe63f773bd3ff0c7ff9f26afef2f4e5f4a4991ece8e87bc179329f8fabc79bff4ed68f6ed68f886e9e0fac9db66c86bd50f67da0ccf79519acda6b868bdd9fa318dcc270a1927b74ac4c95895884f9a812936d2c03b0f08fa6693811bb8df9fc0fff57fe3e3b366fc81a65f4de6b313fe38dd7bd391f5d624ed482169b409b5c635ea5fc65d533fecc6dda4fd3b49cecb535c4fce375790298209af995e3427235e461944dfeb78f2e46c387ed7bc6efe71359ade58b1f3d1b8e918e06d73de51c6f89afa58604ee71f88f1723a39b93a5e3cf8fc6a36fbb17927cd7ebe783be9c1bc03a3b1acfe827e794bc72dcb5c7fff6187844e0f9f1ebe397afdec916ccab899ff3899feb0b451273cdce31e7ff3e9fbe142578c66afaede9e8f8e8f163fdd4f4ef863383f6bd595a2a6bc89b9145d59d96c5276bf3d5080317a1b4857722c21525461d932ebe7e8928263d1e26c0891f58e55b1c9530ccec7edb181b28d2559abc8b3188275998a2f1ad03bcb1d3b5ea11234ac27574a2a51c126e38b2d3e186dc0de241e55305e03daccf390aeb70592352592b7dab678e2e5c9d9c854546ca062c80675b4a904cbb4a24e9352cc312593b5f561f2714c6259033a63e45b655d59c7e4207499643fbfefd9f9b865dd571d2d7fdf51f5d366763c1d5d768cd1db63d2e2c964323d7976f2d3fec0886e5b7e24ebdabc173e3732ae558c5530eb41eb50fd905f4dce7feec44dcbb5cb335bfeb2f96934ffaa99738b5e8c8c58ef8e45d539b20f0b6f19b34509de26f9a1d3c951f3d3bc2aee2f58d20fdf35cf4efa5602ea3fb2561cc932b2ae1e8b7aed85957c7572356dffefd9f8c5687c35178d123a997c341219d8cb504d0f8d2e9f4c645b8dc8a7272b0d46b3cf2793f98f431ee57c7ad52c16f6de14d9dc14d9c8ba06f645a52bb78575bdfceb77d31ca1edaceb9beb07ac6b96f2fe639a160526faa242d3d624b38ea8a5cdc00ffc2d50f5f3e1f4fce0d5b419cd0e04f7cbd6441dfc16f675ad718dfe97716bedeb10eebc7dbd3cc5f5047d7305817d7d2fb3ef65f69f89c43f4d66af507324c5ae2e86dd8a2a3d07bb565c7393010de816e8f9e9a899b37979d28c67bbd2b357886c337a5e426e42cfdb6806755c9b445ef45155bab9f36ce3b7649b25cdb0c2362e9a15332794104a5ac336763ddbd85b629b9733d6763f0eaf63e3db734dd8590b846db540dc460b68e3da846bf451c16ee29db7a796a7b801d7c49ab261f6a095784a34c9925bc335b49e6be896b8e6cb66facbe41d2fc00fdbf3cbcee748cbc84df8659b7324755c9bf08b3e2ad84dbefbfc92b7e4975ce5175a0d3f46eb93affb1a31acb5cdb8c9200ff286ecf26a327bb897ea4cd3b7a9b2cee1e9e9b8995eeee4507bb3ab85b68cdc807718b0b985a68e6b03de01a3aa7473d72db4e529aee79d9bed5779c7e7e815e68994eb81a898d7334f36033bb0b7a06b5e8f8ecf86d3930371d3af66b3835ddd756f77553ccbc84d9887b6503ceab836611e7d54b01bbaf38a67798a1b300fd5148f77262b51dce0fd9aa8405c1f1588b7151578fcafff3dbbe81c9c1d558e1679da8c6bdcb62ac76da3722a11b11d4655e9e6ceab1cb7a5ca713595e38a4f2be7cc62afe5505739d1ad5539917bbe15aef9dbf0eaed2fcd74d79080d7a25b9bf18c7e9851e92a6ca369763c6201a382dddcfd2316bfe511cbcdf60acfc4d5cc176199588fa3c5b83622c04d6ee938e570349ecd9bd1cec1671f77e699b82dcfa46d78461bd7263ca38f0a7693ee3ecfa42d792655796635f4ccb619b9ba9629666de8999bdc12cb3cbab83c1d8ddfedcc3165678e295b724ca8f8f7daafef66992de1d61fe49b3bcf31cb53dce020dfd43886625ecd008cd6b9b48667683dcfd06d1dd7f093b3f393c9f47457ae095a5c6b23ae59466ec235760bae51c7b549fa8b3e2ad88dbdfb5c63b7e41a5be51a1fcb4a6e00738da9db66b964c034b7c0246f86e31fe67baf4657b3edd963e72059d8364816b60992a9e3da843db60b922d8fe96eb2c79641b29bed15f630ae284a85a224d454531d29add32ad2e696d4caa3d9f1d95933fa946cb0b073a02c6c1b280bdb04cad4716dc239db05cac2dd0f94852d0365a11a28bbcf11becf11fe0fcd11dea4daaea5a8962c673f5e0c8c33a10cbe187c3930367287abb5782f9af974f2f86ab617cafe72595efb60b9306fd178ff46655edbac5a9bf7c5a899b1bfbdf7f8f4e1fe6a99dee36fdeecdfaccf7bf3dd8bfde5dabccf5fbefeeed1eba7fb376af3da79edab057a5dd10baccf4b2ec4587c5e3d626a13a9bd29d9e5a4d656c592119092230ccca92060b0fc250496985aa0d10ade528a752c7558a5e42d9b6c2a132d1ead50269b6a13751e015de61d83c000973607c7df41a0653b080013450781249b0297a738e3051a41619fb511ed28bbe4045728c614c0448bb139c2ed8c414a1f01d0f35710e80b2f2e0006cf3344405e3d4005c5b230817b1289890b012d957671b4aa47fe9adacd7465d5b4e52f93e90841c5524bb66aa7ce148781d606344de79c8908e8734990c18a4b29db160a2a6f434a6891bc73162e9277c940200b360781d6da0480c1844e92684057084b92125c2f3279a2a4a62a4bc618dcd4c0db0687cc84db2f9251f39d934bb1b2c6ce4805b23ee3e84d8033a65412140e2546917208caeb8cb62716530a047a16ad00986c26b848fc0d1429acb2828540c3f40d80d9887f09803648353a00161bda39060dc83d2ef4d96a85b2d47ce78cb026c508b1427bd663ac0f591f3003a3eb1855053a11f40098fbdd54812cac209089da01202f604c3a97f26fb28c23080c54f4dd6460f02e2260661626046442c0c0148d4e789177833c1c6af69422626bc67a5b192d058b464bbccbad89115479c0dfda85ce57fb4d44705fb2613d81facd3e78044cbc2b10589caf0d38650f3b65cdd4c95d844d11c813a1ea94e1ee2489b122204b4d3c539f0204ca351510e82c644f116e01026de92850d32dccf52c530dc49a94d0dafa8551ae01591f2644812c53a995095edf1496711e75ca423eb6a3556ea108214442dccd2cd1eda60a644304092276773a4506462b9623da50160c1676ea5932e8e631ab00329de9a802f97b4009568c550c74de45a81dd8f2a184476b7ad35aa522369a4c67656858570c700418585ce77fa8407640d04c6941b72a301001a9cbfac1e025728e226616de4c472d872a77cc886af180fcace3ed3610c88eaf8522d7bae429632cab663c609778ae184b2154facdae13f54e355ad999105eacc04549a3ae85532bc36627072f5760758cd6b9f84aa781d50104e6827bf4d123a0373592f02caf30c7b16eea94b88a7511f8a40c24db19e6a4bade8c4506b6607bbd86b0e441e887b14116020d583c77048cecc460a021a02cdacc4c4cc04c78c00eb49efdef8080a2b908932e7b7a01ee299b05c0736720437385656cb270c0bcf09db2503b154e4340d713830a64fd8c368575575930b8a6da2c2f0ea240369d3a250eb086b70d0e3807cc32ace21392f921e75c237be35895f752456137b1f11dec976d71b4356cec245beb9755279aacf864a8535effe211e5b7e60304e66c618fd676f6a7be359e3dc85051e5ace520c73136444412a2e510c731d0d4740def6d4482c597003d5376d0d94a80405f90412855461949240656826c8c5d8473342ceb26644c4ab42562203b2348b0488f4838f81c03087bb63d66b82939b0b988810e032942139417d620eef65dc804013d94d82c35331e2ab9041727b1ecc4211126bc0455309b6cc1c3a305c11a03593b8a0a82ac4db1223c3d6b1f837d70919f168e596c0e2c3fd9c8474057a25fd0bc8615e909b12677f4a0ac70f0019aa00ceca5bd0aec7d190d4825f6a728aaa8175f07321adbcc5db455058aa24540765e03023aa66d0874a193092a90570101795d718f6c6ac01d6175d6c5a335b393354085fcc48636a8539f2d94278ea56d6a9934ac8684c59463efbdd26dabdb51b7c978d82d4b864e8b06955d98152b5847dd9188d66964730102ad44aa11d057179837d5f7eba4ba056c3320b9c2ce60ef65026cb211e943974c74aeb250a9f40a5c1f7632621aa00d2a50814bd001923f03a10277516ef8844089a42120ff0777272587a4a0d4ba748ea94afb0439d5c5c5c1b70af4d0b964255b3ac353e7546852b148c9060a15d65c151b900db51ca008b4582039f6b98830f98914ac513e7be0d7625bd1a86c8f40f79d71c5a23d0d721f16023af180b0ae6083c5d5e492630152e13836cd526da99dac1918367bf8d05692eb6b33d28d4c6d091286139710033d5e2851f11068080a254afdf9b0babc041d20273103b838ad6d0080560eba1031e43e18a9026d868b23d7384321c63e9e854049dd404053ecb5d455699e090c62b30fa9c26ec1e2dd34ecaf2213203882f118a60232706d8920c5921c842151c62e4aae8446d89e0bfd51832a197c89d0e6a51c9d876ac29141d28c3d150fed56574c42c440ac7b225a2239bdad04d8d8fa34b6224f58c37b24032979f13c51bf04553033a84915c1eba244300036326dc34e252ba2b2add1e50857d8e1381049dc04e9539637502d52c82e558c1c47fd298784af14b86fb716f46b24508f7796552eb4d6db2419ac26c82d4ecc142c95e02a861939ea6d517d73a9b0898c968b8a855ab5bd97bd325f596bc405945993c34e59b021ab9bb9d922594a361b035729b3cf0d81d1da8a0d40724d3dc45abcad9443a8c450c9b212db156b52867e2a89cb83066c620cb853de36080c7dd45603a60c3d3f322cb5608fc9c040260309af6dccd000a03613014b51b99fbe93a23ae932616748bab11fb07ee4cbfa8432124d2c033a22544e17f97971907aa94ded4103b62525e843912440c04e832455e9409b4ac2a3158642409693e8d8d6b22c0a88bbd9a0e9f64503e660bbbc15254f41583057d627fb5851703ca2d85ba100ee6c67f368d84c061d6edb6cfb141245f01ae362b82624f56d12caef790b06d2965fc0556f812198b4f28a13c933286c39d8dcc62534ac1c04f3682561575d002f262a4525d18db1fca3ccc65ac29960c4d98e0a1b31b0d8ccffa4d55891616a67afcc19afce94e4bd28f22e180de8c5160f20e3a73eda28da9dbd3dc52e60a0c4b70c5b2c1a90a76244ac824e5b2f1f10570afe035ddff6cb45fc3a8c5fc5a47598b48ac9eb30b98ed9fe0d261f7df974f54d22547bcd89e4be3f6427db64dea01c8dbbedf79cc81b8e3ebce844ca35b45a1f29b47ad3fce3aae12fa4d8a599cd3f9f4cbf6adebd6e4ea7cdec4c6a5da44de51afbe542c0b6b7ea75e66de9cc57bcceb07ca66d7174fd061656a75282f2e2fdfb7e84d7d527f29696f6572442c35ef2fecd17b7f4b0eaab5bfad74ca177b78870d6d2b2525e57feb961155b18843f7f159bdc5fba5bf1e7c7c8b5c59fa02bbdccebe3c677b092ede329aeab645b6eafbfbec50431fe57a83af81232a6eaec07c44ab34ad57d9b81f903ee97391a5e9dfe309a0a61ef7df6766f41e47ff940e55ff1c635e3f9192ff24e35ce796037bf6dacdeb8c611cbb835c59a1f37bf93246eb72ad65c6ebfe10b5dee05f9bd20ff8f16e4f732fc5e86ff99a9fb9364f87605f717efdf0ff8c7983ff6d86398915e707ff8d3a5508d94dcff37b583ba5974df3f5a2ebbff00b95978df37ad96dedf20ec077b1a0dafabc67ff1edb7ebabf1db49ef528d6f25646b60fc2077d92d2026d4e52a073dae530cacf8908a8e2eff3ca8f960723e86ea2f6cccb93b08d44a45a20f014757a56e1c06d46c4e11460f635b03af03a59a00157dc8997857c0a8011d3918728bf26a5a040c2ec17d91226e14e4a36c53e5a04872bd4b8755cfb7a8f455e74ad05ccacfe0bec821133a779143ea8c80ecfdc3bc4d49b8eea848035a9c52c840931019388b4faf25f5a5c0a1f2d2c239fad4df40a101c906b8aa12b9f308e8023cc390ccb584088ff7029ec84a6e484484e702c1b4403985f4707124a31501299902879a7c81dbc192ab4ba5d680d979d8a38dd1a1a17a39af8340e6ae0583a80901ce554eddace44ef6702d89d1570ff7ad350e2e301358ac610d4b54c42bfcd4a2f33ef66092436bcc26254c86b146dee80d810526ad499de1f51a6b392dc6c114b2f62e12b444ccbc84921fa44a28a1d14ac94ea534c41a933da25f1e2d3c4b151d59901c92a3a68aa8362c4f90de66622028184cccb1e76f3d519312cccd379102544ade2e748b02f472890c247cc7be3686dae491ea75d1c15a3ee372266ca074398e10eb8d8192a52df50340e64174cc689def2ff95081f17a85d4cc1def608e120b4197a100f5fd7d10808ed800cc78c0a6964420373044a8477da08a40e21ff411d12fab99086890792696ee845ca75f171667dd1ab6bd3c09d152f18008db6aa9982bbb23b54b082ba7a39053ad479542f20e561f2a56b2a7ca2ab535c1a8d3180b484831458a9b5bca5f3d00b5a13d020740b1eadb69263d9d3045641e19fed5fe9a0fa5d328f59d10c8fd26040c1ed52e9a56c57b042c019210cb31eaea75934a7e896d732055444bd8b05822655f927748823256ea7dc180130f0a02e538bb6352353b29458752024d7b9958ecb1da6453323887cb48326caa9004dbc419ab389329f62576ca94b3e9af77d2864dd4a75e6a404a28d79881d63a444e9232007be4ad09b047ef90d7c440e77d6577e40a35b83ba6bd3100745a02142c99a53ae49a4206291a0692cf10285e3700f2145242ec56161700e954948af35d3ad52a969870faac49052877e5814ec9f8d08527ac96aac9d8c5bd761ab6dd6cd029ffd76555abe92e6417b7f0a958636c84c440922c08b12c5d3bc3431930b5d95600c852f25aa0299d8a876d10d625d35d55a3741aaeef0250802c25339066141777dc6840169cd7d24c595e91282daf29f284c53aee544af63d02b207d499cc4913838eb578770187868d21749534ab6f236cb93740a08b5d2ab70674bdedaa01d961cea847deb09eec55911b6537533fd3556270815dba56782a50899f65d02d535f5b4fd5869714acd82b08cbecd4153f6a389e696b21654d19f322b90486cb28dfc580942e8be96f4551706cde07dca5f8f7167519bdf70b325aa55d5603d446f5d806d0162930a111c1bdf12cd2dafaa6a461d9f1e8a4c3ea6cbddcf38f81c1d4c6cc0e35198895023cd0a95c091910d027d1fd708dc5db319585128d5a83c72e095ced9a3d4ab7d85e65917d9bc68cb0522606e6eb8324810220b575cc00985d84bb23b72a1900944ba00a008a887040b8f848c9a0397ad6b65d9c4403864e0e827d619023344db93833a24ed983224448cce06dac430546369a13024a02290232ddbb9e8456e315bc25d4fab62a54760c8b50f1a03a8e51f3398d705457fd93557889496ee860b88695c454c11605c8ca38d6fa6503ae20ac24e9a24ea5240074cab223b555ce52aea1ad95917b7e1136f88e7eb54ed9700e0481a113842a30f5a17f1d98718fa1100676e72200481eaf4f6c8b60d0a6f0f7196c4a90eb2102ec546e628240d7169fc14d692ff642142897d9783c59d75f0d5034f1194c5bae0cb1ae93fada984d0c1103a9f313b3aaa30a0b8805c72926a5c03b5e2faaba28adeac45d173c5f2fb7d8d6d6aa33bc358e8b29d5b8d5b4a614c08698f0227bdbdde702c44b7f6d13c0ba0207ec7dac50635f5fa201bbbb1910efd84c95ad71ae428aa12fe2d13aa56c313086ce83037b4ad46b3955bcf417b06b9dda1260a7ec6d5a385a9b3c5c226bfb7bb7b3e69bf068bb7ba910b35bb90a0eaf92aba92a298402d25bb686a02c958a5c08f4d6420ab4ce5727cb32baa66e181ec1ee88999baa937501716b307d200b8cb9bffb461d336b8e8a38951bd69018278a58b688e788940ec5eed50370a69e0216a781a5a5879c2ea5d809f4ebe5d56118d8bb551ad0e50a30f61778a9c060436da609ab662f44083b4d7d72863eda5cd3e9ece6f985785196d7bbeeee5168a799fed61eb56be3a1aa220b8dc3e0c961bdcc2b11403c212c320910c7f9980c30c0db4bafe16859033a60f2cb05140e8e362c6e33548072b11364193915059e0db38cf7509ab13f14b15fce7c9a3c2424561706bb9b816c9d96b2772846146c5f60adf65b0cf4a8fafb20f19e1679c519c2fa82555509c12342624947153dc596a3310baf4ae11adb5e44adf7cb5eb2455e328b6e729515662c65444ea638681932d007b84a6c9b20020ea22fb0ffc82ef6224aa461456c211a96486f6da629051ce961e9ed13b2c0e5ced3b488b868d81c526d73e51517888cbddc6004fbf5c5a39d15e31bd1bf5c619fa07f2f31af05542dac552b296fbd8c50b2cadc43724ed697add2686fbb8ed0863fae8e70b974625d21e1c739f4cb85845a5af0478584d9adab23a4f877b914f8ef466e2a5baa26ecb09f504c789fb20f73c1f3ae4529cbc80d8a52d4ae604e7bbefb69fb79cbb4fd3c58575de81dd9d5370ab35f456bc89c4cfd95a97d1b2673fb6f20f32fafde4d0efe7a35fea199ce0e767b896ae6f16f417eb5c635a658c6ad2d4e596e7e27a97c798aeba9fc66fbcd0a0cef85fbbd70ffd391fda70977e59c4db3c0d92aadbcd157a8d7bbf5729ddbfc9be4fa77a3f3f39f0f5ef0f6b1603f3ebb18cde722de1f6e2fdb772eada56d4b6bd5aea0f0ab34de61549b757327f989b6ace0a56a05efbd9d746f27fdd908fc53eca4dd8b785fff398a7817c4fc60efe56cfe7678363e9b9cee7df6cd5ff63e7bf3979d4a781f3f7af2fcf7aae1dd229aa504c28c4b288216ac37304c695c4e2099476e9e8cf088b42487b2c242e85381756084e9430ccc0e9e25b4efb845c0e4223c4b28a17f13a30a2ca976d65878d1719ea05c89e7ba90a88aed6b63f45381286fce6db1faa900c30d8a5947eade0b8afa0de808243ad7eda90e4cae123b8eedfd81101be1a940ea5f8b0c807d56ae06b4fdd1b50a94ea690494e3cd7e6db56491e29cc1a9c012e6ee3281d47e295b444ec90753ddd34599be8a2dc9d7b0961cdad614ba5be2d501e736840e80d11ab83539134a2f0cf21a61d8a3bc80d8e28304f9ba5d5ef5b5f0462e9284e701d9155b50bf51ee31c6872eb9ad65c52b1cb28d68be52dc04393db4b9583ab018ea3bd5ce47a91444fcc5d780f2f616046c5f6d098106e5684b8980a9718d932b2cf1fa64d8a9cbfd55ba1a908a85a2ccd968d1c24a8ae62d1cef544e6e9c93831ba9a72dc632d185db3eb9f17fd0c1cd4a486afdc1cd7228021fdcbcd60f6e7823b738b929b47472d3833fe5e8e6de57dbd257db2ceea13b607f885b78efafadc6b5d5d39b1014426729a6123aa0eddf9d941f37d37767c38bb5513b21e03dbb3d09a76de8aad2b84aed69bb7043bafbe49bb624dfb444bedab1cc264188d530c34771859598c2e757b3d98fcdbb9b018575c1042560f0eaf0e9e19ba3d7cf1e7dbd1437f8b051376307379ff6a1033d6ad06b2e143660cdc57e31ff5b8cea66b2c5676dfba268354269e4ad0da9384524b4579778c96354ad744721c88ba456cb30199ab2b8492968b894526e6ff5509d03c7aebcd4927b948b28bfcdc6a655935a7362a3d99bd55be845eeb14b522c7b1d0a90bd4c764ba4d05df70c6a58f6a08254d86e61866e785f3b3faadf89fe3bddf11e1f7cca3dead84266bb5eea6ec55b91cbba42bcf53bd297529b7a31a189da8529b9fe42f1d62ce5cee6a3e31f1a9607ef9686f1ebfe2f93712bad8d8cf59c174524c6fbe66ffd637e7a351e9d8e9a93a3f607ba29ee4b452dcffbf0d9d787072f4cf7e939ff7973f4fce0f080fa4fcf0f6cf7e91bb2edc3a3e76fbae647cfbf587c78defefb39fffbecc977ddc3674f5e5c7f78b4f854ae3f7c7816c3874f8ba78f8eec77d79f5e2c3ed1f5335a3c7bf5c45e7fa2c5eff4e33b7431fcb5fffb82ff3e3e3a20dbffa5feafebfffafe6fe8fedabe9deddbd9be9deddbd9b0fffd6f4b5467d8677c9889c92eb2f0232fc28d49f78a298aa9ec8bc3d72f5a09ad914bd9d091f87feb318ee968cf0000"
+ },
+ {
+  "uniqueId": -3387771909433616818,
+  "parts": [
+   {
+    "from": {
+     "latitude": 48.164772,
+     "longitude": 11.586659,
+     "stationGlobalId": "",
+     "place": "Milbertshofen-Am Hart",
+     "name": "Leopoldstraße 100",
+     "plannedDeparture": "2026-10-22T17:28:00+02:00",
+     "transportTypes": [],
+     "isViaStop": false,
+     "surroundingPlanLink": "",
+     "occupancy": "UNKNOWN",
+     "hasZoomData": false,
+     "hasOutOfOrderEscalator": false,
+     "hasOutOfOrderElevator": false
+    },
+    "to": {
+     "latitude": 48.1673,
+     "longitude": 11.587019,
+     "stationGlobalId": "de:09162:434",
+     "stationDivaId": 434,
+     "place": "München",
+     "name": "Potsdamer Straße",
+     "plannedDeparture": "2026-10-22T17:33:00+02:00",
+     "transportTypes": [
+      "BUS",
+      "TRAM"
+     ],
+     "isViaStop": false,
+     "surroundingPlanLink": "",
+     "occupancy": "UNKNOWN",
+     "hasZoomData": false,
+     "hasOutOfOrderEscalator": false,
+     "hasOutOfOrderElevator": false
+    },
+    "noChangeRequired": false,
+    "line": {
+     "label": "Fussweg",
+     "transportType": "PEDESTRIAN",
+     "destination": "",
+     "trainType": "",
+     "network": "unknown",
+     "divaId": "",
+     "sev": false
+    },
+    "exitLetter": "",
+    "distance": 321.925264895417,
+    "occupancy": "UNKNOWN",
+    "messages": [],
+    "infos": [],
+    "realTime": false,
+    "isCancelled": false
+   },
+   {
+    "from": {
+     "latitude": 48.1673,
+     "longitude": 11.587019,
+     "stationGlobalId": "de:09162:434",
+     "stationDivaId": 434,
+     "place": "München",
+     "name": "Potsdamer Straße",
+     "plannedDeparture": "2026-10-22T17:32:00+02:00",
+     "departureDelayInMinutes": 1,
+     "transportTypes": [
+      "BUS",
+      "TRAM"
+     ],
+     "isViaStop": false,
+     "surroundingPlanLink": "",
+     "occupancy": "UNKNOWN",
+     "hasZoomData": false,
+     "hasOutOfOrderEscalator": false,
+     "hasOutOfOrderElevator": false
+    },
+    "to": {
+     "latitude": 48.11814,
+     "longitude": 11.610006,
+     "stationGlobalId": "de:09162:1070",
+     "stationDivaId": 1070,
+     "place": "München",
+     "name": "Karl-Preis-Platz",
+     "plannedDeparture": "2026-10-22T17:54:00+02:00",
+     "arrivalDelayInMinutes": 1,
+     "transportTypes": [
+      "UBAHN",
+      "BUS"
+     ],
+     "isViaStop": false,
+     "surroundingPlanLink": "",
+     "occupancy": "UNKNOWN",
+     "hasZoomData": true,
+     "hasOutOfOrderEscalator": true,
+     "hasOutOfOrderElevator": false
+    },
+    "noChangeRequired": false,
+    "line": {
+     "label": "59",
+     "transportType": "BUS",
+     "destination": "Giesing Bf.",
+     "trainType": "",
+     "network": "swm",
+     "divaId": "03059",
+     "sev": false
+    },
+    "interchangePathDistance": 51.84731148509314,
+    "interchangePathDurationInMinutes": 2,
+    "exitLetter": "",
+    "distance": 6723.367089758603,
+    "occupancy": "UNKNOWN",
+    "messages": [],
+    "infos": [],
+    "realTime": true,
+    "isCancelled": false
+   },
+   {
+    "from": {
+     "latitude": 48.118164,
+     "longitude": 11.609782,
+     "stationGlobalId": "de:09162:1070",
+     "stationDivaId": 1070,
+     "place": "München",
+     "name": "Karl-Preis-Platz",
+     "plannedDeparture": "2026-10-22T18:00:00+02:00",
+     "transportTypes": [
+      "UBAHN",
+      "BUS"
+     ],
+     "isViaStop": false,
+     "surroundingPlanLink": "",
+     "occupancy": "UNKNOWN",
+     "hasZoomData": true,
+     "hasOutOfOrderEscalator": true,
+     "hasOutOfOrderElevator": false
+    },
+    "to": {
+     "latitude": 48.051284,
+     "longitude": 11.654958,
+     "stationGlobalId": "de:09184:2389",
+     "stationDivaId": 2389,
+     "place": "Taufkirchen (b München)",
+     "name": "Lilienthalstraße",
+     "plannedDeparture": "2026-10-22T18:15:00+02:00",
+     "transportTypes": [
+      "BUS"
+     ],
+     "isViaStop": false,
+     "surroundingPlanLink": "",
+     "occupancy": "UNKNOWN",
+     "hasZoomData": false,
+     "hasOutOfOrderEscalator": false,
+     "hasOutOfOrderElevator": false
+    },
+    "noChangeRequired": false,
+    "line": {
+     "label": "X200",
+     "transportType": "BUS",
+     "destination": "Taufkirchen, Lilienthalstraße",
+     "trainType": "",
+     "network": "mvv",
+     "divaId": "20200",
+     "sev": false
+    },
+    "changeStatus": "OK",
+    "exitLetter": "",
+    "distance": 11473.233548592261,
+    "occupancy": "UNKNOWN",
+    "messages": [],
+    "infos": [],
+    "realTime": true,
+    "isCancelled": false
+   },
+   {
+    "from": {
+     "latitude": 48.051284,
+     "longitude": 11.654958,
+     "stationGlobalId": "de:09184:2389",
+     "stationDivaId": 2389,
+     "place": "Taufkirchen (b München)",
+     "name": "Lilienthalstraße",
+     "plannedDeparture": "2026-10-22T18:15:00+02:00",
+     "transportTypes": [
+      "BUS"
+     ],
+     "isViaStop": false,
+     "surroundingPlanLink": "",
+     "occupancy": "UNKNOWN",
+     "hasZoomData": false,
+     "hasOutOfOrderEscalator": false,
+     "hasOutOfOrderElevator": false
+    },
+    "to": {
+     "latitude": 48.04552,
+     "longitude": 11.653108,
+     "stationGlobalId": "",
+     "place": "Bergham",
+     "name": "Willy-Messerschmitt-Straße 1",
+     "plannedDeparture": "2026-10-22T18:30:00+02:00",
+     "transportTypes": [],
+     "isViaStop": false,
+     "surroundingPlanLink": "",
+     "occupancy": "UNKNOWN",
+     "hasZoomData": false,
+     "hasOutOfOrderEscalator": false,
+     "hasOutOfOrderElevator": false
+    },
+    "noChangeRequired": false,
+    "line": {
+     "label": "Fussweg",
+     "transportType": "PEDESTRIAN",
+     "destination": "",
+     "trainType": "",
+     "network": "unknown",
+     "divaId": "",
+     "sev": false
+    },
+    "exitLetter": "",
+    "distance": 993.8826786264555,
+    "occupancy": "UNKNOWN",
+    "messages": [],
+    "infos": [],
+    "realTime": false,
+    "isCancelled": false
+   }
+  ],
+  "distance": 19512.408581872736,
+  "bannerHash": "",
+  "refreshId": "1f8b08000000000000ffed5d5b6f5b4792fe2b069f76b196d15d7de79b2f72c6ebf8025b8917b30806b474641191480d49d97182fc96f917fbb46ff9635b75cea12c8af5354965a2cd081e2c622d793e565feade557d7e199c8f668bf960f8dfbf0c8e67d3b3c1f097c1e968315e5c1c3583a1cf0f6cf429d1fdc1e974f2a1ffd4da0721c718cafdc17cc1cf4e27df9c4edf8f4e9f1d0d8683817c383d7f3d1d4f16ab1f9ff3ef1e4f6767cf26c7532173d41c8fe6affb0f5f8ece9aeeb1e5c793497374fddb5fdb5f3994bf5f8c4fdf373cf293e97133d97b7876ef2f3c0f864fba47bf6da6e7d3d3a3f96236faed1fcd3d6b0c7f373a3a9a35f3f9e57084c4934616e06226203214f7acd9233ab0694869e8cc7f181ab6d8eb8f1f4c0f4e9ab7cde17472b401d9cc17e3b3d1a24a2af3a3d7493d9ccdc61f47a71b7efd7034396c4e4f1b1ec5f1e874dedc1ff09427f3f3e96c71f0f9bc919dfde1fe607a787871ce4f7ee65ffbeee5f397afdebd64ecc968fef0f0905764fc7e7c3a5e7cee76a6ff19fef2d5c5e2d5f1abd95133db9f1f8e782fa633f0f569f371e5dbf1fcfbf1e82df3c1e527ef9b11af553f9c59333ae54569b69be2f2e9edd68f79643155d838b975264ec6aa4c7cd40c4db19186de79c0d0571f19baa1fbe733f86fff3b393c69265f78faf574313fe23f67f7de766cbd334b3b52581a6d42ede11af7afe22eb91f92715779ff4eb2f3ea1437b3f3d515648e60c66b6667cdd198975106d1539d4c1f9f8c261f9a37cddf2fc6b32b2b763a9e349d00bc6f4e3bce985c721f2bccd9e20b339ecfa6471787cb0f9e5ecce79f9a0ff2d8e7b3f7d31ecc3b309ec8ea2ff997b774d28acce5f75f7648f874ffc9fedb8337cf1ecaa64c9ac5a7e9ecc7958d3ae2e11ef6f8ab9f7e1c2d6dc578fefae2fde9f8f060f9d3fde4443e468b93d65c2966ca9b984bd18d95cd2665f7eb7d0518a3b7817423c71a224515962d8b7e8e2e2938562dce8610d9ee58159b3cc5e07cdc1d1b28db5892b58a3e8b215897a9f8a201bdb34cd8f10a95a0613db95252890a36195f6cf1c16803f626f1a882f11ad0669e8790de1548d69448de6adbe289972767235351b1818a211bd4d1a6122cf38a3a4d4a31c7944cd6d687d9c7318b650de88c916f9575651b9383f06592fdfca117e7c356745f77bcfc43c7d54f9af9e16c7cde0946ef8fc9138fa7d3d9d1b3a39f064323b66df52359d7e6a3c8b99171ad63ac82d90cda84ea87fc7a7afab95337add4aece6cf5cbe6a7f1e2db66c14ff46a64cc767722a6ce917d5078cb582c4af036c90f1d4f0f9a9f1655757fc69a7ef4a17976d43f25a0fe4fb68a635946b6d51331afbdb292af8e2e66edfff76cf2623cb9588845099d4e3e188b0eec75a86687c6e78fa7b2ad46f4d3e3b507c6f3a7d3e9e2d38847b9985d34cb85fdea8a6cef8a6ce55d03ffa242caede05daffefadd74476837effaeafa01ef9ab5bcbfced362c0c45e5478da9a643631b53c33f4437f0b5cfd7c343bdd7b3d6bc6f33dc1fdbc335307bf837f5d7bb8c6ffabb88dfe750877debf5e9de26686beba82c0bffeaab3bfeaec3f138bff3e9dbdc6cd9114bfba180e2baafc1cec4675cd8f0c6948b7c0cf4fc6cd82ddcba36632bf293f7b85c9b6e3e715e436fcbc8b6550c7b54de6451f5585cc9d171bbfa3d8ac588635b171d1acb939a18450d206b1b19bc5c6de92d8bc9ab3b5fb34bacc8def2e35e1c65620ec6a05e22e56401bd73652a38f0a928977de9f5a9de21652136bc686c583d6f229d1244b6e83d4d066a9a15b929abf34b39fa71f78017edc5d5e6e7c8eb48adc465e76394752c7b58dbce8a38264f2dd9797bca3bce4aabcd07afa315a9f7c3dd68861a36fc68f0cf3306f292eafa7f307f7525d68fa67aaa2b37f7c3c6966e7370aa8bdb9a987b68adc427618b0bd87a68e6b0bd901a3aa90b9eb1edaea1437cbced5e7d765c7e7e815e18994eb89a898370b4f36433bb4b7606bde8c0f4f46b3a33d09d32fe6f3bd9b86ebdeded4f0ac22b7111edac1f0a8e3da4678f451413274e70dcfea14b7101eaa191eef4c56b2b8c1fb0d5981b8392b106f2b2bf0e8b7ff3939eb029c1b9a1c2df3b49dd4b85d4d8edbc5e454326237185585cc9d37396e4793e36a26c7159fd6ce99c55fcba16e72a2db68722253be15a9f9ebe8e2fdcfcdeca62901af65b7b69319fd30a3422aec62696e78c4024605c9dcfd2316bfe311cbd5e7159989eb952f2232b19e478b716346801fb9a5e394fdf164be68c6374e3efb78639989bbca4cda4566b4716d2333faa8209974f76526ed2833a92a33eba967f6cdc8d5ad4c311b53cffcc82d89ccc3b3f3e3f1e4c38d25a6dc5862ca8e12132af1bdf6eb37f3cc56709b0ff2cd9d9798d5296e71906f6a124331af570046eb5cda2033b45966e8b68e6bf89393d3a3e9ecf8a65213b4bcd65652b38adc466aec0e52a38e6b9bf2177d54908cbdfb526377941a5b951a1fcb5a6d004b8da9fb66b9642034b720246f47931f17f75e8f2fe6bb8bc78d936461d72459d82549a68e6b1bf1d82d49b63aa6bb291e3b26c9ae3eaf88877145312a14a5a0a65aea4869935591676ec9ac3c9c1f9e9c34e3df530d166e9c280bbb26cac22e8932755cdb48ce6e89b270f7136561c74459a826cabed6087fad11fe17ad11dea6dbaee5a8962de79fce86c6995086df0cff32343632c1f55ebc17cd62367d7431bf17ca60b52daffd60b5316ff9f0e04a675efb58b537ef9b7133e778fbdea3e30783f536bd47dfbd1d5cedcf7bfbeec560b537efe9ab37ef1ebe7932b8d29bd7ce6ba036e8754d2fb03f2fb91063f179fd88a92da4f6a6649793da5b154b46404a8e3030a78280c1f2971058626a81466b784b29d6b1d4619596b76cb2a94cb478b442996caa4dd479047499770c02035cda1c1c7f078196fd20004c141d04926c0a5c9ee28c1768048d7dd646b4a31c92135ca1185300132dc6e608b73306697d0440cf5f41a02fbcb800183ccf100179f5001714cbca04ee4924662e04b454dac5d1ba1ef96b6a37d39575d796bf4ca66304154b2ddbaa449d290e03ad0d689ace391311d0e792a080159752b62d1474de8694d02279e72c5c24ef928140566c0e02adb5090083099d26d180ae10d62425b85e65f244492d55968a31b8a981b70d0e9919b75f24a3d63b279762658d9d910e647dc6d19b00674ca924a81c4a8ca2e51094d7196d4f2ca61408f4ac5a0130d94c7091f81ba852d864050b8186f91b00b391f812006d906e74002c36b4730c1a90292eedd97a87b2f47ce78cb026c508b1c27bd663ac0f591f3003a3eb0455053a51f40098fbdd5481acac209099da01202f604cba94f26fb28e23080c54f4dd6460f02e2260661126046446c0c0148dce789177833c1c6af69422126bc67a5b192d058b464bbccbad8b11547dc0dfdaa5cd57e92622b82fd9b09d4074b30f1e0113ef0a0416e76b034ed943a26c993abd8bb029027d225c9d32dc9d2439560464ad8967ea538040b9a602029d85e229ca2d40a02d1d076ab685a59e75aa815893125a5bbf74ca3520dbc3843890752ab53ac1eb9bc23ace23a2ace4633b5ae5168a10422424dd2c12dd6eaa4076449022e270a7336460b4e239a20d65c5602151cf9a41778fd90490e95c4715c8df034eb0e2ac62a0f32e42ebc09e0f253c5ad3bbd62a17b1d3643a2f43c3ba624020c0c0e2baf84305720082664a4bbe55818108685db60f062f917314b1b0f0663a6a2554b963464c8b07ec671d6fb781400e7c2d54b9d6254f1963d934e301bbc473c5580aa14237bb4ed53bd569e5604264b10217238d488ba45686cd410e5eaec0e618ad73f115a281cd0104e68229fae811d09b1a4b78d65758e2d83675465cc5ba0862520692ed1c7352436fc622075bb0bd5d4358f220f5c3d8200b81062c913b02460e6230d01030166d65266660663ce0075acff1774040b15c84599723bd00f794dd0210b93390a1b92232365938605ef8ce58a84445d210d0f5cca002d93ea34d61db559602ae9936cb8b8338905da7ce8803ace16d8303ce018b0c9bf884747ec839d7d8de3836e5bd5651c44d7c7c07e9b22f8eb6869d9d646b74d974a2c94a4c8688f2fa178f38bf751f2030670b295adbf99ffad6788e2043c594b3958312c7d810114b88954312c74053b335bcb71129165f028c4c3940672f01027d410ea1741965a491185849b2317699ced1b06c9b903329d99688811c8c20c522149172f0390690f66c2966b82939b0bb88810e032942179417d620e9f65dca04013dd4d8ac35331e2ab9041727b1eec4291166bc044d30bb6cc1c3a305c11a03453b8a0982a24db1a23c3d5b1f836370d19f168e597c0eac3fd9c9474057a25ff2bc8615ed09b12677fca0ac70f001baa00cecb5bd0aec63190d4825f6a728aaaa9758070a1afbcc5db655058aa145400e5e03023ae66d0874a1d3092a90570101795d31457635e08eb039ebf2d19adbc916a0c27ee2431b44d4670bf589636d9b5a210deb296171e5387aaf906d6d3b229b8c87645933745634a8e2c2a258c13aea8e4434a291dd0508b492a946405f5d60de54dfaf931a16b0cf80f40a07837d9409b0c946640f5d32d1b9ca42a5d21b707dd8c9886b8036a840032e4907c8fe0c8406dc45b9e1130225938680fc3fb83b2939a405a5d7a50b4c55de2728a92e2e0fbe55a087c1251bd9d2399ebaa442978a554a3650a9b0e5aaf880eca8e50055a0c50ac971cc4584d94fb4608df33902bf54db8a45657f0486ef8c2b16ed6990fbb010d04904846d053b2caea6971c2b908ac4b16b966a4bed64cdc0b039c287be925c5f9b916d646e4b90319c848418e8f1428989874043502951eacf87d5e525180039c919c0c5697d0300b472d0859821f7c9481568335c1cb9c6192a318ef12c044ae906029a622fb5aecaf3cc60109b7d4815710b16efa6e17815b900c111ccc7301790816b4b043996e4200ca9320e51722535c2fe5ce88f1a54cde04b843e2fe5e83c34138e0cd2661ca978e8b7ba6212620662db13d112c9e96d25c1c6dea7b1157dc216de231d48c94be489e81234c12ca0265514af8b92c100d8c8bc0d894a5544655ba3cb11aeb0c3792092bc09b2a7ac6fa059a4905daa38398efa530e495f2970df6e2da06b24518f77964d2ef4d6db22196c26c82d4fcc142c95e02a8e1939ea7d517d73a9b08b8c968b8a8556b5bd97bd325f596b240594d99243a2acd890d7cdd26c912e259b8d81ab9439e686c0686dc50720b9a61e622dde56ca215472a864d988dd146b5286712a49c883066c620c98286f1b04863e6bab015386911f19d65a9062323091c940c26b1b337400a8ad44c05a54eea7efb4a8cebaccd819b26eec07ac1ff9b23da18c5413eb808e0995d345febc38c8bdd496f6a001db92128ca1480a2020d12045553ad0a692f06845a01090f5243ab6b5ac8b02926e7668ba7dd18039d8ae6e45a9531011cc95f5c93e560c1c8f28f65e28803bdbf93c1a36934187db36dbbe844451bcc6b8182e19497d9b84f27bde8281b4ed1770d55b600826adbde244ea0c0a7b0e36b779090d2b07c13c5a29d85517c08b8b4a512974632cff288bb15670261809b6a322460c2c36f37fd27aaec830b77354e68c57674af25e1479178c06f4e28b0750f1531f6d14ebced19ee2173050f25b863d160dc85331a25601d136ca07cc9582ffc2d7b7fd7211bf09e3d731691326ad63f2264cae63767f83c9b52f9facbf49846aaf3991daf7071c649bcc1b94a371b7fd9e1379c3d197179d48bb86d6eb238d566f9bbf5f34fc8534bb34f3c5d3e9ecdbe6c39be678d6cc4fa4d7459ea95c63bfda08d852ab5e67deb6ce7ccbeb0cdb67da270e2edfc0c2e6545a505e7cfcd88ff0b2fb44ded2d2fe8a6468384a1e5c7d714b0fabbebaa57fcd147a778b2867ad2c2be54ded9f5b76b18561f8f377b1c9fda5376bfebc8edcd8fc0948e96d5ed71fbe839d6cd7a7b8a9936df579fdf52d2688f3bfc6d5c197903157673f24369a55aeee9f199a3fe07e9983d1c5f18fe39930f6bd7f7b7f6fc9e4fffe85cbbfe58d6b268b135ee41bf538e7a1ddfeb6b1fac3358958c56d68d6bcfef89d6471bb53b3e6eaf35bbed0e5ab22ffaac8ffa515f9571dfe5587ff99b9fb77e9f0dd1aeecf3e7e1cf28fb17cdce388614e7ac3fdfe4fe7c235d272ff5fd40eea6ad37dffd16adbfd17c8d5c6fbfed16aebfd15c6be7f4fe3e14dddf82fbeff7e73377e3be99b74e35b49d91a983fc85d750bc80975b5ca41cfeb14033b3ea4a3a3ab3f0f6a3d989c8fa1fe0b1b73ee0e02b55691e843c0d955e91b8709359b5384d9c3d8f6c0eb40e926404d1f7226de35306a40470ea6dca2bc9a1601834b705fa4891b25f928db543928925aefd261d5f32d2a7dd7b9923497f633b82f72c884ce5de4903a232047ffb06e530aae3b2ed28016971432d024c406cee2d36b297d2970a8bcb4708e3ef537506840b201aeaa64ee3c02ba00cf30a4722d21c6e3bd8027b2521b1211e3b940b02c504e213d5c1ca96845404aa6c0a1265fe076b0e6ea4aa93560761e52b4313a34542fe77510c8d2b51410b520c0b9caa99b95dac91eae1531faeae1beb5c6c10566068b35ac618d8a64853fb5e8bc8f2398e4d01ab34b098b61ac91377a436081456bd26778b9c65a4d8b71b084acbd8b042d110b2fa1e207e9124a68b4d2b253690db1c6648ff897470bcf52c54616a487e4a8a9a2aa0deb1364b79919082a061373ece55b2fd4a4046bf34da4008d92b74bdba200bd5c220319df71ac8da13679647a5d74b097cfb89c093b285d8d23c47a63a066695bfd009065101d335ae7fb4b3e5460bc5c21b572c73b58a3c44ad065a8407d7f1f04e0237600331eb0a91511c80d0c11da511fa8a290f8077d44fccb6626021e649989a53b21d7f9d785e559b7866d2f4f42bc543c60c2b65b2ae6caee48ef12c2cae9289454eb51a790bc83d5878a97eca9b24a6d4f30221a63010529a6487373cbf9eb07a036b447e000285e7d3bcda49713a688dc23c3bfda5ff3a1108dd2df09814c372160f0a877d1b426de2360099085588f51d7af9b54f64bec9b03ad2256c286e51229fb92bc431a94b1d2ef0b069c78501028c7d99d90aad549293a541268dacbc4628fd5269b92c1355c468a61538525d827ced8c4994cb16fb153a69c4d7fbd93366ca2bef452035242b5c60cb4d621769292014891b726408adea1a88981cefbcaeec8156a70774c7b6300205a02542c99b53a949a4206191a0692cf1028513700f2145242e256961700e95c948af35d39d53a969871faaa49052877e501a2647ce8d213562bd564ecf25e3b0ddb6e3620caffebaaaad57217b2cb5bf854ac313642662029168458d6ae9de3a10c98da6a2b00642d79a9d014a212611b8475c97457d52844c3e55d000a90b56406da8ce2f28e1b0dc88af3529b29cb2b1aa59535459fb05ac744a565df232047409dcb9c3435e8d88a77177068d81842d749b3fe36c2567a0304bad895726b40d7fbae1a9003e68c28f286f56cafaadc28bb99fa99ae33830b1cd2b5ca53814afe2c03b2cc7d6d3f559b5e52b0e2af202c8b53d7fca8e178a6ad87943563cc8be412182ea37c9703524816d3df8aa2e0d8bd0f98a4c4f716918cdefb251badf32e9b016ab37aec03688b1498d188e0de7856696d7f53d2b01c7874da617db65eeef9c7c0606a63e6809a0cc44a031e202a57420604f4496c3f5c6389764c65a1c4a2d6e0b12b0257497344e996dbab2cb26fcb981156dac4c07c7d90225000a4b68f1900b38b7077e456250380720954014051110e28171f29193447cfd6b6cb9368c0d0e941b02f0c7284a62917674644942328428cc402dee63a546064a73921a014902220f3bdeb59683d5fc15b426d6cab4265c7b00a9508aa9318b59ed3884475dd3f59859798e4860e866b58294c156c51806c8c638d2e3b700561a5481711959600409475476abb9ca55d435b2b23f7fc226cf01dff6a44d9710e0481a153842a30f5a97f1d9831c5500803bb731100248fd727b64d306853f8fb0c3625c8f5100112959b9820d0b5cd677053da8bbd1007ca65361e4fd6f55703144d7d06d3b62b43acebb4be36661343c440eae2c4acdaa8c20a6229718a4b29f04ed68b6a2e4a6b3a31e982e7ebe516dbda5a758eb7267131a59ab49ad69502d810135e646fbbfb5c807ae9af6d025857e080bd8f156eecfb4b3460773703921d9ba9b235ce555831f44d3c1a51ca160363e82238b0a744bd9553d54b7f01bb46d496008972b469e1686df27089acedefddce5a6cc2a3edeea542c26ee52a38bc4aae66aaa4110a686fd91a82ba543a7221d05b0b39d03a5f9d2cebe89ab9617804bb236e6eaa4ed60524adc1f4892c30e6feee1b75cc6c392aea546e58436a9c2862dd229123323a14bb570fc0997a0a589d06d6961e4abab4622740d7cbabc330b00fab34a0cb1560ec2ff05281c186da4c1336cd5e9810124d7d71863eda5cb3e91ce6f9a57a5196d7bbeeee51e8a799fed61e95b4f1d0549185ce61f0e4b05de69508209f1096950448e27c4c0638e0eda5d770b46c011d70f9e5020a07471b96b7192a40b9d8098a8c9c8a82c88645c67ba8cd381e8a382e67394d1e32129b0b83c3cd40b6ce4bd93b94230ab66fb056e9160323aafe3e48bca7455e7186b0be60535542f0889158d351c54eb1e768cc32aa52a4c6b61751eb74394ab6284a66d54daeb2c28ca58cd8c914073d4306fa0057897d13c4c041ec058e1f39c45e668934aca82dc4c392e9adcd34a580333dacbd7d421eb8dc799a9619170d9b43aa6daebce202b1b1971b8c205d5f3cda5971be11ffcb15f609c6f792f35a42d5c65ab59372f73642dc21280563ee0139274bc70e67b4b7dd2268c31fd722b8da15b1a947f07a79fc6a8fa056f17bad4730bb4d2d8214ff26f7fdfecdc825642b8d821df677f4097eadc6dfa91a7fab7e135062ff8714fe7fadc85fefaad21a077d08ebef0a969cb7cae580b1ffe97cfca8997d38199d7d61db77e3d3d3cf7b2f784f9ad9fcf0e46cbc58ecf5af3dbd67776661b74b1f53ede11ab73bbdbb6a3b3277927ddd8eed526eb5ef556b0adca6cd64bd91e45ae7c85ad7c8d38bf9fc53f3e16acbc8a67611a521e4f5fe93fdb7076f9e3d7cb9d217f265a3aef6865cfdb4ef0dd1db427ab305fa423ab3c54e5f8a9a3fc7c64b2c9053affc101796d8c3e5705f5109926264ad10a5f042c79a1ce46d007af6594efed91fe208447507a58a41f7e97cb65e4ed4b34a3449025f1c76ddf74dec89c9dd75ebfd1682757203a7d5069be4d649b9e801b9dcecbd4a4db8b64e3195f62d0eea1b10c5670e512ef053d52eaf91dcd69af51841ae3f4b216a40a9d9f044419da88f721c2105376a9c2b2f4b8a39fbf557120a566eba94ffd3b1816343b9cb11f8ea7216148b5163646651232f2122a5ee88e3421e3449698c16be49a81bb42b594cf79606c7619a166bcad5efc168f4dad725c9898f1aa24a7a8c433b3d3496ca403910539384ccbdd2dda4bc0f49e2f144395054e362491fca44f5b35cb9afceb5497f0d2bb98b222f4600c7b94e0af465c67aee42f2e8f2324a2ded21b79f67a6ae082a39290933cc2a1ab0bd459b7f5ad94f92ea1ecb2ebc46319694b33329acd7fef0d239a9b425af1e21676aab69a29a49ad01a35c3bc9bba3ad0def24c77656b9f448325812e1733ca2a5be8cd44745700591786156f4ab4b5ae2d6148ec3e500ff06588ed9e40d5861878078cbab85f8a3faf53d0a863661681d1336618272edd1464256a144f1feefb95d08a7054a710fb25c7b95850b5865fcff66057aff48f33197f1f3e66b76da589ca92dc6873f36ec087d5819c72f839fa793d64d3532d8535e1471953e367fed3fe64f2f26e3e3717374d0fe4037c781d499f1c4f79fbddcdf7b61babf9ef33f6f0f9eefedef51ffd7f33ddbfdf51dd9f6c383e76fbbc70f9e7fb3fce379fbdfa7fcdf678fdf751f3e7bfce2f28f87cbbfcae51f5f3e8be1cb5fcb4f1f1ed877977fbd58fe45979fd1f2b3d78fede55fb4fc9d7e7cfb2e86ffecff9597753f3ad823dbff4bfdbfaeffd7f7ff86ee5fdb3f67fbe76cff9ced9fb361f0c3af2bc928361ff4804d53c8b67dcfb6b037b3ee05b314b3d937fb6f5eb4aea9c22fa2a6b74a9ffc1f7366c15b7eba0000"
+ },
+ {
+  "uniqueId": -4134813594327651439,
+  "parts": [
+   {
+    "from": {
+     "latitude": 48.164772,
+     "longitude": 11.586659,
+     "stationGlobalId": "",
+     "place": "Milbertshofen-Am Hart",
+     "name": "Leopoldstraße 100",
+     "plannedDeparture": "2026-10-22T17:32:00+02:00",
+     "transportTypes": [],
+     "isViaStop": false,
+     "surroundingPlanLink": "",
+     "occupancy": "UNKNOWN",
+     "hasZoomData": false,
+     "hasOutOfOrderEscalator": false,
+     "hasOutOfOrderElevator": false
+    },
+    "to": {
+     "latitude": 48.16156,
+     "longitude": 11.586111,
+     "stationGlobalId": "de:09162:500",
+     "stationDivaId": 500,
+     "place": "München",
+     "name": "Münchner Freiheit",
+     "plannedDeparture": "2026-10-22T17:38:00+02:00",
+     "transportTypes": [
+      "UBAHN",
+      "BUS",
+      "TRAM"
+     ],
+     "isViaStop": false,
+     "surroundingPlanLink": "",
+     "occupancy": "UNKNOWN",
+     "hasZoomData": true,
+     "hasOutOfOrderEscalator": false,
+     "hasOutOfOrderElevator": false
+    },
+    "noChangeRequired": false,
+    "line": {
+     "label": "Fussweg",
+     "transportType": "PEDESTRIAN",
+     "destination": "",
+     "trainType": "",
+     "network": "unknown",
+     "divaId": "",
+     "sev": false
+    },
+    "exitLetter": "",
+    "distance": 413.4843504647786,
+    "occupancy": "UNKNOWN",
+    "messages": [],
+    "infos": [],
+    "realTime": false,
+    "isCancelled": false
+   },
+   {
+    "from": {
+     "latitude": 48.16156,
+     "longitude": 11.586111,
+     "stationGlobalId": "de:09162:500",
+     "stationDivaId": 500,
+     "platform": 4,
+     "platformChanged": false,
+     "place": "München",
+     "name": "Münchner Freiheit",
+     "plannedDeparture": "2026-10-22T17:38:00+02:00",
+     "transportTypes": [
+      "UBAHN",
+      "BUS",
+      "TRAM"
+     ],
+     "isViaStop": false,
+     "surroundingPlanLink": "",
+     "occupancy": "UNKNOWN",
+     "hasZoomData": true,
+     "hasOutOfOrderEscalator": false,
+     "hasOutOfOrderElevator": false
+    },
+    "to": {
+     "latitude": 48.13344,
+     "longitude": 11.566519,
+     "stationGlobalId": "de:09162:50",
+     "stationDivaId": 50,
+     "platform": 2,
+     "platformChanged": false,
+     "place": "München",
+     "name": "Sendlinger Tor",
+     "plannedDeparture": "2026-10-22T17:45:00+02:00",
+     "transportTypes": [
+      "UBAHN",
+      "BUS",
+      "TRAM"
+     ],
+     "isViaStop": false,
+     "surroundingPlanLink": "",
+     "occupancy": "UNKNOWN",
+     "hasZoomData": true,
+     "hasOutOfOrderEscalator": false,
+     "hasOutOfOrderElevator": false
+    },
+    "noChangeRequired": false,
+    "line": {
+     "label": "U3",
+     "transportType": "UBAHN",
+     "destination": "Sendlinger Tor",
+     "trainType": "",
+     "network": "swm",
+     "divaId": "010U3",
+     "sev": false
+    },
+    "interchangePathDistance": 165.0750835389342,
+    "interchangePathDurationInMinutes": 3,
+    "exitLetter": "",
+    "distance": 3614.67556298265,
+    "occupancy": "UNKNOWN",
+    "messages": [],
+    "infos": [],
+    "realTime": true,
+    "isCancelled": false
+   },
+   {
+    "from": {
+     "latitude": 48.133384,
+     "longitude": 11.566672,
+     "stationGlobalId": "de:09162:50",
+     "stationDivaId": 50,
+     "platform": 2,
+     "platformChanged": false,
+     "place": "München",
+     "name": "Sendlinger Tor",
+     "plannedDeparture": "2026-10-22T17:49:00+02:00",
+     "transportTypes": [
+      "UBAHN",
+      "BUS",
+      "TRAM"
+     ],
+     "isViaStop": false,
+     "surroundingPlanLink": "",
+     "occupancy": "UNKNOWN",
+     "hasZoomData": true,
+     "hasOutOfOrderEscalator": false,
+     "hasOutOfOrderElevator": false
+    },
+    "to": {
+     "latitude": 48.117908,
+     "longitude": 11.608452,
+     "stationGlobalId": "de:09162:1070",
+     "stationDivaId": 1070,
+     "platform": 2,
+     "platformChanged": false,
+     "place": "München",
+     "name": "Karl-Preis-Platz",
+     "plannedDeparture": "2026-10-22T17:57:00+02:00",
+     "transportTypes": [
+      "UBAHN",
+      "BUS"
+     ],
+     "isViaStop": false,
+     "surroundingPlanLink": "",
+     "occupancy": "UNKNOWN",
+     "hasZoomData": true,
+     "hasOutOfOrderEscalator": true,
+     "hasOutOfOrderElevator": false
+    },
+    "noChangeRequired": false,
+    "line": {
+     "label": "U2",
+     "transportType": "UBAHN",
+     "destination": "Messestadt Ost",
+     "trainType": "",
+     "network": "swm",
+     "divaId": "010U2",
+     "sev": false
+    },
+    "interchangePathDistance": 130.80427426151675,
+    "interchangePathDurationInMinutes": 3,
+    "changeStatus": "TIGHT",
+    "exitLetter": "",
+    "distance": 5043.0905152338855,
+    "occupancy": "UNKNOWN",
+    "messages": [],
+    "infos": [],
+    "realTime": true,
+    "isCancelled": false
+   },
+   {
+    "from": {
+     "latitude": 48.118164,
+     "longitude": 11.609782,
+     "stationGlobalId": "de:09162:1070",
+     "stationDivaId": 1070,
+     "place": "München",
+     "name": "Karl-Preis-Platz",
+     "plannedDeparture": "2026-10-22T18:05:00+02:00",
+     "transportTypes": [
+      "UBAHN",
+      "BUS"
+     ],
+     "isViaStop": false,
+     "surroundingPlanLink": "",
+     "occupancy": "UNKNOWN",
+     "hasZoomData": true,
+     "hasOutOfOrderEscalator": true,
+     "hasOutOfOrderElevator": false
+    },
+    "to": {
+     "latitude": 48.051284,
+     "longitude": 11.654958,
+     "stationGlobalId": "de:09184:2389",
+     "stationDivaId": 2389,
+     "place": "Taufkirchen (b München)",
+     "name": "Lilienthalstraße",
+     "plannedDeparture": "2026-10-22T18:20:00+02:00",
+     "transportTypes": [
+      "BUS"
+     ],
+     "isViaStop": false,
+     "surroundingPlanLink": "",
+     "occupancy": "UNKNOWN",
+     "hasZoomData": false,
+     "hasOutOfOrderEscalator": false,
+     "hasOutOfOrderElevator": false
+    },
+    "noChangeRequired": false,
+    "line": {
+     "label": "X200",
+     "transportType": "BUS",
+     "destination": "Taufkirchen, Lilienthalstraße",
+     "trainType": "",
+     "network": "mvv",
+     "divaId": "20200",
+     "sev": false
+    },
+    "changeStatus": "OK",
+    "exitLetter": "",
+    "distance": 11473.233548592261,
+    "occupancy": "UNKNOWN",
+    "messages": [],
+    "infos": [],
+    "realTime": true,
+    "isCancelled": false
+   },
+   {
+    "from": {
+     "latitude": 48.051284,
+     "longitude": 11.654958,
+     "stationGlobalId": "de:09184:2389",
+     "stationDivaId": 2389,
+     "place": "Taufkirchen (b München)",
+     "name": "Lilienthalstraße",
+     "plannedDeparture": "2026-10-22T18:23:00+02:00",
+     "transportTypes": [
+      "BUS"
+     ],
+     "isViaStop": false,
+     "surroundingPlanLink": "",
+     "occupancy": "UNKNOWN",
+     "hasZoomData": false,
+     "hasOutOfOrderEscalator": false,
+     "hasOutOfOrderElevator": false
+    },
+    "to": {
+     "latitude": 48.043212,
+     "longitude": 11.654428,
+     "stationGlobalId": "de:09184:2207",
+     "stationDivaId": 2207,
+     "place": "Taufkirchen (b München)",
+     "name": "Hugo-Junkers-Straße",
+     "plannedDeparture": "2026-10-22T18:27:00+02:00",
+     "transportTypes": [
+      "BUS"
+     ],
+     "isViaStop": false,
+     "surroundingPlanLink": "",
+     "occupancy": "UNKNOWN",
+     "hasZoomData": false,
+     "hasOutOfOrderEscalator": false,
+     "hasOutOfOrderElevator": false
+    },
+    "noChangeRequired": false,
+    "line": {
+     "label": "X200",
+     "transportType": "BUS",
+     "destination": "München, Ostbahnhof (U) (S)",
+     "trainType": "",
+     "network": "mvv",
+     "divaId": "20200",
+     "sev": false
+    },
+    "changeStatus": "TIGHT",
+    "exitLetter": "",
+    "distance": 1333.2310629018875,
+    "occupancy": "UNKNOWN",
+    "messages": [],
+    "infos": [],
+    "realTime": true,
+    "isCancelled": false
+   },
+   {
+    "from": {
+     "latitude": 48.043212,
+     "longitude": 11.654428,
+     "stationGlobalId": "de:09184:2207",
+     "stationDivaId": 2207,
+     "place": "Taufkirchen (b München)",
+     "name": "Hugo-Junkers-Straße",
+     "plannedDeparture": "2026-10-22T18:27:00+02:00",
+     "transportTypes": [
+      "BUS"
+     ],
+     "isViaStop": false,
+     "surroundingPlanLink": "",
+     "occupancy": "UNKNOWN",
+     "hasZoomData": false,
+     "hasOutOfOrderEscalator": false,
+     "hasOutOfOrderElevator": false
+    },
+    "to": {
+     "latitude": 48.04552,
+     "longitude": 11.653108,
+     "stationGlobalId": "",
+     "place": "Bergham",
+     "name": "Willy-Messerschmitt-Straße 1",
+     "plannedDeparture": "2026-10-22T18:32:00+02:00",
+     "transportTypes": [],
+     "isViaStop": false,
+     "surroundingPlanLink": "",
+     "occupancy": "UNKNOWN",
+     "hasZoomData": false,
+     "hasOutOfOrderEscalator": false,
+     "hasOutOfOrderElevator": false
+    },
+    "noChangeRequired": false,
+    "line": {
+     "label": "Fussweg",
+     "transportType": "PEDESTRIAN",
+     "destination": "",
+     "trainType": "",
+     "network": "unknown",
+     "divaId": "",
+     "sev": false
+    },
+    "exitLetter": "",
+    "distance": 298.06744025307563,
+    "occupancy": "UNKNOWN",
+    "messages": [],
+    "infos": [],
+    "realTime": false,
+    "isCancelled": false
+   }
+  ],
+  "distance": 22175.782480428534,
+  "bannerHash": "",
+  "refreshId": "1f8b08000000000000ffed5ddb721b4792fd15069f3cb1a25c9575c79b244bb24696a510297b63371c0e886c890893800600657b1cfe9679d9cfd8b7f9b1cdec6e486c224f3700499696c199881107e883ba9dcccaaa3a59fdc7fe9bf17cb9d81ffdf71ffbafe6b3f3fdd11ffb67e3e564797152ed8f7cbe6da34f896eed9fcda6afdb4fadbd1d728ca1dcda5f2cf9d9d9f4e1d9ece5f8ecd1c9fe687f5f3e9cbd79369b4c97dd8fdff0efbe9acdcf1f4d5fcda49893ead578f1acfdf0fbf179d53cb6fa783aad4eae7efb67fd2bc7f2f793c9d9cb8a6b7e3a7b554d0fee9cef7dcbed60f8b479f4bb6af6667676b258cec7fffe57b5678de1efc62727f36ab178571d29e29b4a3ae0622e2032140fac39203ab269e468e4cc7f181ad5d8ab8f1fcd8e4eabc3ea78363d1940568be5e47cbcdcbaa83bf3f9e4edf86ce0e1e3f1f4b83a3babb816afc6678bead63e3779ba78339b2f8f7e7f53c9c8fe746b7f767c7cf1869ffc9d7fedc5f78fbf7ffae3f78c3d1d2fee1c1f738f4c5e4ece26cbdf9b91697f86bf7c7ab17cfaeae9fca49adf5f1c8f792c6673f0f559f5b6f3ed64f1c3647cc83c78f7c9cb6acc7dd556675e8dcfb853aacd9ab87a7ab3fe638e2c670a8d6d880a8badb51a8b4faa912936d228d435d0187df99151e07ffc861c7f78564d167bbe9feaab872e33fedfff3b3d3eada6ef49de7c32ade67b0fe6d5e4b49a2cb72779de86793d0ff7da4356ed61b362ae27c1f39604cf1d823313abf9797532e16e944ab4a54e67f74ec7d3d7d5f3ea1f1793f9a51e3b9b4cabc6245e56670d33a6ef1c2ebbd0f9f2bdff7d339f9d5c1caf3e7870b158fc5abd96c77e3f7f396bc13c0293a9f4feca65f3904e6b1b7af7fdfb11e28f9eddffe6fee1d1f347776450a6d5f2d7d9fc97ce409d70758f5bfce54fdf8e57b3c764f1ece2e5d9e4f868f5d36de3c440c6cbd37a0253262e6f622e459fbe6c3629bb3f6f29c018bd0da44f7bc696145558b6def91c5d527021276743883c13590dcb152d969fc85a99e4887f3c9106743e96128a711a30661b5d71510312bbaf1c4ab01a903da333e46d2945c3724b281ab25a4b634ad6279375a075cea6e2b71c1157420a8e8cd387120e8973d241549c3694a1442a397143d52171948d0fc9a81d34880d4c87129d29459b7612918994835a670ac69794922b6a3fa5c485db9434a8252f63475a95997fc64763343238c3a4f725478d7efc85b1c4bfadb7954af2dc13d16864e86b2815eb0bf32869839abc31fc40d05844d9169389bc0a34de9418bcd63fc4ece2214b45ed9ffa1b151698b126b8acb2cf5bb2dea7ac02b91d6483d538c003cd9dcaa3ad01b96382e52632bf545bb19e6ada6b58cb1e8fbb48f508c1061f8c735a6d19cac69b53d148c0569bd96324adb6e2beb8c78b0b0a90d8e3713bbd461dfe2f7b2f76165a55c970134ac96a55d904127bafc07cd60ab599c7d245d597580ed8b20fdc871ad0b3f3b22619ddf1f1505266c267adc2fcabc48e58351276983c1d799b352618f64f4213ffe74feddc7e5ccfe3cf9a89eda7668afba65a1ccf276f9a59b25daec913f766b3f9c9a393dff6474642dfee47d2c6eaad4cfa466ab58eb10ac60c82b492681045eb281a2c8b94b2280ea2a2824a83a8a4a0ca20aa0ca0da017c363bfbbd89c4ea80a63bcedd2fabdf26cbefaa253fd14658135ea34c6519e0adbbedb3773c474880237c9a70547b54fdb6ec0d85cf390a1ebfae1e9db44f09a8fd93570c1361152f6ca6b204690339f9eae4625effbf47d32793e9c552a2edd8c4ab4713890fdbf8528bd1276feecd84e24662b77b6b0f4c160f66b3e5af63aee5727e51ad7af666e1f6210bb7cd7627f4d5d8275923de2cded6176fdaee84737e7d9ae7c0d6aa7b6c97183cccf151b0ccf20d29fec27d1df71a0a533fcf3b4ff692fdb09a9eb0677bcd6c3fe241d896e83e8c6cde947d7d0ff7d9441737b843d17dfc5a92bcdbc461925f7e1eec50dc78f61bcffe6593fec33cfb557e8718b47d07577cec25781ee477deceab6fe4d037f2e50f278bea6cdc9eaa6ccfec327271376677909b305b2b0a0e7bd96dd6e8e286f7b5cbb59f35ba4ddcc0802e0d936240c668478f66c880d2a001a5cf65402fa693b7d57c3159fefb7fb69f19bc1d99ddeca78bdcc07ed4a260ac60b0b1f5d6caa856bd5931d7d27eba4ddc20eaba344cebf6e39db7ebf6935291138a1efb8983f6133fffb2e2e949c5dd2aa5ff737b43a25d27a22e721343d28a82c34fd8ea066aa599f766c55c4f43ea34710343a2be89c8a5a26cc3275e9ef71b120dd911d5cb948dcde8e0eef874baa121759fed5fb48ce7936abaa329f99de724bfed9ca4150509e076d32a7471c3a6e4aefda2a8dbc40d4cc9f7cd49373b5d373b5d5f18bf3f64a76b13d54dcdad9aac8b5fcf47c69a176ef470f42dff15b9c0754d4eebba5fb82be29cfa83ae3ca779f4b23aa77ea8579fb3c6d2ab6a9d1777ef7cdb15ea1cfef8e48a48e7c1d3e73fde79fecd65914edd305da9d39cf040a18e0d2187e273d68eba4d0abe6497b583796b52b200184432828026f25708988dcd00189235d60bd0a9c20e6f8bb3081b83b74d33d5437d5728d415560ebc039562514b8982695aaa1e5a07eb6289006b83b31115cacb6fef01d0144a1117eab9a11660399832d98242bd0fc6120072cf390c249bc198a64c856c4f6d5d2ea1eea2753141e23ef20615ca2b2c5b17ca9db5ce075e6a05b72a578313b728807299da0e0d8d27c72522a017dd0c6eac155d1cc28a7a0614ea4a6228008a902c0950174048759b61d5b03eb624542b2cd1b773084bf29d94ab01bd743f00b2116608b436a296fa4c1102a3b00501a3980502320d100399da65d53fdab8441fda71d11c4b6234c12e62e70bc75494830602d911220672c77b5862c8a29d03c0107d844026191a4de76c63e080429ec71415ca846d99a053974d340323e5ba12fb6650619e235a1f588a86e5a8d763ac73198ea930c54a7b55680ede419f14a54e4d957536b94c09353717f61cb0589ec7112eb998da3201d600f6c7ec82a53e6c2a097807b646a2d4d7d6940d2031d7978c476d4d6432c245b21027f24c3caa31f2ef42287954640c24010de3540199f25bd6a32e8bc1d5ee4daf83c9eca948ad3be38a9508480586e87824444facb65bb4b2c401311862662c47401c72a88c8e993cb3c069c6cb3d4e8e448fabe1781ee59a5945122bc0ec44206df52a7364ead804491774333c1bc74192a232642cc76494535429c9dca11288dda4e63422fb720e32d9b3ecd04ffdd8fe21622be38944a20e3044ecf2d92cbc56679961a2e3695e05bacc7c2c8a7c9881dc0f3ccd646e8f227e676cf2ce4ae00ceacc8d1291dc2eed8dc932a793d5cbe5a883172d522fb55c1b39b4f6496d2f77123b77896a9415840870b3672fa177b2354cc8c481aee27638c64a6c469a62da31134db48c5ed7ad32907d19391e1ec06493bd44098a4897b186327fe5f55093b14984bc4e74cc9aab1c869368a1250f418373cd78d2665eeafd9cdb595033c1da5dad2695bf5a619b8730791d332843d554a8839523a5761dd4f6dad52b5f7eb32e21757d02578e48fd6d36fc2009163cad7d567dab6c5c68db5eb2137958fde3a2e22f64dfa75a2c1fcce6df55af9f57afe6d5e254b67de4995e595277a7bc2eaf578f52ef237dc7fd0cf792ea278ede496f934c3e93c593b76fdb3abedb8911796efd2bced89fb9200a5cd0cf4f9e1ededfbfacdd6d7fa057bddb666121f92edba1b220af239d8fb0e1eb37d778bdb05fd3d7e9ebbce1a6efd5a73fe9c6afa63fd9ec0c4557a06c5914dc19bdfe8215bfa560e5f2f340cb6b53316bf3b32487847ec64bd6c910e7e599cfa45c793c9e9f1d3c9bf39307cf763a290c698b93f0be87fb0ca28b1b3cdee83e7e2d19de6de230c32f3fbfa190f7c6c7dff8f82fd8023eccc75f253bf1127b7df9c56b90e0faddfb30dbed9667d81fcfb93f988f2fa67295ca7c576d6fd034801bf13be82ac02d8b82eecfec764edec50d4f24e6da9b51b7891b4c24a64f52658b76ad508a41e4217d66342c4eb4d16c25abfa8831d2ecece2fce5c58eaa44aef38e534417b989096945c18197c77631a10e6ed8843a8f5f4f13ea34710313a2be994872d51579bc35b23dd8674276838586fd6c0b8dc3fa66afd3d97cbaf35ce4769e8bdcb6739156141c7eb7e35ce4b69b8bdcf59f8bdc967391eb9d8bc82b575ea49806a6a24de622bba554fe63a69af0ca6dc1a6f47a673bf2dc3dbbd95107b9891d6945c1d1f7bb697bbbb8613bf2d75edbdb6de20676746998143b3245b940a8f0e2a83fa3d73272d890ec9602df4f24967f38a91693e9eb3d41f08a697ba38abb0ae6bbc84d8c4a2b0a5221ecb8e316b6db710bd77fc72d6cb9e316fb04f337dbc937dbc95f12b93f643b7937b53c6da496af73ad2eabe56b4e0fa9e5697f402dff84c7803f189f2cf79e2e96fb1f552d2f856fad96176183e991f7c5e86b6583a6a7a058a0b42f85581cc28590817a32a6946b05a48af3ad1a56174066e35d40509b2254f50522d444bbd29d6b824b6352ad5e34bad2c5e410573a5a45276ae56a12a4d7342124244e255a69a335a0375031ccfd1ea18ed690c8970030a746c6ad00452086448f8987cc21c9afec7c1724a2f5dc46a48aa61c45d18474d894900a96b28b84aa1a1cb713cb7629736d51c7069f8bebc39a8ccb95cb17518553761e09fa43ca7850a44ab08b8a37ab962a52274a229d04d8687ce8d1d65312dd2dc2f2c2b847d34f22cdcdd85ee49646d353741470eb1d94dc09b91e0812233a42669ec44c91b9d5724238b23c087dedf562e6b8c27219253401b6550b531122156874943d347311e5f50d2e497b1136675c5b930869aa53a4987aa4f6b2b10f13032237b5c7ee6cceb911ed697c60b625909ac2e32db3170032cb7a52956c0a2457ed3256510aa624b785c262c936592d5aee0f776f6db5596f2b4f47d937c56ad6936c4ea90f1e4b9301a415ed4c2399d7ea1c99e31e01bd8b28074daecf35b0b16cad19020d0f5cdb520d9bc9c142e5ead9040acd92c103811c993434548d95e319b722850af7d92142f14f3639472ad005ebf0b0b2f37090c5816c93e1a2142a691bb08783258bc850bc377d440a86201f4aaaf5e87aa15e624d1d28139d85b5955861d5455a3e63a002d92b22e50c0a7572bd3a0272d447d8dcd8ebd80449e898a01114caa14f63a74aca270712d68101cd31e588f24c65e2458e25a7c891b300f56c092ba99904bb9717fe31d7e52aea742b714fd0cb6566c62689470526e781bd70d8189a88490572180006b410c7d435fd0268a968daa18d17e266e20a7333410f1767db480d001db0b522d9261eb7f4dd3ca330b0b82ca139c4e6e8f198b2453519b551b771535f450f3baace9f4345f38c6e23c64a524984584ab09399a3058e8ea460223a8948007614fbdf082cae64131b1b5781b298c03d9cbd4db5cf572e40e7782938ecd0f867b98720d6418756d80d3629e12a90bf425d54b8220602b371685018d3387c0de8e4bfa899526268224a0deb798e0a88456210a9492757b17ee5d014a0ec5b08d0ebf3b867b6a0e02eca0df31e8e6a30dee923c340e7326c2b870059f7100ce4c83a4120931b01254967d550cd17cab5053af119eb7d93a5aa165ada0c600d28e16f0d044128af1e51859dc9b8a5ecceb23ecff04fb299362dd5226e36353de86058f44df4aa02ebb749e8c044a189ad54604e06d120d784ae811b655ef28f6510e1c98f25225c8bcc615c3632206b9347ac53b4a89ef7b5559595ad2979c1cc3ab098e8e4fd2a11adc8e46d128e94b7a008d6cb1558dced1a5032858d2015a0651fcde18fc68cfaf50a1caa26e5d08323092f3782289b2056365eb2ecf1293dcbf3b2bc7b26192dd4cab2794291f25a022203791920c10b292f9290ae71fccbcacb65041812b9e4b4f7653050d6ab3124c589165e229bc0bda65655922f936cb42940b1548e29491f45d77a410d189af477f73952e1dc10c6ad63fc10c67fbe943b3bdc09da2b373e6bca9d4c74b7d99a79862699d7c25f9e74973f65d2dde51482e19cbbae5a5ccfb9239c73c78bdba19c3bb2aeceb92b9273f7e0c993c3fdcb3977ed0f7c48ce1d9b7bd45c0b3b878f74643c0a1b1e18f79f147fd223e23c324111ae6e20b5b88a1c945a80a2f433d4ab0f5fc363e2ab4d1c3a26ee3eafe7d51979f5d23aab7929187ae4aed98f8883f85e56b7cf8cccc87d74561f8d2f5efd32990bb1f7be7ab9b722f9dfdeb3fc3b1eb86aba3ce54ede49a6974764b6e05edfc37d16d1c50d2821ae3e7e2d29de6de230c52f3fbf6162dd8d23bf71e4ffaf1df98d0fbff1e15f32bb3fc8876fa7663b7ffb96e164cc688fd70e0bd2d56cf77f7b23acb97bb1d8fb4faa2b7559d3d67ed455b5bd875c56b6b58ff66adb2e11fbd69ec6e1ab5ab7bb2f0e3b4ab7273ffc30ac74ab1bbd8bd2cdd6379bc25d8bece15e5fb63ec3e30ec61693f0469b496eb551bdeeaaea734483b091ab0ab652e5dcbdd9cbd7af59b2720f13d819e406a5e6e44d2d34b802f627addc26073736a38b563fd58ca257698eb855a0dc208a80c125382ea1c8111700669b9a6d28704c2dea0d78f8c0bf6b9bd3546da74eeede44e34225342d55814104023ad099f6da5d15e88a03bbcdd659637b8026211a38eedd08815c1958552b776101a09757fe2220b5b20e0d28fb85602bde3a171a91900acc3e21e2f1583427a82ad05144c473814712024dad7ad181f21a6204a4640aac6a6a75452a3018d24fe718585f7807803622c18be80e73849d639bab0af5e365c63ad7f25cb72f2b1a43745066e51ee8da65927efa240769b0d672075c0fd6b04745b6c29fda825a6c52021a9d286f164f70704c0c044b14792c04066fa19249de2ced1cc672555117b1f136f794aa406a2f64d5818d280ef5ad9c0c41ac23d4b73247a2832ae9a2d8e3aa0dfb13346f3319083a06113944a85c11fa27874cdcc85bda916ff07635b728409f0394ff899167c2509b3c9a7a9d5c688a802eaff4c55a8022571d678ce500027a9660a083100931d01431d0878c08c81170c0c215c1b677c8ab58e73274a0721f7e0f8f3800ccb8c226f4b833e6bd013a90bab1d4e390e43ee888f8ebdaab7695c6b2cdc492a18624d66770a093194b16f2d7490f226096accb9ed12909050d1c447b0b74836234a2484740eb434f94eca9a7978297e40450a85c528b8044b951bcac9fd48a5e3303e6b323b3a9117dab87e7b6d616032cffaa6da264a550b9ac1c3533f3b8d88480c107c4847a8af7085802a410fb316aded7a05d4bcb413bc7e6c0ab3457bcaeba481997e41df2a08c25df4898940a27ae1404badcbed5222af9415132803c6caca840628bd51a9b92b1d0c6196e5ba98d4e098e89339ee24c2691bd812667933298e21848bec9d5d0809408f290441387801c76c0127968022cd13bb46a62a0f3be677472a20847c71447b0d012a063c9ecd5a1d594fa867004249f215056dd00c84d903766006074b98745a93851a0ab5862e29406ab0079feb7a05032be4d6cb29aa48db1ce1ac03db9953ec042f93f21b503ba6ee3c4eb926641ab628db1119281989d0562e522750215669f1e2302b2977ce7d0944265856d1056b2240d289483ed4c08c85e32036f46b14ed60340237264dcbde2516a5b53fc09bb755ca8e4dc7904e41550133227cd0d3a79db8b41d81842f3d68575a9556dbd01025d6c84a01ad0b5b1ab06e405734625f280b5b4575d6e2d604e6d4bd7c9e0022fe96ae7a94065ff2c83629b3c9aec92fa7a09d368c0005612b00894298b993a42cada642c979327505d46f9660f4829b218dfcca70a2ed79a6054a4acef2d2a327aef57345ae72e4f0354efea2535e78be16ce004c7c6b34baba5a049c3f2c2a3f10eebade5c022160c0ca6afce242ff08058eb9b4d2fa550265abdcc54813ec9dc0ffb58563ba6a7a36446ed83c7580f915a34af28dd6a78954ee65e0eb0da4ef219407be52549b0a3887d3004e6e6ad2e2ad0526a96b80a30c8fe1f008a8b70c0b9784941436df43cdb36fb241a30347e108c0b83244c05d8d8a48aa985f20a8a109192bc310b012307cd0901e5e67b0464debb9642ebfb153c2454af6d55a88c1876a1b2826a2c46cd14336251b169ab0a2fb1c9d6498a83f1240a72c1ae4b57eb179ec4be72eb9796002caf9560a196da4d807520fb0e1e1e01aa59a1c67324d5c40f1a36f886bf5aa11c380782c0d038421598daad7f1d987189a1100636e72200481ef74facdfa8850685bfcf60500287a739c042994719025d7d19001c14979a30496560904407dc5849ceaacbd5dc67909780412219397940753631440ca4669d98d539aab08358599c12520abcb1f5a24e17a59e3a71d105b7d71721624f5f3581b76671b149d581c4a84329800d31e14ef6d6f81ef7c2bde530d6155861dfa48500604a60643d2f1b33b6d66033f50c8dbc010a63130117e10b658b8131342b3830a644ed2ca7ba97ec6017f1ea0d16caab4d0b6b6b93875d2487da2bf26b5d44b68ed891b15be6bec3bde4faa62a2b4b3538accdb90798324a84406f2d64a075beb7b1eca3fba61b8647303a12e6a6dec6ba80ac359876230bd4397a5c679e397adca9bcd213b9f1fa7a1e0c2c70d2a1984d6f4be59a75e84e8393d7b9c17265ca07e5cacd1e98c6a15d566940977b80f21630080c36f4b534e1a9b94e598485a6569ca1d736f7cde9bcccf32bf7a274af9797daf5c5693215c2a28d875355fd123d042487e765ee8900f613c24a49802cce478eb710960aae2dcf800e84fcf2ba59076b1bc4b30020c9562302caa92858d9b0c9780fbd19af87225e97b39d260f89c4d385c1cbcd206f5beee352f60eed11055b4c1b5b6acb38035754ec91a407f198cafb16c15e82bc6b154f5525048f88c49e8e7ae6298e1c8d59adaa14abb1dc5a34b2726f075a2507792b5f4f0f87fa6e20842d0e46860cf401f612c72688c0f226f19e2db820b9cdc8fdb2b7f3d06ae4f6ab1e67c83f9c02dee961efed138ac0835ca3b3da71d1b039a4bec195dc584463a65b42a657d30d8dac04df88fff2b2db04d7f7b2e7b582aa19c76afee6a7c828a4be8c425195b9dbf54b25b3dcff51bf47ee2fcd28b4e1d3a51476532786520aaf6ae8bb29859a2cf84a4aa128e607320ae3cf817fe267b69efa079657b01f904c7823d9875a70b76b524a17b941528a5a14d4b4bbeb2fdb775bcaf6dd6828bbd03b5a7f9986bc8d8606684e260dd29c9f619adbcf40f36f2f5ecf0efe7e31fda59a2f0e0e77657ada867e3d0ff71a45da2e39255d7f96a72d599e465b2618de38f71be7fee5d1fe839cbb72cea645e01c95c67e867b37ecd7f999cfe4d77f9c9c9dfd7e505f4e3e5f1c9f9e4f964b71efb7b727facea9b5b46d6aad5a146441cfc33bd46ab362aea73d6d99c14bbd19bc3771d24d9cf4a511fc43e2a4dd93789f7f1949bc2b32df92f753bc6c5e4ab4f7d58bbfed7d75f8b79d5278efdeb9f7f863e5f06eb19ba56c841997d00e9a5ce30eb7298dcb098879427025c223d2921c5285c99b1832deb38e503ec4c0ece059821c88a3edc5905c8467092558073b2795d477d658b8d3b14e3084625cb325aa62dbdc18fd54a0b9ea5bb0faa9805c468df6ac235173e802ca0de808243ad78ca90e4cae67ef38665be762026c84a702c934195300d8aa7235a06d8fae55a0644f23a01c6fb67dab89458a73064b81659bbb5102a9e552b6884ec907d33ba6ab347d155b92efc35a72685813bb073834b9de4207c0680d1c9a9c09c90b19d8bcda4005f22f36a7b9fa41827c5d77af7a2b37af434a86e70172fb7841e532919a6b68f543975ce7b2e21e0ed946d45e496e82961e6a2d960e2c86da42b5f3512a0591bff83ea021686e251041f67a6390465b52044c9fd570d71b54db2cf7bba2425d7d352a0052b1d095391b2dea589168fe05c73b3d2737cec9c18de4d3166399747ff95d90fe131ddcac6d490d1fdc74b722f0c1cd73fde0866d7a8b939be23a27372df8438e6e6ed66a5baed536dbf7d017609f645978b35e5bdfd7564f6f425088ce5e4c253ae0f647a7f2dd6afefa747c3eb86b2704deb35b53d8d116bcea7bb88fed5ddce07643f7f16b49df6e1387e97bf979702cb3c926c4fa36c3957d85b53d8507178bc5afd5ebcb1b0a439b09ca86c1b3fbdfdc3f3c7afee84ef72597ef07eaf2dec1e54fdbad037dd7a09db9d0b601cf5c515e2843f2aa4625e8e588cfca0d1b418bb4e56d7824971a39c525d45797785fdfa4ae6203c7bd36aca76132346559262957ba332ea594eb5b3dd4c581e3a5bce4927ba44594dfe660d3aaa2d62c6f90f466fdad25e2f77849522caf3a1420af32e5bd5105ad0cfab0565eacc16bb32dc2d00d6f89e78ffa2f48ff4837cbc75b1f72a53a8e9039ae97bc5b59adc8655d21babf3a42ee489b5a37a1b9da5528690603c93a2ce5c29693e35f2af607af3bd5f863ff9fb369edad8dd4f58c3b453cc6dbeabfda8ff9d38be9e4d5a43a39aa7fa069e2be64d472bbef3ffafefec113d3fcf598ff393c7a7c70ff80dabf1e1fd8e6af1764eb0f8f1e1f368f1f3d7eb8fae371fdbf0ff87f1fddfbb1f9f0d1bd27effeb8b3faabbcfbe3fd6731bcff6bf5e99d23fbe3bbbf9eacfea2779fd1eab367f7ecbbbf68f53b6dfdeebb18fedefe2baffcbd7b7440b6fd97da7f5dfbaf6fff0dcdbfb67dceb6cfd9f639db3e67c3fe4f7f765847ec786ea74cecba387e0f4e767898ba17cc2866d9c3fbcf9fd41e5aa3cba60b89ff0350ec8cd70dd20000"
+ },
+ {
+  "uniqueId": -161165741610680979,
+  "parts": [
+   {
+    "from": {
+     "latitude": 48.164772,
+     "longitude": 11.586659,
+     "stationGlobalId": "",
+     "place": "Milbertshofen-Am Hart",
+     "name": "Leopoldstraße 100",
+     "plannedDeparture": "2026-10-22T17:36:00+02:00",
+     "transportTypes": [],
+     "isViaStop": false,
+     "surroundingPlanLink": "",
+     "occupancy": "UNKNOWN",
+     "hasZoomData": false,
+     "hasOutOfOrderEscalator": false,
+     "hasOutOfOrderElevator": false
+    },
+    "to": {
+     "latitude": 48.161544,
+     "longitude": 11.586264,
+     "stationGlobalId": "de:09162:500",
+     "stationDivaId": 500,
+     "place": "München",
+     "name": "Münchner Freiheit",
+     "plannedDeparture": "2026-10-22T17:42:00+02:00",
+     "transportTypes": [
+      "UBAHN",
+      "BUS",
+      "TRAM"
+     ],
+     "isViaStop": false,
+     "surroundingPlanLink": "",
+     "occupancy": "UNKNOWN",
+     "hasZoomData": true,
+     "hasOutOfOrderEscalator": false,
+     "hasOutOfOrderElevator": false
+    },
+    "noChangeRequired": false,
+    "line": {
+     "label": "Fussweg",
+     "transportType": "PEDESTRIAN",
+     "destination": "",
+     "trainType": "",
+     "network": "unknown",
+     "divaId": "",
+     "sev": false
+    },
+    "exitLetter": "",
+    "distance": 414.3505734976168,
+    "occupancy": "UNKNOWN",
+    "messages": [],
+    "infos": [],
+    "realTime": false,
+    "isCancelled": false
+   },
+   {
+    "from": {
+     "latitude": 48.161544,
+     "longitude": 11.586264,
+     "stationGlobalId": "de:09162:500",
+     "stationDivaId": 500,
+     "platform": 2,
+     "platformChanged": false,
+     "place": "München",
+     "name": "Münchner Freiheit",
+     "plannedDeparture": "2026-10-22T17:41:00+02:00",
+     "departureDelayInMinutes": 1,
+     "transportTypes": [
+      "UBAHN",
+      "BUS",
+      "TRAM"
+     ],
+     "isViaStop": false,
+     "surroundingPlanLink": "",
+     "occupancy": "UNKNOWN",
+     "hasZoomData": true,
+     "hasOutOfOrderEscalator": false,
+     "hasOutOfOrderElevator": false
+    },
+    "to": {
+     "latitude": 48.137904,
+     "longitude": 11.575197,
+     "stationGlobalId": "de:09162:2",
+     "stationDivaId": 2,
+     "platform": 2,
+     "platformChanged": false,
+     "place": "München",
+     "name": "Marienplatz",
+     "plannedDeparture": "2026-10-22T17:46:00+02:00",
+     "arrivalDelayInMinutes": 1,
+     "transportTypes": [
+      "UBAHN",
+      "BUS",
+      "SBAHN"
+     ],
+     "isViaStop": false,
+     "surroundingPlanLink": "",
+     "occupancy": "UNKNOWN",
+     "hasZoomData": true,
+     "hasOutOfOrderEscalator": true,
+     "hasOutOfOrderElevator": false
+    },
+    "noChangeRequired": false,
+    "line": {
+     "label": "U6",
+     "transportType": "UBAHN",
+     "destination": "Goetheplatz",
+     "trainType": "",
+     "network": "swm",
+     "divaId": "010U6",
+     "sev": false
+    },
+    "interchangePathDistance": 174.01296712545937,
+    "interchangePathDurationInMinutes": 3,
+    "exitLetter": "",
+    "distance": 2756.334738424321,
+    "occupancy": "UNKNOWN",
+    "messages": [],
+    "infos": [],
+    "realTime": true,
+    "isCancelled": false
+   },
+   {
+    "from": {
+     "latitude": 48.13716,
+     "longitude": 11.575287,
+     "stationGlobalId": "de:09162:2",
+     "stationDivaId": 2,
+     "platform": 1,
+     "platformChanged": false,
+     "place": "München",
+     "name": "Marienplatz",
+     "plannedDeparture": "2026-10-22T17:48:00+02:00",
+     "departureDelayInMinutes": 2,
+     "transportTypes": [
+      "UBAHN",
+      "BUS",
+      "SBAHN"
+     ],
+     "isViaStop": false,
+     "surroundingPlanLink": "",
+     "occupancy": "UNKNOWN",
+     "hasZoomData": true,
+     "hasOutOfOrderEscalator": true,
+     "hasOutOfOrderElevator": false
+    },
+    "to": {
+     "latitude": 48.04698,
+     "longitude": 11.698437,
+     "stationGlobalId": "de:09184:2220",
+     "stationDivaId": 2220,
+     "platform": 1,
+     "platformChanged": false,
+     "place": "Hohenbrunn (Obb.)",
+     "name": "Hohenbrunn",
+     "plannedDeparture": "2026-10-22T18:15:00+02:00",
+     "transportTypes": [
+      "BUS",
+      "SBAHN"
+     ],
+     "isViaStop": false,
+     "surroundingPlanLink": "",
+     "occupancy": "UNKNOWN",
+     "hasZoomData": false,
+     "hasOutOfOrderEscalator": false,
+     "hasOutOfOrderElevator": false
+    },
+    "noChangeRequired": false,
+    "line": {
+     "label": "S5",
+     "transportType": "SBAHN",
+     "destination": "Aying",
+     "trainType": "",
+     "network": "ddb",
+     "divaId": "920S5",
+     "sev": false
+    },
+    "changeStatus": "TIGHT",
+    "exitLetter": "",
+    "distance": 16002.192072504668,
+    "occupancy": "UNKNOWN",
+    "messages": [],
+    "infos": [],
+    "realTime": true,
+    "isCancelled": false
+   },
+   {
+    "from": {
+     "latitude": 48.04698,
+     "longitude": 11.698437,
+     "stationGlobalId": "de:09184:2220",
+     "stationDivaId": 2220,
+     "place": "Hohenbrunn (Obb.)",
+     "name": "Hohenbrunn",
+     "plannedDeparture": "2026-10-22T18:15:00+02:00",
+     "transportTypes": [
+      "BUS",
+      "SBAHN"
+     ],
+     "isViaStop": false,
+     "surroundingPlanLink": "",
+     "occupancy": "UNKNOWN",
+     "hasZoomData": false,
+     "hasOutOfOrderEscalator": false,
+     "hasOutOfOrderElevator": false
+    },
+    "to": {
+     "latitude": 48.047856,
+     "longitude": 11.699002,
+     "stationGlobalId": "de:09184:2369",
+     "stationDivaId": 2369,
+     "place": "Hohenbrunn (Obb.)",
+     "name": "Bahnhofstraße",
+     "plannedDeparture": "2026-10-22T18:21:00+02:00",
+     "transportTypes": [
+      "BUS"
+     ],
+     "isViaStop": false,
+     "surroundingPlanLink": "",
+     "occupancy": "UNKNOWN",
+     "hasZoomData": false,
+     "hasOutOfOrderEscalator": false,
+     "hasOutOfOrderElevator": false
+    },
+    "noChangeRequired": false,
+    "line": {
+     "label": "Fussweg",
+     "transportType": "PEDESTRIAN",
+     "destination": "",
+     "trainType": "",
+     "network": "unknown",
+     "divaId": "",
+     "sev": false
+    },
+    "exitLetter": "",
+    "distance": 115.0830003045457,
+    "occupancy": "UNKNOWN",
+    "messages": [],
+    "infos": [],
+    "realTime": false,
+    "isCancelled": false
+   },
+   {
+    "from": {
+     "latitude": 48.047856,
+     "longitude": 11.699002,
+     "stationGlobalId": "de:09184:2369",
+     "stationDivaId": 2369,
+     "place": "Hohenbrunn (Obb.)",
+     "name": "Bahnhofstraße",
+     "plannedDeparture": "2026-10-22T18:22:00+02:00",
+     "transportTypes": [
+      "BUS"
+     ],
+     "isViaStop": false,
+     "surroundingPlanLink": "",
+     "occupancy": "UNKNOWN",
+     "hasZoomData": false,
+     "hasOutOfOrderEscalator": false,
+     "hasOutOfOrderElevator": false
+    },
+    "to": {
+     "latitude": 48.043212,
+     "longitude": 11.654428,
+     "stationGlobalId": "de:09184:2207",
+     "stationDivaId": 2207,
+     "place": "Taufkirchen (b München)",
+     "name": "Hugo-Junkers-Straße",
+     "plannedDeparture": "2026-10-22T18:28:00+02:00",
+     "transportTypes": [
+      "BUS"
+     ],
+     "isViaStop": false,
+     "surroundingPlanLink": "",
+     "occupancy": "UNKNOWN",
+     "hasZoomData": false,
+     "hasOutOfOrderEscalator": false,
+     "hasOutOfOrderElevator": false
+    },
+    "noChangeRequired": false,
+    "line": {
+     "label": "X203",
+     "transportType": "BUS",
+     "destination": "Furth (S)",
+     "trainType": "",
+     "network": "mvv",
+     "divaId": "20203",
+     "sev": false
+    },
+    "changeStatus": "TIGHT",
+    "exitLetter": "",
+    "distance": 3503.7067250181617,
+    "occupancy": "UNKNOWN",
+    "messages": [],
+    "infos": [],
+    "realTime": false,
+    "isCancelled": false
+   },
+   {
+    "from": {
+     "latitude": 48.043212,
+     "longitude": 11.654428,
+     "stationGlobalId": "de:09184:2207",
+     "stationDivaId": 2207,
+     "place": "Taufkirchen (b München)",
+     "name": "Hugo-Junkers-Straße",
+     "plannedDeparture": "2026-10-22T18:28:00+02:00",
+     "transportTypes": [
+      "BUS"
+     ],
+     "isViaStop": false,
+     "surroundingPlanLink": "",
+     "occupancy": "UNKNOWN",
+     "hasZoomData": false,
+     "hasOutOfOrderEscalator": false,
+     "hasOutOfOrderElevator": false
+    },
+    "to": {
+     "latitude": 48.04552,
+     "longitude": 11.653108,
+     "stationGlobalId": "",
+     "place": "Bergham",
+     "name": "Willy-Messerschmitt-Straße 1",
+     "plannedDeparture": "2026-10-22T18:35:00+02:00",
+     "transportTypes": [],
+     "isViaStop": false,
+     "surroundingPlanLink": "",
+     "occupancy": "UNKNOWN",
+     "hasZoomData": false,
+     "hasOutOfOrderEscalator": false,
+     "hasOutOfOrderElevator": false
+    },
+    "noChangeRequired": false,
+    "line": {
+     "label": "Fussweg",
+     "transportType": "PEDESTRIAN",
+     "destination": "",
+     "trainType": "",
+     "network": "unknown",
+     "divaId": "",
+     "sev": false
+    },
+    "exitLetter": "",
+    "distance": 298.06744025307563,
+    "occupancy": "UNKNOWN",
+    "messages": [],
+    "infos": [],
+    "realTime": false,
+    "isCancelled": false
+   }
+  ],
+  "distance": 23089.734550002384,
+  "bannerHash": "",
+  "refreshId": "1f8b08000000000000ffed5ddb721b4792fd150ee76526d6d4d6fd82374aa2648dac4b9094bdb11b0e0748b648ac49800b80b26587bf655ff61bf669defc637bb2ab41e292d9409396ac65301c21c2dd753aeb929995599595f5ebf6657f3c9d6cf7fee3d7edf7e3d1c576efd7edf3fe7430bd3aa9b67b2e3dd2c1c568beda3e1f0d4f9ba75a3ff229049fbfda9e4c5176347c7e3e3aea9fbf38d9ee6d6fd3c3d1e5dbd160385d7c7c89efbe1f8d2f5e0cdf8f88cc49f5be3f79db3c7cddbfa84ab1d9e3e1b03a597efb5bfd9563fafd6a707e54a1e667a3f7d57067f762eb6bb403f06129fa4d35ba1c9d9f4ca6e3feefff5d6d69a5f0ae7f7232ae2693ebea1089a71575c0d598404699b0a3d58e31873af6acef59f52fcaf46aec72f1c3d1e15975501d8f86276b90d5643ab8e84f5b4905145d26b53b1e0f3ef4cfd77cfdb83f3caececf2bd4e27dff7c527db58d260f2797a3f1f4f0e3654523fbfd57dba3e3e3ab4b94fc88afbd7bfdf2f59bef5e037bd69fec1e1fa347064783f3c1f4631999e63378f9e66afae6fd9bf14935de9b1cf73116a3b1f0fabcfab0f07630f976d03f001f5c3f39aafae8aba63ae3aa7f8e4ea9366be2acf466fd071e998e1836d6de39868d4d701c1b9f543d9575303d5f578163e9f9223d8f3f6643267f7e5e0d265ba69dd76785e659fef77f0e8fcfaae10d979727c36abcf56c5c0dceaac1b433973bcd70b9342e6d85db046211772d102219332f0ef792c3179bb89ec3e77b102c014eacc617d5c900dd489568a80e474fcefac3d36abffaafabc178aec7ce07c3aac8c451755e386378ad71a143c7d31b057c391e9d5c1dcf1e3cbb9a4c7eaa4ea9d8c78ba35103c6080c86d4fb339d8d211dd63274fdfe6684f0e8edded3bd83c3fd17bb3428c36afad368fce3c2409da0bac70d7efee987fe6cfa184cde5e1d9d0f8e0f679f6e1a4702d29f9ed533183373391552cefcfca5938ac9fef615030cc1696ff8794fe91c030b4bda5997828d0ccea768b5f7015391e6b0a868d62891389ac61a7c3c1a0e685dc8d967653960483ad86c030734505fc967af39600ada2ae374ce99c3a2252628a3b9968618b58b2af1406dad8e9953c56d2362b38fde1a65f9a11487c45aea20932d37943e0793534443d921b12629e7a3623b682dd6831d72b02ae7c0c0a3312a98e4d93a1baf5c8e31daccf6538c20ae63e4a0da381a3bc35519fca75c508a6306abc0f42ea7c0b11f5e286df06dbead2647879e088a6386b6869aac5d061f456e50a3530a053cc74526e9ac92318e052aa772f08eeb1f03eec290c5ccf64ffd86857970acf236b1dce7b4d1cec5c402d10ea3bde67800038d4ec5687340748cd76822f88b9515ed4ccdf61c5643e3a18b588de0610779652d575b4021bc29668e0920b5091a2372b525f5851ecfd6731616341edae938d6c17fd05e50165c558d4213724e6c55a1f022f540678a2e3b7023c480ef580dbecb186ac5f3ba7629a1906755bcb121a3526c752db83c29cdf5ac7150c2a4de7efbbe99d98feb59fc6d99d6be2f13dcd36a723c1e5c9639b2f1d6a8c493d1687cf2e2e4e7ed9e22cb77f111b179f581a67c45b55ac56806a3d682384a662dcaaca2cc5a5a86a165c25a546050712d2a32a8bc1695d7a09a017c3b3aff58ecb0da9c591ce7c597d5cf83e937d514251afb6a000f65484e80d3ee9105d7478b1902e293e84bef4787d5cfd35643f8023670ffb47a71d2942250f313fec280b80a6ecd901c90c68ca3572757e3faff5e0c5f0d865753b2b543b1560f07641d36d62567a10f2e9f8c88c515596e4f560a0c26cf46a3e94f7dd4723abeaa663dfbe0b7ddc96fdb68754270c65a48990eab138b5fbf9fbe9beeb63a31df7fc2ea848d99998da28759dbcae5661d8f9b4e1cfe6ee771ff6cb8b511a32f956de7f7fe78500da906bf7467f4d06581a2a570ab4c846e0b14f1fe2f50c48e0b1461ed02c5836a7f50ed5f3ad7df49b52f33b80f9e5b77b0d98556064f6bf93b81bdf59fc1decf0793eabcdf6cab74e76cd3b3e1769cbd80dc84b36d4fad906a598dd5e936d3c6026e93756d97eeb9002d347103019a1b26468094e2f61ed53a018a6b0528fe5902f46e38f8508d2783e9efff738b99c1314cbd99fc2c2037911fc788aa38ea562edc5a2bcb4ab54866a111f7537e169ab881fccc0dd3aafc38ebf4aafcc4986dbb5b11d6ca4fe8263fefecbf860ddd8af992ad92f4e6a442b7ded2a9f0b79e887cd78928749988bc5c784dad38f16e2163efbb202d347123ffa565227af0cf1ffcf32f8cbfefe29f6f122a50b356cdac939f2e7a4aab77a1f7bcf7357e05105c0d2468f8ed5d588a28a81f2cc61494a2f3210575a1d6a082e7a36a7a56cd587439bee0dde3ddaf17430b0ebe7bb51456f0eccdfe77bbfb4fe7c30aea56f1b10565555a0c2dd0de26da494aec02463439279b02bf79ae5590b15a9944586e1b52059f9300f4b4b924007dd4aadef782ebc9ed463b9dad96b0c13bed6ba2ec8699cdc67bc232bb741edda0b5506163bcaa8191ed25af6dc841c0a2f7759088c2677052f7aa6c6290893a34540b58cc002a6981a8735e692300d17356061a9d84318dc964a35b6a6b53f67517ad6e8246f4915312519885ba268ace5ae507d887decee87270831679816e8c3470025d634151023adaec971bab299847c2d296bf40d4e608a800a4e89748c0cc6ef75275cbb07258171a26642b4c2683b512d6d03ba2cbeff9ae7e2c516c0644dc71128cef91905a6f9808211b5151e543d0ab410f113288f645abf9401f60bd57b429ce62734cc12a2e1205408737f455bec2608618c1f55caf478b61a1c89ad5708be82d740e6aa5d8dada00bd01251a141318103dba1d75e276e86d345e1beb63e02aebd079d158c704b100e8d0fb2a45c3d374d0be2973811a801a54461b26ac0438978c0acab29dab20a101ea21723a197d94bc3536836114cb10e804b06d705c7d6d0c16cdd14c9c0780c15b388fabd11ac0590c29d849098ca48db7a439560327c0480e95759a1d176db5b51163c7e18ccfe041ef586046cf06483e17451589abb3552e38a9be01948de1f432cc7e0a728b9e533711ead59a08c5cc89690ae820fccb034399680511875abe563777090a591b73c18577ac8f24e142496e1514a2d7066a6826506301d53de462e9e5d3d5c807db16974103fec85a68d2e48cb3147ff779e332fc7c5c0619af9cdf43aee8010cfe0a2fc8f08785fd6c34fea63addafdec3e53b23bb9fcab46ea62d2e95d4f45a77516a47e21b74b4e84cd4250eaf4346741db93698bcfaf0a1a9e4b5394e7125f56782d53f8092d13da37e78feecf99bedf9a093d9175ae34e9ae86129f08434002bc177f6f8d13d496fe8f1eb76275f7f42bf3e315b839b2d912d20375822f3aacb2e64baffbe7deae6dbcff71f1f6082796e35a8138f5cdb4270723d634cfb527053a616c44fc1d35f8fc0d047e3abe170eb6f6f8e8efe7ec3db376f3ab276ea69bf31bfb51796a56019b766c96ab9f83d64ebe526ae63ebc5f21b86943c28ed07a5fdff5269af30b233ccce5db264d7b430b25dc7c8b6e7d4e762e41713341d1ddc9989f3ad9938776562dd8589b97a6db279c1d74a22b358a77b292b8b4ddc4056749bac986c56957eae3df7165171eb44c57d4651d91f4daae159854e186fbdbd95e667397923a159446e2234b683d0b44d13adb552dd84c6de7fa1b11d85c6b60a0daca2158740794deb6c6db1b7eba4c653504f721b4a8d6b971ab7260264323dea9f0dcf46efbb8b0b9771613371095dc585b3c9c44176b71417d74d5cc2fd1797d0515c529bb8e8c444f2669f54fb24a3f5fa58752af319dd8b83e9a31db818d3c170e7e09661bc2c476f263cddbc0c94ee62a0b549da2d6a25f9b14add73e1596ee27a575db51a685a65e65c790ed6b57b331ac8f5d2a3556da8d90da5c7b64b8f5d17ff5e4d06c3d3ce4b4e8a338336109965e42622d3e54c87bfa54fe3bbf834cb75ba9f22d329a3cb62f9159151d9dad5f55aab6d6c5fc8c254b25e625433df6c1a75b826d0704d6ce1db6a8c7767dd25e69616da32721389d93cfd160adf723d58755b0f56f77f3d58755c0f56a14d62524aabdbe6c195cdf45691d960924119da02fd4c93ccebeaeab248cdd6c1efff3ce92e3ab7b4cf96919b88cee6ce0d4ac65b8a4eec263af73dfa77b9891b884e9b73a3a20f7655748272b1c5bba977fed6cc364d997a77f053cc361094a3c151353e5d909deb471d77056fb982b68cdc406a5852e2b6d9ad56d09671eb3720efbf57a33b7a35bacdab51c1aee66a0b31ad919835934d53e693eda7bf994e47b34df3d92adadca38e12c32d046f2631b6abc46cbee6dc5ef816b5da8cccfd94984e6bce8be55725e62108e52108e54fe7e8bb04a1743b37757272d4cb461df8de6eefebde7f1afedcd44139377550efaccc9d9baa1f2c9e9b3a583937b5bde6d4d4eec7b258b57c5eea60e5bcd4d3a78fb7d79e97aa5bb37d8bf35236ea18725b707336a19c87e0a2cead4ae2018e148d040c29992c00830be590160b84a6120fb8500e57f99c8a0d266ae9d847a20323d239151fb335cda11c26ab212524940ed6581f5473c6853da4a58251d2212d4bf92085c626ad42b422d0d6874778a0a3f49e04e40fd6784d5d2f60438c6d581743d202d6d02939a9c2ce682db5d4d66709e461b52e24f9c854723a9a281ca1b35627912e7dd6378705b93a9b1cb3d458af55b6125154270a7c98bc37e229436b9c4bd2d0049b4af7b240345410374a3e5b8ea371409d95168e854161d0128e7898d242af88cd04d8aa36ac2726e5b11928b18b346a2c5518facd1809a8e8f4a1c8455911f3ca15368415180956502ce7e7022b3550b0e06f016b928d6d58d4c7099d9c2d54a5abb10c30182b12a504c75e02fa1c82044cd628912294acb2a216cd246c350333c79b8c279acd24b5aa4573363165192bf270ced16999289d3963813418a80801f9434a844dfcd14660e9489b4c94a64d01e851dd96661a918181a5e4bb32d6287e4cd177da95f98207a2be85e8ca3144409d7172ef4623f62eb4728a223079c176400f9868648ad946fe9c2a80e835250183b2c2740a60a47712507b9724960736e716a2c66a5ed9a33a74e85604ba1cf87909c04007fa2420389a171442292ff22c8c44c1b0a2b8a5606782c2cca2b7271ae8d09d045441e69f10a2974413d58c4904fa60e58eb546660367043b0e4098037255c11d124543f716c840c89ec8ea5acb020d252d52d4cd317b41590af309ea1253512182b27498a79ce482407565e3c441714e3acb5d94b4382dd029ef1951763a0a5ec49aec8370703d2743a750853990667ac1aec9e8f962fab1403a612f01eb03c70210f69013e7794c452245ed6d8bd3434640ab61029b5e492d852065d1bec07c6345a00be5703e07545008221016a568984036b590ac0116a32ff90b58609dcf5f00d609ed7920d8d25b91a2d6c58be53b5663b8e38c6f19532860a20f6d70e78de04364d246123f808f629bbc78bae643c2d29d11f5d03096359c81a09a0a3347e229bccfd69dcc660ec8a4ca255ea23932d9366c331bb25830a996ea4c894e5a3a3942513a09eb5cf14739a2c1dbb25ac00121e3aa852805a188448d776d15c6082899aef69208506a8bc24e1c5067a344a06b8c6b1648b76c4840d3ac39056e4125539cb4a40ce155360947446cf22dace852e3fab0758ea66d741ca558917b388b7c6833990102d02adb46d4baa044b99be5bee18852fe0a717488aa08743007256034c5d96281647f8b2aa25983e48050c1c1b58c6976b24e5368a6178806eb83c8840a36a693154bf08d1fec598347c34373926e8175da26e6e0fd9425318fb013a48e82fa8e51224a4bc0d2982aba27a7a5b1312b23499c8299a425a23026755b4b21c8e2ac91a2bc5aa03cad3348c09c447f4d511e2e49d6604715d7803762e122da28890c2525299633df52eb5c630f706bf0195c9a5a161ba0036292d8183360316078ff0beac126a9933389acd45760342fcead74894fb6b9a5ce30dc9d929a4cfad779c9d780d93523cd005da3123920e64861d201302623b9c68a26475eadd59e5610292ae7af2d9015ed042caa23f4b0a2552dc3ab44687567ace09e5048b7cfa24a24ef585cb200169eb3d45287195068a922dbdcf34c488ebc6e0685e37f60e104f372477ad658c1cf0510339534a034f709ab078adc0f71405d744ae03d45074b745bdf6671b50c58ea5c81284c13270e28eccd2431bc87f295299293d0d496c35a781b3256b749285d2a263203f98e6285033996a41938a0f15a1a501f639281bace3e2ed616fce945ac6ad6fe1920dd6756b39fe5f41828d232bbac06e9a6cb24d1a5cbfb2491099e1c1009988c3095079a71930cc44745e339a8a86c5982901a0b29e5270b604db393c9d20d92211ac8bc707217f9665f8503c65044860736eb8a0c30a9664b506a262d5a4a584bee3711e55519258713b1311571632bec68cfbc3030c348f0b38aaf2ad519d22ad0855de3cb3a334bd7649d4406a6bde4c2c0ab19f608eb8c20adda455ae72020df51f4426645e39529ea65d5110316f64e0b96ac0f2d639d97db8be6d8162c8447f41f83817d5d5c06b6bdc10ad66ca8b376ca40daec178030bdcbe62d0fd422c56b939205c2d2d5a22e45ffe8a2c0d90b73096e8a92594928585f669a65ba94698fafb0ad531c8a40938a3fc55034c196f4bb3cb0d9f88a1c33d015b55a264a774d0a446104142dc1e26ca344d9de75e87a2f41552c862f43d293e14238f67e4cc29ab27bc1930da6813350daa772722fc1ee53528de15e945d1aa6c6e8d994245c0a496a6984eb105a5a6a92d12d1d1ca32a863e078dcdae38dfd24477ed4ad0d0080d5363f271dbc68612704a1243debe38302e9ad998aeea230bc55e960338a86db65f199274fe531c184ac52a772ef9d7626d693f9827e9c8a8d62d3d44ebd6a121bb3a300e6aa5b8431c343a491d39ad926925eb69b3476aada3554cd284919b9161d0975014862e8d1ae9edc86628561933639007d619d8d059a2abc8d2157998a6fb7a6382c73a536c7e1e0be6afbb2bb249996969aad908e6b2df024e713f72ab314826b6c09d2d533357737c391a4161d04a5d1d31c403f156905b07ffc84b7d952864509020987264dc08c090c927e08151955547164801781247910921b162c2446584a90a828e79ac1e140e08f6973a0732a98c048435eae4d906c65db24ec04620ca4a4264824a7c3d5c1234d18a375f5fbaefbb365b98a4d814a2999d304f791825f53a250f8459220ca6a7c4e9324572a62420dd0324024dce123029532f8bb2408a6714f42f5d6f40571808c0108cc0e9644ad7fb7e3c7096559e01c2305062e7c061f702c3522d9dd8465af89286035ca3c45ef5c158417fc0b0f2f5f22d0f242b51545ae4f4d5abe3910d1c84f33bdb9f67e86aaf648e8565ea854181f714a33828b6bef19c075a8ac0a86bcb0129744602428fd60a8fddf100562b89f7308d9a7adb2db2fb00f0d529fa5a9c9430adc43a749bad33fca31c443d1412ccf42860036ca424f5701dfcd0b497514421d156188fa50ceff58a5d6497c655a0c8af5aff3187d8d057b59d246129a57d94b029d6d1139159b183ffd0444545aea3483fd68bdc915f7e08daa8b24bbf4a3769572ebc88ccf2838f64e70b40b4a6369b23b3f6e0a371656a4a1c5740ea747d8aa0d6960c1c4d2ae10c0cdd98ca2d1b22d6366bc00c36b9586636aece41dbb2bf94385d01264dba1e207ec90493a2ce525fa56c0b43727449b9491586bbd410e580d658819dc84235624b5df45a89a303c3a12c0eb158889d15f83fd3ba675d5b66798692ff17eb95015a1d6a2795077ad7322ed90655848ec53a5fac15099b53c1f263aa6db3d6c8d5397925361622aba4c6ba3a72b91065b0c40ad2b052404dc80251da1f2d9640e2f613d0fd49ac302c545f4e2f304449e6820484a07aa9b6b10e9891805e0789624cb15e3c8eecf52af581482dab979c5c89c0055df69a18f61688ee771fc8d71ad0452ae61145d844e3515d4ae3347fafc1f63783e1a0da3af0bdad67fdb3f1b87f7231980efb6717d5d651753aae86bf4cb72e7effdfd3f3419d01e6a6f4e36ab08238b8acc6e35faac1b41a6ed199beb3699d14e30674580dce27d37175fc63b535bc1a6f99472fcf1f6d7ffabb15cc27bc5c6121b3f406572b2ce4db58bc5a813b6fb874b582a1a3b66b6e5680b1bd93e8e25d4f7f684b6f47639eab094e97bf74871b161e8e032f9c33bd75ba23dd35dd114b4a3c2f7bdf33452e37718323c10b7988f8eb1660dc31335786366de76d4ce46b791b657a25d5f7269cddced89bf1f5e39265f576d7be27486307866b2bdc26068bb8b547dd178bdf4bbe5e6ce27abe9e2fbfd97d0b5f940aff2318fd0b50e00ffaf86efaf841157f61aaf85ef2e89d74eb2669445613852ce50759c90ef2ec6a32f9a93aed921e84c90c72d3f737b9416e9ecde707997fdae407e15383346e80901b84e69066df889d4a4c94165448b2bdb48493722e2b64cc720845cb896b3f5995a8faa89a7b16ff0cb75bfb478a429a94558e6e10fddcb709867987b7e14c4e8e67dea0bab32ff8a0a5d729de8d6c09c10afe2413c283625f359a5967d0327739053aa1b72e59a08aebad644a05dafbe36de4c3fed5fb1f07634a4cbbf5b7a3ad5992da795bf9ea74b4f38fabe18fd57872cbab04d07d5df2c7b6156e158a6ef9fd178bdf4f2eef7459d962f94d5dc3078dfe0934fa8382be9b827ed0cd5fb46ebe9f1c7b1765db2de5e4c5870f3d7c4cd9de566fbf3711524eeefd7c496cf0f86ab2f56f28bbe458368f169dcb1bc8bc7fd9146df5319f5d8da7675b7f3bf83be36c3e7e77b0e068befaf6db2527f3f1ee9397cb5928eb06f2ae666b16cadaef53d2566d5694a2921c46760b9d920e8659e80ab3031f7339762eecc0036ebd967689298f89e8e43a75bdf3cf6c11bb10958cb5368aa10ac98a310e2e9a548e0ab3310e36895bf751e7d8b2750fb5589f9317b05109f123591b5b62a099500e006761204c0c480c518a5801d078018826fa12abc80355926264b257498a3a71514523706042972729d48542769510c1912827a9dc39aa8996e68046f9208720b992ba47089bca2a47398cc85160db4c5e98c8291f939302822827a613d82f515ca1382e14da6404a00b41eea53a5b9704a4d48a4264990b366831244dc72885a4b9a0536a0985cbb1645e15b04a8cbfcbcd91781ea8749680c91a2336b3ce192a00031d5d1222fee8b8a117841ac368ea0c903c104d11f8367ae38aeee24f7a13560af7a368e93558232d2a46e79a01652bec639643b428a6b284e8b2581bbdc0f0d14063c8440db4a628659858620bd13a010e4f14afb44c546929d08fa61b935abad7518e261e4b2716cad10b264e1616796899592865708982e7b03637695f18a294094b06c626631103f4410529221840e3e4593b50c4a317b1c14b0198015d9f65207ab6b63132133a6dbd18bfecac36e51c5c62e3978da7d32d14e8cd07fa4131f816b89ec5fa459e254c3245b7647664eb83444298b923f6774293159496149f4ec0722099afb332c9fbb63a83ee0cce8c2f25236ca97373fc8fabb3ca413a3d00602c56190bb4e5c0150b4cb1e8b45520584d1be94c86b33617039203c6928c9207461fe4c046ca78a7c4a171ca48b33f65b13262c73a285ec15c41eb956ae3619bb51226384a422d8f26e63ec914f4c9c847732074418aeff6ceb932a5a63f6907cac2da7c1455a0b04f9d50d32f740bea1641972beb87eba22e97d79c16a32e39977b29eab26ce0b5465d7ef3e2f50f1e1ff9e1d9fee1ebfd1fa02252feeb5f769f3efdcb5fe114ef1ceced7fbbb7ffd78508cce6ab77da757b58fdeab6fab5d98a6dd74bf4eeb0d0f6b060b6ba3bc1eec179e6ba7b6fe147718c2ef0f61fceca8fabf1e959ffe28673bf1b9c9f7fdc79853101eb1e9f5d0ca6d319036fe9ce2c6cbb5c31d456b88ddb6db72b86ecfdbf62c876bc6268bebcb0b9f625470cbddd7bba7770b8ff62f7b3060d5943578ac0e351ac81095b506b1be0f4b07e92d2866e4eb08c4a803b9028bf92e297c4acf1de5aed9993bfb095eb736eaccf0c1b30269b126520658eaa5b58f694abc8b1d7cf501a505ac58451c8610d9dfef54e71ae9da755e7ace1f7314078f89eae97119c9c56ac2ea7997d0703b5982154e2c968343e7971f2731d39341dad3c8244122fab99e9b216a3d761f42a26cc61fe48db1916ff23458b45ca785b5faefab96de7f887876fd5f62a884d07c73f56d007a70bd5f875fb97d1b0d6d6ea2b4db53d47b790cef850fd7bf3024faf8683f783eae4b0fe4469e436251940cbf75ebcdedb79a5cbaf97f87370f872676fc736bf5eeee8f2eb9dd1f5c3c39707a5f8e1cbe7b31f2feb7f9fe1df174fbe2b0f5f3c7975fd6377f62b5fffb87916fccdafd9d3dd43fdddf5af57b35fe6fa99993d7bfb445fff32b3ef34f5dbb3c1ffa3f9fb0a7f1f1feed401edf4d7347f6df3d7357f7df9ab9b72ba29a79b72ba29a7fdf6f7bf2df01d65037904ade8e99a116313ad428279afc053e0b3e77bfbaf6a1dcd308ccf1bba12ff076c116a8230ca0000"
+ }
+]
