@@ -33,7 +33,7 @@ After that, **your TUMonline calendar wins**: its times, rooms and cancellations
 
 **Squad:** share your schedule as a link. Friends who open it can add you, and you them. You'll see shared groups, their initials on shared classes, and when you're all free together. Links contain only your name, groups and skipped classes.
 
-**Also:** a command palette (**Ctrl/⌘ K**), shortcuts (**1–4** switch views, **← →** change week, **T** jumps to this week, **,** opens settings), dark mode, an installable app that works offline, and "leave in 10 min" notifications.
+**Also:** a command palette (**Ctrl/⌘ K**), shortcuts (**1–4** switch views, **← →** change week, **T** jumps to this week, **,** opens settings), dark mode, four styles to pick from in Settings (Flight Deck, Olympia '72, Orbit, Daylight), an installable app that works offline, and "leave in 10 min" notifications.
 
 ---
 

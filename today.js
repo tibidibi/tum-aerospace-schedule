@@ -84,6 +84,7 @@ function renderToday() {
   const now = munichNow();
   const focus = focusDay(now);
   renderTodayHead(now, focus);
+  renderTodayHero(now, focus);
   renderTodayAlerts(focus);
   renderTodayNext(now, focus);
   renderTimeline(now, focus);
@@ -114,6 +115,76 @@ function renderTodayHead(now, focus) {
       <span>${Math.max(0, total - done)} days of lectures left${nextExam ? ` · <strong>${escapeHtml(nextExam.title)}</strong> in ${daysBetween(now.date, nextExam.date)} d` : ''}</span>
     </div>
     ${focus && !focus.isToday ? `<p class="today-focus-note">No more classes today. Showing <strong>${formatDateLong(focus.date)}</strong>.</p>` : ''}`;
+}
+
+// Where you are in the day, as a sentence (Daylight) and as an orbit dial (Orbit).
+// Both are always rendered; the active style's CSS decides which one shows, if any.
+function renderTodayHero(now, focus) {
+  const el = document.getElementById('todayHero');
+  if (!el) return;
+  el.hidden = !focus;
+  if (!focus) { el.innerHTML = ''; return; }
+  const current = focus.isToday ? focus.live.find(c => c.startMin <= now.minutes && c.endMin > now.minutes) : null;
+  const next = focus.live.find(c => !focus.isToday || c.startMin > now.minutes);
+  const name = c => escapeHtml(courseOf(c).shortName);
+  const room = c => escapeHtml(c.room.split('(')[0].trim());
+  const where = (a, b) => (a && a.room === b.room ? 'same room' : `in ${room(b)}`);
+
+  let line;
+  if (current) {
+    line = `You're in <em>${name(current)}</em> for another ${fmtDuration(current.endMin - now.minutes)}.`
+      + (next ? ` <span class="hero-then">Then ${name(next)} at ${next.startTime}, ${where(current, next)}.</span>`
+        : ' <span class="hero-then">That\'s the last one today.</span>');
+  } else if (focus.isToday) {
+    line = `Next up: <em>${name(next)}</em> in ${fmtDuration(next.startMin - now.minutes)}. <span class="hero-then">${next.startTime} ${where(null, next)}.</span>`;
+  } else {
+    line = `No more classes today. <span class="hero-then">Next: <em>${name(next)}</em>, ${formatDateLong(focus.date).split(' ')[0]} at ${next.startTime}.</span>`;
+  }
+
+  // Dial: the day's span mapped onto a 300° arc, starting bottom-left
+  const first = Math.min(480, focus.sessions[0].startMin);
+  const last = Math.max(1140, focus.sessions[focus.sessions.length - 1].endMin);
+  const span = last - first;
+  const ang = m => (-150 + (m - first) / span * 300) * Math.PI / 180;
+  const pt = (m, r) => [(Math.sin(ang(m)) * r).toFixed(1), (-Math.cos(ang(m)) * r).toFixed(1)];
+  const arc = (a, b, r) => {
+    const [x1, y1] = pt(a, r), [x2, y2] = pt(b, r);
+    return `M${x1} ${y1} A${r} ${r} 0 ${(b - a) / span * 300 > 180 ? 1 : 0} 1 ${x2} ${y2}`;
+  };
+  const ticks = [];
+  for (let h = Math.ceil(first / 60); h <= Math.floor(last / 60); h++) {
+    const [x1, y1] = pt(h * 60, 158), [x2, y2] = pt(h * 60, 164), [tx, ty] = pt(h * 60, 178);
+    ticks.push(`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" class="dial-tick"/><text x="${tx}" y="${Number(ty) + 4}" class="dial-hour">${String(h).padStart(2, '0')}</text>`);
+  }
+  const arcs = focus.sessions.map(c => {
+    const past = focus.isToday && c.endMin <= now.minutes;
+    const cls = `dial-class${past ? ' is-past' : ''}${!attending(c) ? ' is-off' : ''}${c === current ? ' is-now' : ''}`;
+    return `<path d="${arc(c.startMin + 2, c.endMin - 2, 140)}" class="${cls}" style="stroke:var(--c-${c.courseId}-border, ${courseOf(c).color})"><title>${name(c)} ${c.startTime}–${c.endTime}</title></path>`;
+  }).join('');
+  const nowMin = Math.max(first, Math.min(last, now.minutes));
+  const craft = focus.isToday && now.minutes >= first && now.minutes <= last ? (() => {
+    const [sx, sy] = pt(nowMin, 140), [lx, ly] = pt(nowMin, 110);
+    return `<path d="${arc(first, nowMin, 120)}" class="dial-trail"/>
+      <circle cx="${sx}" cy="${sy}" r="13" class="dial-halo"/><circle cx="${sx}" cy="${sy}" r="5.5" class="dial-craft"/>
+      <text x="${lx}" y="${Number(ly) + 4}" class="dial-now">${hhmm(new Date())}</text>`;
+  })() : '';
+  const center = current
+    ? `<span class="dial-eyebrow">${name(current)} ends in</span><span class="dial-big">${current.endMin - now.minutes}<small> min</small></span>`
+    : next && focus.isToday
+      ? `<span class="dial-eyebrow">${name(next)} starts in</span><span class="dial-big">${fmtDuration(next.startMin - now.minutes).replace(/ (h|min)/g, '<small> $1</small>')}</span>`
+      : `<span class="dial-eyebrow">${formatDateLong(focus.date).split(' ')[0]}</span><span class="dial-big">${next.startTime}</span>`;
+  const after = current && next ? `<span class="dial-sub">Next · ${name(next)} ${next.startTime}, ${where(current, next)}</span>` : next && !current ? `<span class="dial-sub">${room(next)}</span>` : '';
+
+  el.innerHTML = `
+    <p class="hero-line">${line}</p>
+    <div class="dial">
+      <svg viewBox="-200 -200 400 400" role="img" aria-label="Today's classes on a dial from ${String(Math.floor(first / 60)).padStart(2, '0')}:00 to ${String(Math.floor(last / 60)).padStart(2, '0')}:00">
+        <path d="${arc(first, last, 140)}" class="dial-track"/>
+        <path d="${arc(first, last, 170)}" class="dial-ring"/>
+        ${ticks.join('')}${arcs}${craft}
+      </svg>
+      <div class="dial-center">${center}${after}</div>
+    </div>`;
 }
 
 function renderTodayAlerts(focus) {
@@ -210,9 +281,10 @@ function renderTimeline(now, focus) {
     <h2 class="card-heading">${focus.isToday ? 'Today' : formatDateLong(focus.date).split(' ')[0]}'s classes</h2>
     <ol class="timeline">${focus.sessions.map(c => {
       const past = focus.isToday && c.endMin <= now.minutes;
+      const live = focus.isToday && c.startMin <= now.minutes && !past;
       const key = `${focus.date}|${c.id}`;
       const mark = STATE.attendance[key];
-      return `<li class="${past ? 'is-past' : ''} ${STATE.skippedClasses.has(c.id) ? 'is-skipped' : ''}">
+      return `<li class="${past ? 'is-past' : ''} ${live ? 'is-now' : ''} ${STATE.skippedClasses.has(c.id) ? 'is-skipped' : ''}">
         ${stripHtml(c)}
         ${past && !c.cancelled ? `<span class="attend" role="group" aria-label="Did you go?">
           <button type="button" class="${mark === 'went' ? 'on' : ''}" data-attend="${key}" data-value="went">Went</button>

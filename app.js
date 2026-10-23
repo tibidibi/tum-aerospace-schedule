@@ -1443,9 +1443,60 @@ function setTheme(theme, save = true) {
 }
 
 function toggleTheme() {
+  if (currentStyle().darkOnly) return;
   const current = document.documentElement.getAttribute('data-theme') || 'light';
   const next = current === 'dark' ? 'light' : 'dark';
   setTheme(next, true);
+}
+
+// App style (look and feel), on top of light / dark. Each style's CSS is in themes/,
+// scoped to html[data-style]; its fonts load only once it is picked. The same list and key
+// are read by the inline script in index.html's <head>, so the page never flashes the old style.
+const STYLE_KEY = 'tum_calendar_style';
+const APP_STYLES = {
+  flightdeck: { name: 'Flight Deck', blurb: 'Instrument panel, flight strips', fonts: null },
+  olympia: { name: "Olympia '72", blurb: 'Munich pastels, colour bands', fonts: 'family=Hanken+Grotesk:wght@300;400;500;600;700;800' },
+  orbit: { name: 'Orbit', blurb: 'Night sky, your day as an orbit', darkOnly: true, fonts: 'family=Syne:wght@500;600;700;800&family=Manrope:wght@400;500;600;700' },
+  daylight: { name: 'Daylight', blurb: 'Calm and airy, phone first', fonts: 'family=Onest:wght@400;500;600;700;800' }
+};
+
+function currentStyle() {
+  return APP_STYLES[document.documentElement.getAttribute('data-style')] || APP_STYLES.flightdeck;
+}
+
+function getPreferredStyle() {
+  try {
+    const saved = localStorage.getItem(STYLE_KEY);
+    if (APP_STYLES[saved]) return saved;
+  } catch (e) {}
+  return 'flightdeck';
+}
+
+function loadStyleFonts(id) {
+  const fonts = APP_STYLES[id]?.fonts;
+  if (!fonts || document.querySelector(`link[data-style-fonts="${id}"]`)) return;
+  const link = document.createElement('link');
+  link.rel = 'stylesheet';
+  link.href = `https://fonts.googleapis.com/css2?${fonts}&display=swap`;
+  link.dataset.styleFonts = id;
+  document.head.appendChild(link);
+}
+
+function setStyle(id, save = true) {
+  if (!APP_STYLES[id]) id = 'flightdeck';
+  loadStyleFonts(id);
+  document.documentElement.setAttribute('data-style', id);
+  // A dark-only style overrides light mode without forgetting it
+  setTheme(APP_STYLES[id].darkOnly ? 'dark' : getPreferredTheme(), false);
+  const themeBtn = document.getElementById('themeToggleBtn');
+  if (themeBtn) themeBtn.hidden = !!APP_STYLES[id].darkOnly;
+  const meta = document.querySelectorAll('meta[name="theme-color"]');
+  const chrome = getComputedStyle(document.documentElement).getPropertyValue('--bg-chrome').trim();
+  if (chrome) meta.forEach(m => m.setAttribute('content', chrome));
+  if (save) {
+    try { localStorage.setItem(STYLE_KEY, id); } catch (e) {}
+    if (STATE.currentView === 'week') renderWeekGrid(); // hour height can differ per style
+  }
 }
 
 // Reset schedule to default settings
@@ -1497,12 +1548,15 @@ function exportToICS() {
 
 // Print: always the week grid in light colours, with a summary header, whatever view is open
 let themeBeforePrint = null;
+let styleBeforePrint = null;
 
 function preparePrint() {
   if (isPrinting) return;
   isPrinting = true;
   themeBeforePrint = document.documentElement.getAttribute('data-theme');
+  styleBeforePrint = document.documentElement.getAttribute('data-style');
   document.documentElement.setAttribute('data-theme', 'light');
+  document.documentElement.setAttribute('data-style', 'flightdeck'); // the print layout is tuned for it
   renderPrintHeader();
   renderWeekGrid();
 }
@@ -1511,6 +1565,7 @@ function finishPrint() {
   if (!isPrinting) return;
   isPrinting = false;
   if (themeBeforePrint) document.documentElement.setAttribute('data-theme', themeBeforePrint);
+  if (styleBeforePrint) document.documentElement.setAttribute('data-style', styleBeforePrint);
   updateAll();
 }
 
@@ -1607,8 +1662,10 @@ document.addEventListener('DOMContentLoaded', () => {
   STATE.weekIdx = currentWeekIndex();
   if (TUM.status === 'connected') STATE.detectedGroups = detectGroups(TUM.events);
 
-  // Initialize Theme (respects localStorage or system preference)
-  setTheme(getPreferredTheme(), false);
+  // Initialize style and theme (respects localStorage or system preference)
+  setStyle(getPreferredStyle(), false);
+
+  document.getElementById('styleBtn')?.addEventListener('click', () => openSettings('set-look'));
 
   // Generic-week notice: hidden for the rest of this visit once dismissed, shown again next time
   const notice = document.getElementById('scheduleNotice');
@@ -1629,7 +1686,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (window.matchMedia) {
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
       try {
-        if (!localStorage.getItem(THEME_KEY)) {
+        if (!localStorage.getItem(THEME_KEY) && !currentStyle().darkOnly) {
           setTheme(e.matches ? 'dark' : 'light', false);
         }
       } catch (err) {}
@@ -1814,6 +1871,7 @@ if (typeof window !== 'undefined') {
   window.applyPreset = applyPreset;
   window.setTheme = setTheme;
   window.toggleTheme = toggleTheme;
+  window.setStyle = setStyle;
   window.setView = setView;
   window.STATE = STATE;
 }

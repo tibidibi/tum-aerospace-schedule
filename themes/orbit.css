@@ -1,0 +1,307 @@
+/* ==========================================================================
+   "Orbit" style: an orbital-mechanics plot. The day is one orbit from morning
+   to evening, classes are burns along the arc and the present moment is the
+   spacecraft (the dial in the Today view). Deep indigo sky with faint stars,
+   starlight text, warm gold for "now", rose for warnings. Always dark.
+   Syne (display, sparingly), Manrope (text and figures).
+   Applies only when html[data-style="orbit"].
+   ========================================================================== */
+
+:root[data-style="orbit"] {
+  --ob-sky: #0F1230;
+  --ob-sky-2: #171B42;
+  --ob-sky-3: #232860;
+  --ob-star: #ECEAF7;
+  --ob-star-2: #A8A6C9;
+  --ob-star-3: #7472A0;
+  --ob-gold: #F0C878;
+  --ob-rose: #F08FA8;
+  --ob-teal: #7FD6C9;
+  --ob-peri: #8DB4FF;
+  --ob-violet: #A99BFF;
+
+  --md-primary: #F0C878;
+  --md-primary-hover: #F6DAA0;
+  --md-on-primary: #1A1630;
+  --md-primary-container: #3A3352;
+  --md-on-primary-container: #F6DDAA;
+  --md-secondary-container: #232860;
+  --md-on-secondary-container: #ECEAF7;
+  --md-success: #7FD6C9;
+  --md-success-container: #173540;
+  --md-on-success-container: #C9F0EA;
+  --md-warning: #F0C878;
+  --md-warning-container: #3A3352;
+  --md-on-warning-container: #F6DDAA;
+  --md-error: #F08FA8;
+  --md-on-error: #2A0F1E;
+  --md-error-container: #4A1E36;
+  --md-on-error-container: #FAD3DE;
+
+  --bg-page: #0F1230;
+  --bg-surface: #171B42;
+  --bg-sidebar: rgba(23, 27, 66, 0.72);
+  --bg-header: rgba(15, 18, 48, 0.6);
+  --bg-chrome: rgba(15, 18, 48, 0.78);
+  --surface-high: #1E2354;
+  --bg-hover: rgba(236, 234, 247, 0.06);
+  --bg-pressed: rgba(236, 234, 247, 0.12);
+  --border-light: #2E3473;
+  --border-subtle: #232860;
+  --border-focus: #F0C878;
+  --inverse-surface: #ECEAF7;
+  --inverse-on-surface: #171B42;
+  --scrim: rgba(4, 5, 20, 0.7);
+
+  --text-primary: #ECEAF7;
+  --text-secondary: #A8A6C9;
+  --text-tertiary: #7472A0;
+  --text-link: #8DB4FF;
+
+  --card-skipped-bg: rgba(23, 27, 66, 0.5);
+  --card-ghost-bg: rgba(23, 27, 66, 0.6);
+  --event-badge-bg: rgba(15, 18, 48, 0.55);
+
+  /* Courses: a bright accent each, glowing fills mixed into the night */
+  --c-math-border: #7FD6C9;
+  --c-mech-border: #8DB4FF;
+  --c-cf-border: #F0C878;
+  --c-ee-border: #B9B7D9;
+  --c-cad-border: #F08FA8;
+  --c-aero_mat-border: #A99BFF;
+  --c-intro_aero-border: #F5A97F;
+  --c-math-lecture: color-mix(in srgb, #7FD6C9 24%, #171B42);
+  --c-mech-lecture: color-mix(in srgb, #8DB4FF 24%, #171B42);
+  --c-cf-lecture: color-mix(in srgb, #F0C878 22%, #171B42);
+  --c-ee-lecture: color-mix(in srgb, #B9B7D9 20%, #171B42);
+  --c-cad-lecture: color-mix(in srgb, #F08FA8 22%, #171B42);
+  --c-aero_mat-lecture: color-mix(in srgb, #A99BFF 24%, #171B42);
+  --c-intro_aero-lecture: color-mix(in srgb, #F5A97F 22%, #171B42);
+  --c-math-exercise: color-mix(in srgb, #7FD6C9 13%, #171B42);
+  --c-mech-exercise: color-mix(in srgb, #8DB4FF 13%, #171B42);
+  --c-cf-exercise: color-mix(in srgb, #F0C878 12%, #171B42);
+  --c-ee-exercise: color-mix(in srgb, #B9B7D9 11%, #171B42);
+  --c-cad-exercise: color-mix(in srgb, #F08FA8 12%, #171B42);
+  --c-aero_mat-exercise: color-mix(in srgb, #A99BFF 13%, #171B42);
+  --c-intro_aero-exercise: color-mix(in srgb, #F5A97F 12%, #171B42);
+  --c-math-text: #D4F3EE;
+  --c-mech-text: #DCE7FF;
+  --c-cf-text: #FBEBCB;
+  --c-ee-text: #E6E5F3;
+  --c-cad-text: #FBDAE3;
+  --c-aero_mat-text: #E3DEFF;
+  --c-intro_aero-text: #FCE2D3;
+
+  --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-2: 0 8px 24px rgba(0, 0, 0, 0.45);
+  --shadow-modal: 0 20px 60px rgba(0, 0, 0, 0.6);
+
+  --radius-xs: 6px;
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 22px;
+
+  --font-family: "Manrope", system-ui, sans-serif;
+  --font-display: "Syne", "Manrope", system-ui, sans-serif;
+  --font-mono: "Manrope", system-ui, sans-serif;
+
+  --fd-ink: #232860;
+  --fd-amber: #F0C878;
+  --fd-amber-soft: #2E2A48;
+  --fd-on-amber: #F6DDAA;
+  --fd-red: #F08FA8;
+  --fd-red-soft: #3A1E3E;
+  --fd-green: #7FD6C9;
+  --fd-green-soft: #173540;
+  --fd-board: #0A0C24;
+  --fd-board-cell: #1C2150;
+  --fd-board-text: #ECEAF7;
+}
+
+/* The sky: a soft glow and a sparse star field behind everything */
+[data-style="orbit"] body {
+  font-variant-numeric: tabular-nums;
+  background:
+    radial-gradient(1px 1px at 12% 18%, #fff 50%, transparent 51%),
+    radial-gradient(1px 1px at 72% 12%, #fff 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 88% 64%, #fff 50%, transparent 51%),
+    radial-gradient(1px 1px at 33% 82%, #fff 50%, transparent 51%),
+    radial-gradient(1px 1px at 55% 46%, rgba(255, 255, 255, 0.7) 50%, transparent 51%),
+    radial-gradient(1px 1px at 6% 58%, #fff 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 46% 6%, #fff 50%, transparent 51%),
+    radial-gradient(1px 1px at 94% 30%, #fff 50%, transparent 51%),
+    radial-gradient(1px 1px at 64% 90%, rgba(255, 255, 255, 0.7) 50%, transparent 51%),
+    radial-gradient(1200px 760px at 28% 38%, #1C2156 0%, transparent 70%),
+    var(--ob-sky);
+}
+
+/* Let the sky show through the views; cards and the week grid keep their own fill */
+[data-style="orbit"] .calendar-main,
+[data-style="orbit"] .agenda-view,
+[data-style="orbit"] .group-matrix-view { background: transparent; }
+
+[data-style="orbit"] .app-header,
+[data-style="orbit"] .mobile-bottom-nav { backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+[data-style="orbit"] .app-header { border-bottom: 1px solid var(--border-subtle); }
+[data-style="orbit"] .app-sidebar { backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+[data-style="orbit"] .app-title-text { font-family: var(--font-display); font-weight: 800; letter-spacing: 0.04em; }
+[data-style="orbit"] .semester-badge { background: var(--ob-sky-3); color: var(--ob-star); }
+
+/* View tabs: plain labels, gold underline on the current one */
+[data-style="orbit"] .view-tabs { background: transparent; gap: 10px; }
+[data-style="orbit"] .view-tab { border-radius: 0; padding: 8px 2px; font-weight: 600; font-size: 14px; }
+[data-style="orbit"] .view-tab .material-symbols-outlined,
+[data-style="orbit"] .view-tab svg { display: none; }
+[data-style="orbit"] .view-tab.active { background: transparent; color: var(--ob-star); box-shadow: inset 0 -2px 0 var(--ob-gold); }
+
+[data-style="orbit"] .btn { border-radius: var(--radius-pill); }
+[data-style="orbit"] .btn-primary { background: var(--ob-gold); color: var(--md-on-primary); }
+[data-style="orbit"] .btn-primary:hover { background: var(--md-primary-hover); }
+[data-style="orbit"] .quick-stats-pill,
+[data-style="orbit"] .palette-btn { border-radius: var(--radius-pill); background: rgba(23, 27, 66, 0.6); border-color: var(--border-subtle); }
+
+/* ---------- Today ---------- */
+[data-style="orbit"] .today-view { padding-top: 24px; }
+[data-style="orbit"] .today-date h1 { font-family: var(--font-display); font-weight: 800; font-size: 44px; letter-spacing: -0.03em; line-height: 1; }
+[data-style="orbit"] .today-week { font-size: 15px; font-weight: 500; color: var(--text-tertiary); display: inline-block; margin-top: 6px; }
+[data-style="orbit"] .semester-progress-bar { background: var(--ob-sky-3); height: 4px; }
+[data-style="orbit"] .semester-progress-bar span { background: linear-gradient(90deg, var(--ob-peri), var(--ob-gold)); }
+
+[data-style="orbit"] .card,
+[data-style="orbit"] .today-view .card {
+  background: var(--bg-sidebar);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  padding: 20px 22px;
+}
+[data-style="orbit"] .card-heading,
+[data-style="orbit"] .eyebrow,
+[data-style="orbit"] .route-head h3 {
+  font-family: var(--font-family);
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+}
+[data-style="orbit"] .countdown { color: var(--ob-gold); }
+
+/* Hero: the orbit dial */
+[data-style="orbit"] .today-hero { display: block; }
+[data-style="orbit"] .today-hero[hidden] { display: none; }
+[data-style="orbit"] .hero-line { display: none; }
+[data-style="orbit"] .dial { position: relative; width: min(100%, 440px); aspect-ratio: 1; margin: 0 auto; }
+[data-style="orbit"] .dial svg { width: 100%; height: 100%; overflow: visible; display: block; }
+[data-style="orbit"] .dial-track { fill: none; stroke: var(--ob-sky-3); stroke-width: 2; }
+[data-style="orbit"] .dial-ring { fill: none; stroke: var(--ob-sky-3); stroke-width: 1; stroke-dasharray: 2 6; }
+[data-style="orbit"] .dial-tick { stroke: var(--ob-star-3); stroke-width: 1.5; }
+[data-style="orbit"] .dial-hour { fill: var(--ob-star-3); font: 600 11px var(--font-family); text-anchor: middle; }
+[data-style="orbit"] .dial-class { fill: none; stroke-width: 20; stroke-linecap: round; }
+[data-style="orbit"] .dial-class.is-past { opacity: 0.32; }
+[data-style="orbit"] .dial-class.is-off { opacity: 0.18; stroke-dasharray: 3 6; stroke-linecap: butt; }
+[data-style="orbit"] .dial-class.is-now { filter: drop-shadow(0 0 7px rgba(240, 200, 120, 0.55)); }
+[data-style="orbit"] .dial-trail { fill: none; stroke: var(--ob-gold); stroke-width: 1.5; opacity: 0.55; }
+[data-style="orbit"] .dial-halo { fill: none; stroke: var(--ob-gold); stroke-width: 1.2; opacity: 0.5; }
+[data-style="orbit"] .dial-craft { fill: var(--ob-star); stroke: var(--ob-gold); stroke-width: 3; }
+[data-style="orbit"] .dial-now { fill: var(--ob-gold); font: 700 12px var(--font-display); text-anchor: middle; }
+[data-style="orbit"] .dial-center {
+  position: absolute;
+  inset: 22%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 4px;
+}
+[data-style="orbit"] .dial-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ob-gold); }
+[data-style="orbit"] .dial-big { font: 700 64px/1 var(--font-display); letter-spacing: -0.04em; }
+[data-style="orbit"] .dial-big small { font-size: 22px; color: var(--ob-star-2); letter-spacing: 0; }
+[data-style="orbit"] .dial-sub { font-size: 13px; color: var(--ob-star-2); max-width: 22ch; }
+
+/* Classes as rows on the flight plan: a coloured dot, no box */
+[data-style="orbit"] .strip {
+  border: 1px solid transparent;
+  border-radius: 14px;
+  background: transparent;
+}
+[data-style="orbit"] .strip:hover { background: var(--bg-hover); border-color: var(--border-subtle); }
+[data-style="orbit"] .strip-time {
+  border-right: none;
+  font-family: var(--font-family);
+  font-weight: 600;
+  color: var(--ob-star-2);
+  min-width: 64px;
+}
+[data-style="orbit"] .strip-time span { color: var(--ob-star-3); }
+[data-style="orbit"] .strip-body { position: relative; padding-left: 30px; }
+[data-style="orbit"] .strip-body::before {
+  content: "";
+  position: absolute;
+  left: 6px;
+  top: 50%;
+  width: 10px;
+  height: 10px;
+  margin-top: -5px;
+  border-radius: 50%;
+  background: var(--band);
+  box-shadow: 0 0 10px color-mix(in srgb, var(--band) 60%, transparent);
+}
+[data-style="orbit"] .strip-title { font-weight: 600; }
+[data-style="orbit"] .strip-meta { color: var(--ob-star-3); }
+[data-style="orbit"] .strip-big .strip-time { font-family: var(--font-display); font-weight: 700; color: var(--ob-star); }
+[data-style="orbit"] .next-card .strip { background: rgba(15, 18, 48, 0.45); border-color: var(--border-subtle); }
+[data-style="orbit"] .next-block:first-child .strip { box-shadow: inset 0 0 0 1px rgba(240, 200, 120, 0.4); background: rgba(240, 200, 120, 0.07); }
+[data-style="orbit"] .strip.is-pdf { background-image: repeating-linear-gradient(135deg, transparent 0 8px, rgba(236, 234, 247, 0.04) 8px 10px); }
+[data-style="orbit"] .timeline { gap: 2px; }
+[data-style="orbit"] .timeline li.is-past .strip { opacity: 0.42; }
+[data-style="orbit"] .timeline li.is-now .strip { background: rgba(240, 200, 120, 0.09); border-color: rgba(240, 200, 120, 0.38); }
+[data-style="orbit"] .timeline li.is-now .strip-time { color: var(--ob-gold); }
+
+[data-style="orbit"] .moodle-card { border-top: 1px solid var(--border-subtle); box-shadow: inset 0 3px 0 var(--band, var(--ob-gold)); }
+[data-style="orbit"] .moodle-title { font-family: var(--font-display); font-weight: 700; }
+[data-style="orbit"] .leave-by > span:first-child { font-family: var(--font-display); font-weight: 700; }
+[data-style="orbit"] .flap-c { font-family: var(--font-display); border-radius: 4px; }
+[data-style="orbit"] .board-card { border: 1px solid var(--border-subtle) !important; }
+[data-style="orbit"] .board-head h2 { font-family: var(--font-display); color: var(--ob-gold); }
+[data-style="orbit"] .leg.line { border-radius: 999px; padding: 1px 8px; }
+[data-style="orbit"] .mode,
+[data-style="orbit"] .route { background: rgba(15, 18, 48, 0.45); }
+[data-style="orbit"] .segmented button.on,
+[data-style="orbit"] .attend button.on { background: var(--ob-gold); border-color: var(--ob-gold); color: var(--md-on-primary); }
+[data-style="orbit"] .alert-card { border-color: rgba(240, 200, 120, 0.4); }
+
+/* ---------- Week ---------- */
+[data-style="orbit"] .calendar-days-header { background: rgba(15, 18, 48, 0.85); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+[data-style="orbit"] .day-name { font-family: var(--font-display); font-weight: 700; letter-spacing: 0.06em; }
+[data-style="orbit"] .day-header-cell.is-today .day-name { color: var(--ob-gold); }
+[data-style="orbit"] .day-header-cell.is-today .day-date { border-radius: 999px; padding: 0 7px; }
+[data-style="orbit"] .week-label strong { font-family: var(--font-display); font-weight: 700; }
+[data-style="orbit"] .event-card { border-radius: 10px; box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--band, currentColor) 35%, transparent); }
+[data-style="orbit"] .event-card:not(.ghost-group)::before { width: 3px; top: 6px; bottom: 6px; left: 4px; border-radius: 3px; box-shadow: 0 0 8px var(--band); }
+[data-style="orbit"] .event-card .event-time { font-family: var(--font-family); font-weight: 700; }
+[data-style="orbit"] .event-card .event-type-badge { font-family: var(--font-family); border-radius: 999px; }
+[data-style="orbit"] .now-line, [data-style="orbit"] .now-line::before { background: var(--ob-gold); box-shadow: 0 0 10px var(--ob-gold); }
+
+/* ---------- Groups, agenda, sheets ---------- */
+[data-style="orbit"] .matrix-title,
+[data-style="orbit"] .agenda-title,
+[data-style="orbit"] .sheet-head h2,
+[data-style="orbit"] .autopilot-head h3 { font-family: var(--font-display); font-weight: 700; text-transform: none; letter-spacing: -0.01em; }
+[data-style="orbit"] .autopilot,
+[data-style="orbit"] .matrix-course-block,
+[data-style="orbit"] .agenda-col-item { backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
+[data-style="orbit"] .sheet,
+[data-style="orbit"] .palette,
+[data-style="orbit"] .modal-card { background: var(--ob-sky-2); border: 1px solid var(--border-light); }
+[data-style="orbit"] .palette li.on { background: var(--ob-sky-3); color: var(--ob-star); box-shadow: inset 3px 0 0 var(--ob-gold); }
+[data-style="orbit"] .field input,
+[data-style="orbit"] .field select { background: var(--ob-sky); }
+
+@media (max-width: 700px) {
+  [data-style="orbit"] .app-title-text { font-size: 13px; letter-spacing: 0; }
+  [data-style="orbit"] .today-date h1 { font-size: 32px; }
+  [data-style="orbit"] .dial-big { font-size: 48px; }
+}

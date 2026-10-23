@@ -3,10 +3,11 @@
  * Live data (TUMonline, MVG, Mensa…) has its own last-known-copy fallback in cachedFetch,
  * so cross-origin requests pass straight through here.
  */
-const SHELL_CACHE = 'flight-deck-shell-v1';
+const SHELL_CACHE = 'flight-deck-shell-v2';
 const SHELL = [
   './', 'index.html', 'style.css', 'data.js', 'calendar.js', 'services.js', 'optimizer.js', 'squad.js',
-  'settings.js', 'today.js', 'palette.js', 'app.js', 'manifest.webmanifest', 'icon.svg', 'icon-192.png'
+  'settings.js', 'today.js', 'palette.js', 'app.js', 'themes/olympia.css', 'themes/orbit.css', 'themes/daylight.css',
+  'manifest.webmanifest', 'icon.svg', 'icon-192.png'
 ];
 
 self.addEventListener('install', event => {

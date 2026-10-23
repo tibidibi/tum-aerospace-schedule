@@ -133,6 +133,8 @@
 }
 
 [data-theme="dark"] {
+  color-scheme: dark;
+
   /* M3 Colour Roles - Dark */
   --md-primary: #7FB2E8;
   --md-primary-hover: #A3C8F0;
@@ -289,6 +291,10 @@ body {
   justify-content: center;
   color: var(--text-secondary);
   transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.icon-btn[hidden] {
+  display: none;
 }
 
 .icon-btn:hover {
@@ -2355,6 +2361,9 @@ body {
     --header-height: 56px;
   }
 
+  /* Style lives in Settings and the command palette on phones; the header has no room */
+  #styleBtn { display: none; }
+
   /* --- Generic-week notice: compact --- */
   .schedule-notice {
     margin: 8px 8px 4px;
@@ -3304,6 +3313,7 @@ kbd {
 }
 
 .card[hidden] { display: none; }
+.card p a { color: var(--text-link); }
 .today-view .card { background: var(--bg-sidebar); }
 
 .card-heading {
@@ -3556,6 +3566,34 @@ dialog::backdrop { background: var(--scrim); }
 .set-section { display: grid; gap: 10px; padding: 18px 0; border-bottom: 1px solid var(--border-subtle); scroll-margin-top: 8px; }
 .set-section:last-child { border-bottom: none; }
 .set-section h3 { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-secondary); }
+
+/* Style picker: each swatch is drawn in its own style's colours, whatever style is active */
+.style-picker { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.style-opt { position: relative; display: grid; gap: 2px; padding: 8px 8px 10px; border: 1px solid var(--border-light); border-radius: var(--radius-md); cursor: pointer; font-family: var(--font-family); }
+.style-opt:has(input:checked) { border-color: var(--md-primary); box-shadow: inset 0 0 0 1px var(--md-primary); }
+.style-opt:has(input:focus-visible) { outline: 2px solid var(--border-focus); outline-offset: 2px; }
+.style-opt input { position: absolute; opacity: 0; pointer-events: none; }
+.style-name { font-size: 13.5px; font-weight: 600; margin-top: 6px; }
+.style-opt small { font-size: 11.5px; color: var(--text-secondary); line-height: 1.35; }
+.style-swatch { height: 54px; border-radius: 6px; display: flex; gap: 4px; align-items: flex-end; padding: 8px; overflow: hidden; }
+.style-swatch i { display: block; flex: 1; }
+.sw-flightdeck { background: #0B1220; }
+.sw-flightdeck i { height: 70%; background: #111A2A; border-left: 4px solid #F2A900; border-radius: 2px; }
+.sw-flightdeck i:nth-child(2) { border-color: #7FB2E8; }
+.sw-flightdeck i:nth-child(3) { border-color: #9AD58F; }
+.sw-olympia { background: #fff; box-shadow: inset 0 5px 0 #2F8FD1, inset 0 0 0 1px #E1E6EB; flex-direction: column; align-items: stretch; gap: 3px; padding: 11px 8px 6px; }
+.sw-olympia i { height: 9px; flex: none; border-radius: 0 999px 999px 0; background: #4FB36B; }
+.sw-olympia i:nth-child(2) { background: #7EC8EE; width: 80%; }
+.sw-olympia i:nth-child(3) { background: #F6D23B; width: 60%; }
+.sw-orbit { background: radial-gradient(circle at 70% 30%, #1C2156, #0F1230 70%); justify-content: center; align-items: center; }
+.sw-orbit i { flex: none; width: 34px; height: 34px; border-radius: 50%; border: 4px solid #F0C878; border-right-color: #8DB4FF; border-bottom-color: transparent; transform: rotate(-20deg); }
+.sw-orbit i + i { display: none; }
+.sw-daylight { background: linear-gradient(180deg, #CFE3F7, #F6F9FC); }
+.sw-daylight i { height: 60%; background: #fff; border-radius: 8px; box-shadow: 0 2px 6px rgba(16, 36, 61, 0.12); }
+.sw-daylight i:nth-child(2) { outline: 2px solid #3070B3; }
+
+/* The Today hero (sentence and dial) only shows in the styles that use it */
+.today-hero { display: none; }
 
 .field { display: grid; gap: 4px; font-size: 13px; font-weight: 500; }
 .field input, .field select {

@@ -11,6 +11,31 @@
   <link rel="icon" href="icon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="icon-192.png">
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="themes/olympia.css">
+  <link rel="stylesheet" href="themes/orbit.css">
+  <link rel="stylesheet" href="themes/daylight.css">
+  <script>
+    // Apply the saved style and theme before first paint (app.js keeps them in sync afterwards)
+    (function () {
+      var fonts = {
+        olympia: 'family=Hanken+Grotesk:wght@300;400;500;600;700;800',
+        orbit: 'family=Syne:wght@500;600;700;800&family=Manrope:wght@400;500;600;700',
+        daylight: 'family=Onest:wght@400;500;600;700;800'
+      };
+      var style = 'flightdeck', theme = null;
+      try { style = localStorage.getItem('tum_calendar_style') || style; theme = localStorage.getItem('tum_calendar_theme'); } catch (e) {}
+      if (!theme) theme = window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-style', style);
+      document.documentElement.setAttribute('data-theme', style === 'orbit' ? 'dark' : theme);
+      if (fonts[style]) {
+        var link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = 'https://fonts.googleapis.com/css2?' + fonts[style] + '&display=swap';
+        link.setAttribute('data-style-fonts', style);
+        document.head.appendChild(link);
+      }
+    })();
+  </script>
   <!-- Chakra Petch (display), IBM Plex Sans (text), IBM Plex Mono (times) & Material Symbols -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -98,6 +123,9 @@
     <div class="header-right">
       <button class="palette-btn desktop-only" id="paletteBtn" type="button" title="Search commands (Ctrl+K)">
         <span class="material-symbols-outlined icon-sm" aria-hidden="true">search</span><span class="pal-text">Jump to…</span><kbd>Ctrl K</kbd>
+      </button>
+      <button class="icon-btn" id="styleBtn" title="Change style" aria-label="Change style">
+        <span class="material-symbols-outlined">palette</span>
       </button>
       <button class="icon-btn" id="settingsBtn" title="Settings" aria-label="Settings">
         <span class="material-symbols-outlined">settings</span>
@@ -261,6 +289,7 @@
       <div class="today-view" id="todayContainer">
         <div class="today-main">
           <header class="today-head" id="todayHead"></header>
+          <section class="today-hero" id="todayHero" hidden aria-label="Where you are in the day"></section>
           <section class="card alert-card" id="todayAlerts" hidden aria-label="Changes today"></section>
           <section class="card next-card" id="todayNext" aria-label="Next class"></section>
           <section class="card leave-card" id="todayLeave" aria-label="Commute"></section>
@@ -515,6 +544,11 @@
       <button class="icon-btn" aria-label="Close settings"><span class="material-symbols-outlined">close</span></button>
     </form>
     <div class="sheet-body">
+      <section class="set-section" id="set-look">
+        <h3>Style</h3>
+        <div class="style-picker" id="stylePicker" role="radiogroup" aria-label="App style"></div>
+      </section>
+
       <section class="set-section" id="set-tum">
         <h3>TUMonline</h3>
         <div data-tum-panel="full"></div>

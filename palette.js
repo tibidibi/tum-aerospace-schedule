@@ -18,6 +18,9 @@ function paletteCommands() {
     { label: 'Toggle dark mode', icon: 'contrast', run: toggleTheme },
     { label: 'Print week', icon: 'print', run: () => window.print() }
   ];
+  for (const [id, s] of Object.entries(APP_STYLES)) {
+    cmds.push({ label: `Style: ${s.name}`, hint: s.blurb, icon: 'palette', run: () => setStyle(id) });
+  }
   for (const [id, o] of Object.entries(OBJECTIVES)) {
     cmds.push({ label: `Autopilot: ${o.label}`, hint: 'Apply best groups', icon: 'auto_awesome', run: () => applyAutopilot(id) });
   }

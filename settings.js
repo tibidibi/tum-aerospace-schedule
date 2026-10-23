@@ -221,6 +221,7 @@ function openSettings(sectionId) {
 
 function renderSettings() {
   renderTumPanel();
+  renderStylePicker();
   const home = document.getElementById('homeCurrent');
   if (home) home.innerHTML = SETTINGS.home
     ? `<span class="material-symbols-outlined icon-sm" aria-hidden="true">home</span> <strong>${escapeHtml(SETTINGS.home.name)}</strong>${SETTINGS.home.place ? `, ${escapeHtml(SETTINGS.home.place)}` : ''}`
@@ -239,6 +240,20 @@ function renderSettings() {
   renderNotifyStatus();
   const roadNote = document.getElementById('roadModesNote');
   if (roadNote) roadNote.hidden = !!workerUrl();
+}
+
+// One card per app style, each with a small preview drawn in that style's own colours
+function renderStylePicker() {
+  const picker = document.getElementById('stylePicker');
+  if (!picker) return;
+  const current = document.documentElement.getAttribute('data-style') || 'flightdeck';
+  picker.innerHTML = Object.entries(APP_STYLES).map(([id, s]) => `
+    <label class="style-opt">
+      <input type="radio" name="appStyle" value="${id}" ${id === current ? 'checked' : ''}>
+      <span class="style-swatch sw-${id}" aria-hidden="true"><i></i><i></i><i></i></span>
+      <span class="style-name">${escapeHtml(s.name)}</span>
+      <small>${escapeHtml(s.blurb)}${s.darkOnly ? ' · always dark' : ''}</small>
+    </label>`).join('');
 }
 
 function feedUrl() {
@@ -339,6 +354,7 @@ function wireSettings() {
     bind(`mode-${mode}`, 'change', e => { SETTINGS.modes[mode] = e.target.checked; saveSettings(); });
   }
   bind('arriveEarly', 'change', e => { SETTINGS.arriveEarlyMin = Math.max(0, Math.min(30, Number(e.target.value) || 0)); saveSettings(); });
+  bind('stylePicker', 'change', e => { if (e.target.name === 'appStyle') setStyle(e.target.value); });
   bind('dietSelect', 'change', e => { SETTINGS.diet = e.target.value; saveSettings(); });
   bind('favouritesInput', 'change', e => { SETTINGS.favourites = e.target.value; saveSettings(); });
   bind('nameInput', 'change', e => { SETTINGS.name = e.target.value.trim().slice(0, 40); saveSettings(); renderFeedPanel(); renderSquad(); });
