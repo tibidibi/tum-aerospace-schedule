@@ -1009,8 +1009,8 @@ const CAMPUSES = {
     name: 'Ottobrunn / Taufkirchen',
     lat: 48.04898, lon: 11.656928, // Hörsaalgebäude, Willy-Messerschmitt-Str. 5
     canteens: [
-      { id: 'mensa-ottobrunn', name: 'Mensa Ottobrunn', viaWorker: true,
-        page: 'https://www.studierendenwerk-muenchen-oberbayern.de/gastronomie/speiseplan/speiseplan_433_-de.html' }
+      // Not in the Eat API: a daily GitHub Action scrapes it into this file
+      { id: 'mensa-ottobrunn', name: 'Mensa Ottobrunn', file: 'data/mensa-ottobrunn.json' }
     ],
     carBufferMin: 6,
     bikeBufferMin: 3

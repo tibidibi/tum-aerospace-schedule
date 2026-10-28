@@ -1,7 +1,6 @@
 /**
  * TUM Flight Deck Worker (Cloudflare). Optional: the page works without it, with MVG only.
  *   GET /route?mode=car|bicycle&from=lat,lon&to=lat,lon[&arriveAt=ISO]  TomTom with live traffic (key stays here)
- *   GET /mensa/ottobrunn                                                 Mensa Ottobrunn menu as Eat API JSON
  *   GET /feed.ics?s=<share code>                                         Subscribable calendar with "leave now" alarms
  * Deploy: npx wrangler deploy && npx wrangler secret put TOMTOM_KEY
  */
@@ -14,7 +13,6 @@ import squad from '../js/squad.js';
 // The shared modules are plain browser scripts that read each other through globals
 Object.assign(globalThis, data, calendar, services, optimizer, squad);
 
-const MENU_URL = 'https://www.studierendenwerk-muenchen-oberbayern.de/gastronomie/speiseplan/speiseplan_433_-de.html';
 const COORD = /^-?\d{1,2}(\.\d+)?,-?\d{1,3}(\.\d+)?$/;
 const ISO = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(:\d{2})?Z$/;
 
@@ -67,14 +65,6 @@ async function road(url, env) {
   return [result, 200];
 }
 
-async function mensaOttobrunn() {
-  return cached('mensa/ottobrunn', 3600, async () => {
-    const res = await fetch(MENU_URL, { headers: { 'user-agent': 'TUM Flight Deck (student project)' } });
-    if (!res.ok) throw new Error(`Studierendenwerk answered ${res.status}`);
-    return { canteen: 'mensa-ottobrunn', source: MENU_URL, ...parseStwmMenu(await res.text()) };
-  });
-}
-
 function feed(url) {
   const share = decodeShare(url.searchParams.get('s') || '');
   if (!share) return null;
@@ -97,14 +87,13 @@ export default {
         const [body, status] = await road(url, env);
         return respond(body, { status, origin, maxAge: status === 200 ? 60 : 0 });
       }
-      if (url.pathname === '/mensa/ottobrunn') return respond(await mensaOttobrunn(), { origin, maxAge: 1800 });
       if (url.pathname === '/feed.ics') {
         const ics = feed(url);
         return ics
           ? respond(ics, { type: 'text/calendar', origin, maxAge: 3600 })
           : respond({ error: 'Missing or invalid ?s= share code' }, { status: 400, origin });
       }
-      if (url.pathname === '/') return respond('TUM Flight Deck worker: /route, /mensa/ottobrunn, /feed.ics', { type: 'text/plain', origin });
+      if (url.pathname === '/') return respond('TUM Flight Deck worker: /route, /feed.ics', { type: 'text/plain', origin });
       return respond({ error: 'Not found' }, { status: 404, origin });
     } catch (e) {
       return respond({ error: e.message }, { status: 502, origin });

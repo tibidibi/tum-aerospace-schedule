@@ -26,7 +26,8 @@ self.addEventListener('activate', event => {
 // Stale-while-revalidate for our own files and Google Fonts; everything else goes to the network
 self.addEventListener('fetch', event => {
   const url = new URL(event.request.url);
-  const ours = url.origin === self.location.origin && url.pathname.startsWith(new URL('./', self.location).pathname);
+  const ours = url.origin === self.location.origin && url.pathname.startsWith(new URL('./', self.location).pathname)
+    && !url.pathname.startsWith(new URL('data/', self.location).pathname); // data/ changes daily: cachedFetch keeps its offline copy
   const fonts = url.hostname === 'fonts.googleapis.com' || url.hostname === 'fonts.gstatic.com';
   if (event.request.method !== 'GET' || (!ours && !fonts)) return;
   event.respondWith(caches.open(SHELL_CACHE).then(async cache => {

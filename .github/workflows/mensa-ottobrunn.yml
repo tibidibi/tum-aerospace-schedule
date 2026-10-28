@@ -1,0 +1,33 @@
+# Once a day, fetch Mensa Ottobrunn's menu into data/mensa-ottobrunn.json (see scripts/fetch-mensa-ottobrunn.js).
+# The Studierendenwerk plans two weeks ahead, so daily is plenty.
+name: Mensa Ottobrunn menu
+
+on:
+  schedule:
+    - cron: '30 4 * * *' # 05:30/06:30 in Munich, before anyone checks lunch
+  workflow_dispatch: # "Run workflow" button in the Actions tab
+
+permissions:
+  contents: write
+
+concurrency:
+  group: mensa-ottobrunn
+  cancel-in-progress: false
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: node scripts/fetch-mensa-ottobrunn.js
+      - name: Commit if the menu changed
+        run: |
+          git add data/mensa-ottobrunn.json
+          if git diff --cached --quiet; then echo "Menu unchanged"; exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Update Mensa Ottobrunn menu"
+          git push

@@ -1,0 +1,455 @@
+{
+ "canteen": "mensa-ottobrunn",
+ "source": "https://www.studierendenwerk-muenchen-oberbayern.de/gastronomie/speiseplan/speiseplan_433_-de.html",
+ "days": [
+  {
+   "date": "2026-10-28",
+   "dishes": [
+    {
+     "name": "Buntes Gemüse in scharfer Kokosmilch",
+     "dish_type": "Wok",
+     "labels": [
+      "VEGAN",
+      "VEGETARIAN"
+     ],
+     "prices": null
+    },
+    {
+     "name": "Graupen-Gemüse-Eintopf",
+     "dish_type": "Studitopf",
+     "labels": [
+      "VEGAN",
+      "VEGETARIAN"
+     ],
+     "prices": null
+    },
+    {
+     "name": "Blumenkohl-Käse-Medaillon mit Salsa",
+     "dish_type": "Vegetarisch/fleischlos",
+     "labels": [
+      "VEGETARIAN"
+     ],
+     "prices": null
+    },
+    {
+     "name": "Schweinebraten (1 Scheibe) mit Biersauce (S vom Strohschwein)",
+     "dish_type": "Fleisch",
+     "labels": [],
+     "prices": null
+    },
+    {
+     "name": "Heidelbeer-Mascarpone-Creme",
+     "dish_type": "Dessert (Glas)",
+     "labels": [
+      "VEGETARIAN"
+     ],
+     "prices": null
+    }
+   ]
+  },
+  {
+   "date": "2026-10-29",
+   "dishes": [
+    {
+     "name": "Pasta mit Gemüsebolognese",
+     "dish_type": "Pasta",
+     "labels": [
+      "VEGAN",
+      "VEGETARIAN"
+     ],
+     "prices": null
+    },
+    {
+     "name": "Champignonreistopf",
+     "dish_type": "Studitopf",
+     "labels": [
+      "VEGAN",
+      "VEGETARIAN"
+     ],
+     "prices": null
+    },
+    {
+     "name": "Spinatknödel mit Bergkäsesauce",
+     "dish_type": "Vegetarisch/fleischlos",
+     "labels": [],
+     "prices": null
+    },
+    {
+     "name": "Andalusisches Rinderragout",
+     "dish_type": "Fleisch",
+     "labels": [
+      "BEEF"
+     ],
+     "prices": null
+    },
+    {
+     "name": "Tiramisu",
+     "dish_type": "Dessert (Glas)",
+     "labels": [],
+     "prices": null
+    }
+   ]
+  },
+  {
+   "date": "2026-10-30",
+   "dishes": [
+    {
+     "name": "Grüner Erbseneintopf",
+     "dish_type": "Studitopf",
+     "labels": [
+      "VEGAN",
+      "VEGETARIAN"
+     ],
+     "prices": null
+    },
+    {
+     "name": "Seelachsfilet (1 Stück) in Pankokruste mit Asia-Pesto",
+     "dish_type": "Fisch",
+     "labels": [
+      "FISH"
+     ],
+     "prices": null
+    },
+    {
+     "name": "Kaiserschmarrn mit Apfelmus",
+     "dish_type": "Süßspeise",
+     "labels": [
+      "VEGETARIAN"
+     ],
+     "prices": null
+    },
+    {
+     "name": "Lebkuchen Mousse",
+     "dish_type": "Dessert (Glas)",
+     "labels": [],
+     "prices": null
+    }
+   ]
+  },
+  {
+   "date": "2026-11-02",
+   "dishes": [
+    {
+     "name": "Käsekrainer (1 Stück)",
+     "dish_type": "Grill",
+     "labels": [
+      "PORK",
+      "BEEF"
+     ],
+     "prices": null
+    },
+    {
+     "name": "Gemüsecurry aus Blumenkohl und Broccoli",
+     "dish_type": "Wok",
+     "labels": [
+      "VEGAN",
+      "VEGETARIAN"
+     ],
+     "prices": null
+    },
+    {
+     "name": "Graupen-Gemüse-Eintopf",
+     "dish_type": "Studitopf",
+     "labels": [
+      "VEGAN",
+      "VEGETARIAN"
+     ],
+     "prices": null
+    },
+    {
+     "name": "Gefüllte Paprikaschote",
+     "dish_type": "Vegetarisch/fleischlos",
+     "labels": [
+      "VEGETARIAN"
+     ],
+     "prices": null
+    },
+    {
+     "name": "Quark mit Mango",
+     "dish_type": "Dessert (Glas)",
+     "labels": [
+      "VEGETARIAN"
+     ],
+     "prices": null
+    }
+   ]
+  },
+  {
+   "date": "2026-11-03",
+   "dishes": [
+    {
+     "name": "Schweizer Knöpflepfanne mit feinem Gemüse und Käse",
+     "dish_type": "Pasta",
+     "labels": [
+      "VEGETARIAN"
+     ],
+     "prices": null
+    },
+    {
+     "name": "Veganer Eintopf mit Kraut, Kartoffeln und Roter Beete",
+     "dish_type": "Studitopf",
+     "labels": [
+      "VEGAN",
+      "VEGETARIAN"
+     ],
+     "prices": null
+    },
+    {
+     "name": "Tomate-Mozzarella-Strudel mit Tomatenragout",
+     "dish_type": "Vegetarisch/fleischlos",
+     "labels": [
+      "VEGETARIAN"
+     ],
+     "prices": null
+    },
+    {
+     "name": "Schweineschnitzel Wiener Art (1 Stück)",
+     "dish_type": "Fleisch",
+     "labels": [
+      "PORK"
+     ],
+     "prices": null
+    },
+    {
+     "name": "Kokos-Panna-Cotta mit Himbeersauce",
+     "dish_type": "Dessert (Glas)",
+     "labels": [],
+     "prices": null
+    }
+   ]
+  },
+  {
+   "date": "2026-11-04",
+   "dishes": [
+    {
+     "name": "Pasta mit Gemüsebolognese",
+     "dish_type": "Pasta",
+     "labels": [
+      "VEGAN",
+      "VEGETARIAN"
+     ],
+     "prices": null
+    },
+    {
+     "name": "Zartweizen mit Tomaten, Zucchini und Auberginen",
+     "dish_type": "Studitopf",
+     "labels": [
+      "VEGAN",
+      "VEGETARIAN"
+     ],
+     "prices": null
+    },
+    {
+     "name": "Rinderbraten (1 Scheibe) mit Rotweinsauce",
+     "dish_type": "Fleisch",
+     "labels": [
+      "BEEF"
+     ],
+     "prices": null
+    },
+    {
+     "name": "Yufkateigschnecke mit Spinatfüllung mit Sojajoghurtdip",
+     "dish_type": "Vegan",
+     "labels": [
+      "VEGAN",
+      "VEGETARIAN"
+     ],
+     "prices": null
+    },
+    {
+     "name": "Schokoladen-Seidentofu-Creme mit Agavendicksaft",
+     "dish_type": "Dessert (Glas)",
+     "labels": [
+      "VEGAN",
+      "VEGETARIAN"
+     ],
+     "prices": null
+    }
+   ]
+  },
+  {
+   "date": "2026-11-05",
+   "dishes": [
+    {
+     "name": "Tortellini mit Kürbis-Tomatensauce",
+     "dish_type": "Pasta",
+     "labels": [
+      "VEGAN",
+      "VEGETARIAN"
+     ],
+     "prices": null
+    },
+    {
+     "name": "Truthahnschnitzel (1 Stück) mit Paprikasauce",
+     "dish_type": "Grill",
+     "labels": [],
+     "prices": null
+    },
+    {
+     "name": "Veganer Gulaschtopf mit Kartoffeln, Wurzelgemüse und Schwarzbier",
+     "dish_type": "Wok",
+     "labels": [
+      "VEGAN",
+      "VEGETARIAN"
+     ],
+     "prices": null
+    },
+    {
+     "name": "Bulgur mit roten Linsen, Bohnen und Tomaten",
+     "dish_type": "Studitopf",
+     "labels": [
+      "VEGAN",
+      "VEGETARIAN"
+     ],
+     "prices": null
+    },
+    {
+     "name": "Bayerisch Creme mit Waldbeeren",
+     "dish_type": "Dessert (Glas)",
+     "labels": [
+      "VEGETARIAN"
+     ],
+     "prices": null
+    }
+   ]
+  },
+  {
+   "date": "2026-11-06",
+   "dishes": [
+    {
+     "name": "Kartoffeleintopf mit Majoran",
+     "dish_type": "Studitopf",
+     "labels": [
+      "VEGAN",
+      "VEGETARIAN"
+     ],
+     "prices": null
+    },
+    {
+     "name": "Gnocchi Alfredo mit Gemüse",
+     "dish_type": "Vegetarisch/fleischlos",
+     "labels": [
+      "VEGETARIAN"
+     ],
+     "prices": null
+    },
+    {
+     "name": "Mariniertes Zanderfilet (1 Stück) mit Zitrone, Chilli und Koriander",
+     "dish_type": "Fisch",
+     "labels": [
+      "FISH"
+     ],
+     "prices": null
+    },
+    {
+     "name": "Topfenstrudel mit Birnen und Vanillesauce (ohne Rosinen)",
+     "dish_type": "Süßspeise",
+     "labels": [
+      "VEGETARIAN"
+     ],
+     "prices": null
+    },
+    {
+     "name": "Latte Macchiato Creme - koffeinhaltig",
+     "dish_type": "Dessert (Glas)",
+     "labels": [],
+     "prices": null
+    }
+   ]
+  },
+  {
+   "date": "2026-11-09",
+   "dishes": [
+    {
+     "name": "Teigtaschen gefüllt mit Steinpilzen und Frischkäse in Kräutersauce",
+     "dish_type": "Pasta",
+     "labels": [
+      "VEGETARIAN"
+     ],
+     "prices": null
+    },
+    {
+     "name": "Currywurst mit Honig-Ingwer-Ketchup (1 Stück)",
+     "dish_type": "Grill",
+     "labels": [
+      "PORK",
+      "BEEF"
+     ],
+     "prices": null
+    },
+    {
+     "name": "Pikantes Kartoffelchili",
+     "dish_type": "Studitopf",
+     "labels": [
+      "VEGAN",
+      "VEGETARIAN"
+     ],
+     "prices": null
+    },
+    {
+     "name": "Gegrillte Süßkartoffeln mit Gemüse",
+     "dish_type": "Vegetarisch/fleischlos",
+     "labels": [
+      "VEGAN",
+      "VEGETARIAN"
+     ],
+     "prices": null
+    },
+    {
+     "name": "Kirsch-Mascarpone-Creme",
+     "dish_type": "Dessert (Glas)",
+     "labels": [
+      "VEGETARIAN"
+     ],
+     "prices": null
+    }
+   ]
+  },
+  {
+   "date": "2026-11-10",
+   "dishes": [
+    {
+     "name": "Pasta mit Sojabolognese",
+     "dish_type": "Pasta",
+     "labels": [
+      "VEGAN",
+      "VEGETARIAN"
+     ],
+     "prices": null
+    },
+    {
+     "name": "Gegrillte Hähnchenbrust (1 Stück) mit Thaipesto",
+     "dish_type": "Grill",
+     "labels": [],
+     "prices": null
+    },
+    {
+     "name": "Gersteneintopf",
+     "dish_type": "Studitopf",
+     "labels": [
+      "VEGAN",
+      "VEGETARIAN"
+     ],
+     "prices": null
+    },
+    {
+     "name": "Gekräutertes Pilzragout (Champignons, Egerlingen und Austernpilzen)",
+     "dish_type": "Vegetarisch/fleischlos",
+     "labels": [
+      "VEGAN",
+      "VEGETARIAN"
+     ],
+     "prices": null
+    },
+    {
+     "name": "Topfencreme mit Zwetschgenröster",
+     "dish_type": "Dessert (Glas)",
+     "labels": [
+      "VEGETARIAN"
+     ],
+     "prices": null
+    }
+   ]
+  }
+ ]
+}

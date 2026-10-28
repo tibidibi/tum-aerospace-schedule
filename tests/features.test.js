@@ -1,6 +1,6 @@
 /**
  * Checks for the live features: semester dates, TUMonline parsing and merge, .ics export,
- * MVG/TomTom ranking, the Ottobrunn menu parser, the optimizer and squad links.
+ * MVG/TomTom ranking, the Ottobrunn menu parser and daily file, the optimizer and squad links.
  * Run with: node tests/features.test.js
  */
 
@@ -174,6 +174,14 @@ assert.deepStrictEqual(lunchWindow([{ startMin: 690, endMin: 780 }, { startMin: 
 assert.strictEqual(lunchWindow([{ startMin: 660, endMin: 840 }]), null, 'classes all through lunch');
 assert.deepStrictEqual(lunchWindow([]), { from: 660, to: 840 });
 ok('Mensa: Ottobrunn HTML → dishes with vegan/vegetarian labels, prices, lunch window');
+
+const { mergeDays } = require('../scripts/fetch-mensa-ottobrunn.js');
+const merged = mergeDays(
+  [{ date: '2026-10-01', dishes: [] }, { date: '2026-10-26', dishes: ['old'] }, { date: '2026-10-28', dishes: ['old'] }],
+  [{ date: '2026-10-28', dishes: ['new'] }, { date: '2026-10-29', dishes: ['new'] }], '2026-10-28');
+assert.deepStrictEqual(merged.map(d => d.date), ['2026-10-26', '2026-10-28', '2026-10-29'], 'past days kept two weeks, sorted');
+assert.deepStrictEqual(merged[1].dishes, ['new'], 'the fresh page wins');
+ok('Mensa: daily Ottobrunn file keeps this week\'s past days');
 
 // ---------- Rooms ----------
 assert.strictEqual(roomIdFrom('MW 2001 Rudolf-Diesel-Hörsaal (5510.02.001)'), '5510.02.001');

@@ -189,12 +189,9 @@ function isoWeek(dateStr) {
   return { year, week: 1 + daysBetween(week1Thursday, thursday) / 7 };
 }
 
-// Menu days [{ date, dishes: [{ name, dish_type, labels, prices }] }] around a date, or null without a source
-async function canteenWeek(canteen, dateStr, workerUrl) {
-  if (canteen.viaWorker) {
-    if (!workerUrl) return null;
-    return (await cachedFetch(`${workerUrl.replace(/\/$/, '')}/mensa/ottobrunn`, { ttl: 3 * 3600e3 })).days || [];
-  }
+// Menu days [{ date, dishes: [{ name, dish_type, labels, prices }] }] around a date
+async function canteenWeek(canteen, dateStr) {
+  if (canteen.file) return (await cachedFetch(canteen.file, { ttl: 3 * 3600e3 })).days || [];
   const { year, week } = isoWeek(dateStr);
   const res = await cachedFetch(`${EAT_API}${canteen.id}/${year}/${String(week).padStart(2, '0')}.json`, { ttl: 6 * 3600e3 });
   return res.days || [];
@@ -227,7 +224,7 @@ const DIETS = {
 
 /**
  * The Studierendenwerk's menu page (HTML only, no CORS) → Eat API JSON shape.
- * Used by the Worker for Mensa Ottobrunn, which the Eat API doesn't cover yet.
+ * Used by scripts/fetch-mensa-ottobrunn.js for Mensa Ottobrunn, which the Eat API doesn't cover yet.
  * data-essen-fleischlos: 0 meat, 1 vegetarian, 2 vegan; data-essen-typ: R beef, S pork.
  */
 function parseStwmMenu(html) {

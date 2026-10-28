@@ -668,10 +668,9 @@ async function fillLunch(focus) {
   try { prices = priceTable(await canteenWeek(CAMPUSES.Garching.canteens[0], focus.date)); } catch (e) {}
   const blocks = await Promise.all(campus.canteens.map(async (canteen, i) => {
     let days;
-    try { days = await canteenWeek(canteen, focus.date, workerUrl()); } catch (e) {
+    try { days = await canteenWeek(canteen, focus.date); } catch (e) {
       return `<div class="row muted">${esc(canteen.name)}: ${/404/.test(e.message) ? 'no menu published yet' : 'menu unavailable'}</div>`;
     }
-    if (!days) return `<a class="row" href="${canteen.page}" target="_blank" rel="noopener"><span class="grow">${esc(canteen.name)}<span class="sub">Add a Worker URL in Settings to show the menu here</span></span>${icon('chevron_right', 'chev')}</a>`;
     const dishes = (days.find(d => d.date === focus.date) || { dishes: [] }).dishes.filter(diet);
     const head = campus.canteens.length > 1 ? `<div class="row"><strong>${esc(canteen.name)}</strong></div>` : '';
     return head + (dishes.map(d => `<div class="row dish">

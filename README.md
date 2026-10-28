@@ -34,6 +34,7 @@ Keys: **1–4** switch views, **← →** change week, **T** this week, **,** se
 | `js/state.js` | Your groups, settings, appointments and the TUMonline connection |
 | `js/app.js` | Everything you see and click |
 | `sw.js`, `manifest.webmanifest`, `icons/` | Offline support and installing as an app |
+| `data/mensa-ottobrunn.json`, `scripts/`, `.github/workflows/` | Mensa Ottobrunn's menu, refreshed daily (below) |
 | `worker/` | Optional Cloudflare Worker (below) |
 | `tests/` | `node tests/features.test.js` |
 
@@ -55,13 +56,20 @@ Every push to `main` redeploys. The `.nojekyll` file makes Pages serve the files
 
 **Security note:** every project page under `https://<your-user>.github.io/` shares one origin, so any of your other Pages projects can read this app's localStorage, TUMonline token included. Keep no untrusted code in your other Pages repos, or give this app an origin of its own: a custom domain, or the `<your-user>.github.io` repository itself.
 
+## Mensa menus
+
+Garching's canteens come straight from the [Eat API](https://tum-dev.github.io/eat-api/). Mensa Ottobrunn isn't in it, and the Studierendenwerk only publishes it as an HTML page that other sites can't read. So a GitHub Action ([`.github/workflows/mensa-ottobrunn.yml`](.github/workflows/mensa-ottobrunn.yml)) runs [`scripts/fetch-mensa-ottobrunn.js`](scripts/fetch-mensa-ottobrunn.js) once a day and commits the result to `data/mensa-ottobrunn.json`, which Pages serves with the app. Nobody has to set anything up.
+
+- Run it now: Actions › *Mensa Ottobrunn menu* › *Run workflow*, or locally with `node scripts/fetch-mensa-ottobrunn.js`.
+- If the Studierendenwerk changes its page and no dishes are found, the run fails (GitHub emails you) and the last good menu stays.
+- GitHub pauses scheduled workflows after 60 days without activity in the repository; re-enable it in the Actions tab.
+
 ## Optional: the Worker
 
 A free Cloudflare Worker in [`worker/`](worker/) adds what a static page can't do on its own. Paste its URL into Settings › Advanced.
 
 | Route | What it adds |
 |---|---|
-| `/mensa/ottobrunn` | Mensa Ottobrunn's menu (only published as an HTML page with no CORS) |
 | `/route` | Car and bike times with live traffic (TomTom), keeping your API key secret |
 | `/feed.ics?s=…` | A calendar subscription with "leave now" alerts |
 
