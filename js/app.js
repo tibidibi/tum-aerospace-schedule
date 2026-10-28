@@ -213,7 +213,7 @@ function applyFlash() {
 }
 
 // Ripple from the press point, Material-style
-const RIPPLE_HOSTS = '.btn, .fab, .ev, a.row, button.row, .side-item, .seg button, .icon-btn, .sheet-done, .tabbar .pill, .tabbar button';
+const RIPPLE_HOSTS = '.btn, .ev, a.row, button.row, .side-item, .seg button, .icon-btn, .sheet-done, .tabbar .pill, .tabbar button';
 document.addEventListener('pointerdown', e => {
   if (e.button !== 0 || reduceMotion()) return;
   let host = e.target.closest(RIPPLE_HOSTS);
@@ -295,7 +295,8 @@ function renderToday() {
   const focus = focusDay(now);
   if (!focus) {
     setToolbar({ eyebrow: weekdayName(now.date), title: dayMonth(now.date), subtitle: 'No classes in the next three weeks' });
-    $('view').innerHTML = '<p class="empty">Nothing on your schedule. Enjoy the break.</p>';
+    $('view').innerHTML = `<p class="empty">Nothing on your schedule. Enjoy the break.</p>
+      <p class="empty"><button type="button" class="btn gray" data-new-appt data-date="${now.date}">${icon('add')}New appointment</button></p>`;
     return;
   }
   const tomorrow = addDays(now.date, 1) === focus.date;
@@ -324,6 +325,7 @@ function renderToday() {
           ${showNow ? `<div class="now-line" style="top:${(now.minutes - from) * PX_PER_MIN}px"></div>` : ''}
         </div>
       </div>
+      <button type="button" class="btn gray add-appt" data-new-appt data-date="${focus.date}">${icon('add')}New appointment</button>
     </section>
     <section class="travel" aria-label="Travel and lunch">
       <div id="commute" class="commute">
@@ -800,6 +802,7 @@ function renderWeek() {
         <button type="button" data-week="today">Today</button>
         <button type="button" data-week="1" aria-label="Next week" ${w === n - 1 ? 'disabled' : ''}>${icon('chevron_right')}</button>
       </div>
+      <button type="button" class="btn gray" data-new-appt>${icon('add')}New appointment</button>
       <button type="button" class="btn gray" data-export>Export .ics</button>`
   });
 
@@ -1068,11 +1071,11 @@ function defaultApptDate() {
   return today;
 }
 
-function openAppointment(id) {
+function openAppointment(id, date) {
   const a = STATE.custom.find(x => x.id === id);
   const now = munichNow();
   const startMin = Math.min(Math.ceil((now.minutes + 1) / 60) * 60, 22 * 60);
-  const v = a || { title: '', date: defaultApptDate(), start: minutesToTime(startMin), end: minutesToTime(startMin + 60), location: '', notes: '', repeat: 'none' };
+  const v = a || { title: '', date: date || defaultApptDate(), start: minutesToTime(startMin), end: minutesToTime(startMin + 60), location: '', notes: '', repeat: 'none' };
   openSheet('appt', a ? 'Edit appointment' : 'New appointment', `
     <form data-appt-form data-id="${esc(a ? a.id : '')}" class="section">
       <div class="form-grid">
@@ -1198,7 +1201,8 @@ document.addEventListener('click', async e => {
   const view = t.closest('[data-view]');
   if (view) return setView(view.dataset.view);
   if (t.closest('[data-open-settings]')) return openSettings();
-  if (t.closest('[data-new-appt]')) return openAppointment(null);
+  const add = t.closest('[data-new-appt]');
+  if (add) return openAppointment(null, add.dataset.date);
   const del = t.closest('[data-appt-delete]');
   if (del) {
     STATE.custom = STATE.custom.filter(a => a.id !== del.dataset.apptDelete);

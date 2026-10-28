@@ -178,18 +178,6 @@ a:hover { text-decoration: underline; }
 }
 .brand { padding: 18px 16px 14px; font-size: 22px; line-height: 28px; font-weight: 500; }
 
-/* Extended FAB: new appointment */
-.fab {
-  display: inline-flex; align-items: center; gap: 12px; align-self: flex-start;
-  min-height: 56px; padding: 0 20px 0 16px; margin: 0 0 12px 4px; border: 0; border-radius: 16px;
-  background: var(--md-primary-container); color: var(--md-on-primary-container);
-  font-size: 14px; font-weight: 500; box-shadow: var(--elev-3); position: relative; overflow: hidden;
-}
-.fab::after { content: ''; position: absolute; inset: 0; background: currentColor; opacity: 0; }
-.fab:hover::after { opacity: 0.08; }
-.fab .msr { font-size: 24px; }
-.fab-mobile { display: none; }
-
 /* Appointment form */
 .form-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
 .tf { display: flex; flex-direction: column; gap: 6px; font-size: 12px; font-weight: 500; color: var(--md-on-surface-variant); }
@@ -375,6 +363,7 @@ a.row:hover, button.row:hover { text-decoration: none; }
 .col-head { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; padding: 0 0 8px 12px; }
 .col-head span { color: var(--md-on-surface-variant); font-size: 14px; }
 
+.day-col .add-appt { align-self: flex-start; margin: 8px 0 0 52px; }
 .timeline { display: grid; grid-template-columns: 44px minmax(0, 1fr); column-gap: 8px; }
 .tl-hours, .tl-track { position: relative; }
 .tl-hours span { position: absolute; right: 0; transform: translateY(-8px); font-size: 11px; font-weight: 500; color: var(--md-on-surface-variant); }
@@ -569,7 +558,6 @@ a.row:hover, button.row:hover { text-decoration: none; }
   .sheet-head { padding-top: 8px; }
   .groups { grid-template-columns: minmax(0, 1fr); }
   .toast { left: 12px; right: 12px; bottom: 96px; }
-  .fab-mobile { display: inline-flex; position: fixed; right: 16px; bottom: calc(104px + env(safe-area-inset-bottom)); z-index: 21; width: 56px; padding: 0; margin: 0; justify-content: center; }
   .form-grid { grid-template-columns: minmax(0, 1fr); }
 }
 
@@ -592,13 +580,13 @@ a.row, button.row, .side-item, .seg button, .icon-btn, .sheet-done { position: r
   content: ''; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
   background: currentColor; opacity: 0;
 }
-:is(.ev, a.row, button.row, .side-item, .seg button, .icon-btn, .sheet-done, .tabbar .pill, .btn, .fab)::after {
+:is(.ev, a.row, button.row, .side-item, .seg button, .icon-btn, .sheet-done, .tabbar .pill, .btn)::after {
   transition: opacity var(--dur-short) var(--ease-standard);
 }
-:is(.ev, a.row, button.row, .side-item, .seg button, .icon-btn, .sheet-done, .btn, .fab):hover::after,
+:is(.ev, a.row, button.row, .side-item, .seg button, .icon-btn, .sheet-done, .btn):hover::after,
 .tabbar button:hover .pill::after { opacity: 0.08; }
-:is(.ev, a.row, button.row, .side-item, .seg button, .icon-btn, .sheet-done, .btn, .fab):focus-visible::after { opacity: 0.10; }
-:is(.ev, a.row, button.row, .side-item, .seg button, .icon-btn, .sheet-done, .btn, .fab):active::after,
+:is(.ev, a.row, button.row, .side-item, .seg button, .icon-btn, .sheet-done, .btn):focus-visible::after { opacity: 0.10; }
+:is(.ev, a.row, button.row, .side-item, .seg button, .icon-btn, .sheet-done, .btn):active::after,
 .tabbar button:active .pill::after { opacity: 0.12; }
 :is(button, a)[disabled]::after { opacity: 0 !important; }
 
@@ -614,12 +602,11 @@ a.row, button.row, .side-item, .seg button, .icon-btn, .sheet-done { position: r
 
 /* Colour, elevation and shape changes on controls ease instead of snapping */
 .side-item, .seg button, .tabbar button, .tabbar .pill, .icon-btn, .sheet-done, .chip, .tag, .swatch, .course-item .dot,
-.btn, .fab, .row, .mode, .leave-card, .course-card, .plan, .card, .weather {
+.btn, .row, .mode, .leave-card, .course-card, .plan, .card, .weather {
   transition: background-color var(--dur-medium) var(--ease-standard), color var(--dur-medium) var(--ease-standard),
     box-shadow var(--dur-medium) var(--ease-standard), border-color var(--dur-medium) var(--ease-standard),
     transform var(--dur-medium) var(--ease-standard), opacity var(--dur-medium) var(--ease-standard);
 }
-.fab:hover { box-shadow: 0 6px 10px 4px rgba(0, 0, 0, 0.15), 0 2px 3px rgba(0, 0, 0, 0.3); }
 .swatch:hover { transform: scale(1.06); }
 .swatch:active { transform: scale(0.96); }
 .switch .track, .switch .track::after {
