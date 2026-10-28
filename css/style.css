@@ -384,6 +384,16 @@ a.row:hover, button.row:hover { text-decoration: none; background: var(--state-h
 .closure { padding: 10px 14px; border-radius: 12px; background: var(--md-tertiary-container); color: var(--md-on-tertiary-container); font-size: 13px; }
 
 .travel { display: flex; flex-direction: column; gap: 20px; min-width: 0; }
+/* The commute, board and lunch slots each hold several sections: space them the same way */
+.travel > div, .travel .stale { display: flex; flex-direction: column; gap: 20px; }
+.travel > div:empty { display: none; }
+.travel > .commute { gap: 8px; }
+#commuteBody, #commuteBody > .stale { display: flex; flex-direction: column; gap: 20px; }
+.stale { opacity: 0.55; pointer-events: none; transition: opacity .2s; }
+.leave-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.leave-controls .seg { flex-wrap: wrap; }
+.field.leave-at { width: auto; min-height: 40px; border-radius: 20px; padding: 0 14px; }
+.field.leave-at:focus { padding: 0 13px; }
 .leave-card { background: var(--md-primary-container); color: var(--md-on-primary-container); border-radius: 28px; padding: 24px; display: flex; flex-direction: column; gap: 16px; }
 .leave-top { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; align-items: flex-start; }
 .leave-time { font-size: 57px; line-height: 64px; font-weight: 400; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }

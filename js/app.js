@@ -13,6 +13,7 @@ const PX_PER_MIN = 0.9;
 
 const UI = {
   commute: { key: null, at: 0, html: '', busy: false },
+  leave: { date: null, mode: 'default', time: '' }, // when you leave: 'default' (for/after classes) | 'now' | 'custom'
   board: { key: null, html: '' },
   lunch: { key: null, html: '' },
   leaveBy: {},          // date -> last leave-by (ms), to flag when it moves earlier
@@ -218,7 +219,12 @@ function renderToday() {
       </div>
     </section>
     <section class="travel" aria-label="Travel and lunch">
-      <div id="commute">${commuteKey(now, focus) === UI.commute.key ? UI.commute.html : '<p class="section-note">Finding connections…</p>'}</div>
+      <div id="commute" class="commute">
+        ${commuteHead(now, focus)}
+        <div id="commuteBody">${commuteKey(now, focus) === UI.commute.key ? UI.commute.html
+          : UI.commute.key && UI.commute.key.startsWith(focus.date) ? `<div class="stale">${UI.commute.html}</div>` // keep the last trip on screen while the new one loads
+          : '<p class="section-note">Finding connections…</p>'}</div>
+      </div>
       <div id="board">${UI.board.key === focus.date ? UI.board.html : ''}</div>
       <div id="lunch">${UI.lunch.key === lunchKey(focus) ? UI.lunch.html : ''}</div>
     </section>
@@ -233,9 +239,73 @@ function renderToday() {
 function commuteKey(now, focus) {
   if (!focus.live.length) return `${focus.date}|noclass`;
   if (!SETTINGS.home) return 'nohome';
+  const plan = leavePlan(now, focus);
+  return `${focus.date}|${plan.toCampus ? 'campus' : 'home'}|${plan.mode}|${plan.mode === 'custom' ? UI.leave.time : ''}|${SETTINGS.routeSort}|${JSON.stringify(SETTINGS.modes)}|${SETTINGS.home.lat}`;
+}
+
+// When you leave: for your first class / after your last one (default), right now, or at a time you pick.
+// Direction follows the time: before your first class you're heading in, after it you're heading home.
+function leavePlan(now, focus) {
+  if (UI.leave.date !== focus.date) UI.leave = { date: focus.date, mode: 'default', time: UI.leave.time };
   const first = focus.live[0];
-  const toCampus = !focus.isToday || now.minutes < first.startMin;
-  return `${focus.date}|${toCampus ? 'campus' : 'home'}|${SETTINGS.routeSort}|${JSON.stringify(SETTINGS.modes)}|${SETTINGS.home.lat}`;
+  const last = focus.live[focus.live.length - 1];
+  const mode = UI.leave.mode === 'now' && !focus.isToday ? 'default' : UI.leave.mode;
+  if (mode === 'default') {
+    const toCampus = !focus.isToday || now.minutes < first.startMin;
+    return {
+      mode, toCampus, arrive: toCampus,
+      when: toCampus ? munichDate(focus.date, first.startMin - SETTINGS.arriveEarlyMin) : munichDate(focus.date, last.endMin),
+      label: toCampus ? `Getting there · ${shortRoom(first.room)} for ${first.startTime}` : `Going home · after ${last.endTime}`
+    };
+  }
+  const min = mode === 'now' ? now.minutes : timeToMinutes(UI.leave.time || minutesToTime(last.endMin));
+  const toCampus = min < first.startMin;
+  return {
+    mode, toCampus, arrive: false,
+    when: mode === 'now' ? new Date() : munichDate(focus.date, min),
+    label: `${toCampus ? 'To campus' : 'Going home'} · leaving ${mode === 'now' ? 'now' : `at ${minutesToTime(min)}`}`
+  };
+}
+
+// Drawn right away on every render, so switching when you leave responds before the trips load
+function commuteHead(now, focus) {
+  if (!focus.live.length) return '';
+  if (!SETTINGS.home) return '<div class="section-label">Getting there</div>';
+  const plan = leavePlan(now, focus);
+  return `<div class="section-label">${esc(plan.label)}</div>${leaveControls(now, focus, plan)}`;
+}
+
+function leaveControls(now, focus, plan) {
+  const first = focus.live[0];
+  const last = focus.live[focus.live.length - 1];
+  const defaultIn = !focus.isToday || now.minutes < first.startMin;
+  const options = [
+    ['default', defaultIn ? `For ${first.startTime}` : `After ${last.endTime}`],
+    ...(focus.isToday ? [['now', 'Now']] : []),
+    ['custom', 'Pick a time']
+  ];
+  return `<div class="leave-controls">
+    <span class="seg" role="group" aria-label="When you leave">${options.map(([k, label]) =>
+      `<button type="button" data-leave-mode="${k}" aria-pressed="${plan.mode === k}">${label}</button>`).join('')}</span>
+    ${plan.mode === 'custom' ? `<input class="field leave-at" type="time" id="leaveAt" aria-label="Leave at" value="${esc(UI.leave.time)}">` : ''}
+  </div>`;
+}
+
+// Leaving at a set time: car and bike go right away, MVG with the next connection.
+// The fastest is whichever gets you there first.
+function departModes({ mvg, car, bike }, { leaveAt, carBufferMin = 0, bikeBufferMin = 0 }) {
+  const road = (mode, trip, buffer) => {
+    const minutes = trip.minutes + buffer;
+    return { mode, minutes, leaveBy: leaveAt, arrive: new Date(leaveAt.getTime() + minutes * 60e3), delayMin: trip.delayMin || 0 };
+  };
+  const modes = [];
+  if (mvg) modes.push({ mode: 'mvg', minutes: mvg.minutes, leaveBy: mvg.depart, arrive: mvg.arrive, delayMin: mvg.maxDelayMin });
+  if (car) modes.push(road('car', car, carBufferMin));
+  if (bike) modes.push(road('bike', bike, bikeBufferMin));
+  if (!modes.length) return modes;
+  const best = Math.min(...modes.map(m => m.arrive.getTime()));
+  modes.find(m => m.arrive.getTime() === best).fastest = true;
+  return modes;
 }
 
 function routeRow(r) {
@@ -255,13 +325,17 @@ async function fillCommute(now, focus) {
   const key = commuteKey(now, focus);
   if (UI.commute.busy === key) return;
   UI.commute.busy = key;
+  const out = {};
+  let html;
   try {
-    const html = await commuteHtml(now, focus);
-    UI.commute = { ...UI.commute, key, html, at: Date.now() };
+    html = await commuteHtml(now, focus, out);
   } finally {
     UI.commute.busy = false;
   }
-  const el = $('commute');
+  // You may have picked another time while this was loading: only the current choice gets shown
+  if (key !== commuteKey(munichNow(), focus)) return;
+  UI.commute = { ...UI.commute, key, html, homeBy: out.homeBy || null, at: Date.now() };
+  const el = $('commuteBody');
   if (el && STATE.view === 'today') {
     el.innerHTML = UI.commute.html;
     $('subtitle').textContent = todaySubtitle(focus);
@@ -273,18 +347,18 @@ function todaySubtitle(focus) {
   return homeBy ? `${UI.subtitle} · home by ${homeBy}` : UI.subtitle;
 }
 
-async function commuteHtml(now, focus) {
-  UI.commute.homeBy = null;
+async function commuteHtml(now, focus, out = {}) {
   if (!focus.live.length) return '';
   if (!SETTINGS.home) {
-    return `<div class="section"><div class="section-label">Getting there</div>
+    return `<div class="section">
       <div class="card"><strong>Add your home address</strong>
       <span class="sub">Then you'll see when to leave and the best way in: MVG, car or bike, with live delays.</span>
       <div><button type="button" class="btn" data-open-settings>Set home address</button></div></div></div>`;
   }
   const first = focus.live[0];
   const last = focus.live[focus.live.length - 1];
-  const toCampus = !focus.isToday || now.minutes < first.startMin;
+  const plan = leavePlan(now, focus);
+  const { toCampus, arrive, when } = plan;
   const anchor = toCampus ? first : last;
   const campus = CAMPUSES[anchor.campus] || CAMPUSES.Ottobrunn;
   let place = { lat: campus.lat, lon: campus.lon, building: campus.name };
@@ -295,28 +369,35 @@ async function commuteHtml(now, focus) {
   const home = SETTINGS.home;
   const from = toCampus ? home : place;
   const to = toCampus ? place : home;
-  const when = toCampus ? munichDate(focus.date, first.startMin - SETTINGS.arriveEarlyMin) : munichDate(focus.date, last.endMin);
 
   const [mvg, car, bike] = await Promise.all([
-    SETTINGS.modes.mvg ? mvgRoutes(from, to, when, { arrive: toCampus, cacheKey: `routes:${toCampus}` }).catch(e => ({ error: e.message })) : null,
+    SETTINGS.modes.mvg ? mvgRoutes(from, to, when, { arrive, cacheKey: `routes:${toCampus}` }).catch(e => ({ error: e.message })) : null,
     SETTINGS.modes.car && workerUrl() ? roadRoute(workerUrl(), 'car', from, to, when).catch(e => ({ error: e.message })) : null,
     SETTINGS.modes.bike && workerUrl() ? roadRoute(workerUrl(), 'bicycle', from, to, when).catch(e => ({ error: e.message })) : null
   ]);
   const raw = Array.isArray(mvg) ? mvg : [];
-  // To campus: latest connection that still makes it. Home: the next ones leaving.
-  const routes = toCampus ? rankRoutes(raw, SETTINGS.routeSort, when) : rankRoutes(raw, SETTINGS.routeSort).sort((a, b) => a.unusable - b.unusable || a.depart - b.depart);
-  const bestMvg = toCampus
+  // Arriving by a time: the latest connection that still makes it. Leaving at a time: the next ones to go.
+  const routes = arrive ? rankRoutes(raw, SETTINGS.routeSort, when) : rankRoutes(raw, SETTINGS.routeSort).sort((a, b) => a.unusable - b.unusable || a.depart - b.depart);
+  // A time you picked is taken as is (even if it's past, to plan); otherwise never before now
+  const leaveAt = plan.mode === 'custom' ? when : new Date(Math.max(when.getTime(), Date.now()));
+  const earliest = leaveAt.getTime() - 60e3;
+  const bestMvg = arrive
     ? rankRoutes(raw, 'latest', when).find(r => !r.unusable) || null
-    : routes.find(r => !r.unusable && r.depart >= Date.now() - 60e3) || routes.find(r => !r.unusable) || null;
+    : routes.find(r => !r.unusable && r.depart >= earliest) || routes.find(r => !r.unusable) || null;
+  // Leaving at a time: list only trips that go at or after it
+  const later = arrive ? routes : routes.filter(r => r.depart >= earliest);
+  const listed = (later.length ? later : routes).slice(0, 4);
   const ok = x => (x && !x.error ? x : null);
-  const modes = toCampus
-    ? compareModes({ mvg: bestMvg, car: ok(car), bike: ok(bike) }, { arriveBy: when, carBufferMin: campus.carBufferMin, bikeBufferMin: campus.bikeBufferMin })
-    : (bestMvg ? [{ mode: 'mvg', minutes: bestMvg.minutes, leaveBy: bestMvg.depart, delayMin: bestMvg.maxDelayMin, fastest: true }] : []);
+  const buffers = { carBufferMin: campus.carBufferMin, bikeBufferMin: campus.bikeBufferMin };
+  const modes = arrive
+    ? compareModes({ mvg: bestMvg, car: ok(car), bike: ok(bike) }, { arriveBy: when, ...buffers })
+    : departModes({ mvg: bestMvg, car: ok(car), bike: ok(bike) }, { leaveAt, ...buffers });
   const pick = modes.find(m => m.fastest);
-  if (!toCampus && bestMvg) UI.commute.homeBy = hhmm(bestMvg.arrive);
+  const arrival = pick && (pick.arrive || (pick.mode === 'mvg' && bestMvg ? bestMvg.arrive : null));
+  if (!toCampus && arrival) out.homeBy = hhmm(arrival);
 
   let moved = '';
-  if (pick && toCampus) {
+  if (pick && toCampus && plan.mode === 'default') {
     const prev = UI.leaveBy[focus.date];
     if (prev && pick.leaveBy.getTime() < prev - 90e3) {
       const delayed = bestMvg ? bestMvg.legs.filter(l => !l.walk && l.delayMin > 0).map(l => `${l.label} +${l.delayMin} min`).join(', ') : '';
@@ -330,7 +411,7 @@ async function commuteHtml(now, focus) {
 
   // Weather at leave time and disruptions on your lines, in parallel
   const leaveMin = pick ? munichNow(pick.leaveBy).minutes : (toCampus ? first.startMin : last.endMin);
-  const lines = new Set(routes.slice(0, 4).flatMap(r => r.lines));
+  const lines = new Set(listed.flatMap(r => r.lines));
   const [hour, incidents] = await Promise.all([
     weatherAt(from.lat, from.lon).then(h => hourForecast(h, focus.date, leaveMin)).catch(() => null),
     lines.size ? mvgIncidents().then(list => list.filter(m => (m.lines || []).some(l => lines.has(l.label)))).catch(() => []) : []
@@ -348,17 +429,15 @@ async function commuteHtml(now, focus) {
   const notes = [car, bike].filter(x => x && x.error).map(x => `<p class="err">${esc(x.error)}</p>`).join('')
     + ((SETTINGS.modes.car || SETTINGS.modes.bike) && !workerUrl() ? '<p class="section-note">Add a Worker URL in Settings to compare car and bike.</p>' : '');
   const inMin = pick && focus.isToday ? (pick.leaveBy - Date.now()) / 60e3 : null;
-  const where = esc(shortRoom(anchor.room));
 
   return `
     <div class="section">
-      <div class="section-label">${toCampus ? `Getting there · ${where} for ${first.startTime}` : `Going home · after ${last.endTime}`}</div>
       <div class="leave-card">
         <div class="leave-top">
           <div>
-            <div class="leave-meta">${pick ? 'Leave by' : 'No connection found'}</div>
+            <div class="leave-meta">${pick ? (arrive ? 'Leave by' : 'Leave at') : 'No connection found'}</div>
             ${pick ? `<div class="leave-time ${moved ? 'moved' : ''}">${hhmm(pick.leaveBy)}</div>
-            <div class="leave-meta">${modeName[pick.mode]} · ${fmtDuration(pick.minutes)}${inMin != null ? (inMin > 0 ? ` · in ${fmtDuration(inMin)}` : ' · now') : ''}${!toCampus && bestMvg ? ` · home ${hhmm(bestMvg.arrive)}` : ''}</div>` : ''}
+            <div class="leave-meta">${modeName[pick.mode]} · ${fmtDuration(pick.minutes)}${inMin != null ? (inMin > 0 ? ` · in ${fmtDuration(inMin)}` : plan.mode === 'custom' ? '' : ' · now') : ''}${arrival ? ` · ${toCampus ? 'there' : 'home'} ${hhmm(arrival)}` : ''}</div>` : ''}
           </div>
           ${weather}
         </div>
@@ -374,7 +453,7 @@ async function commuteHtml(now, focus) {
           `<button type="button" data-route-sort="${k}" aria-pressed="${SETTINGS.routeSort === k}">${label}</button>`).join('')}</span>
       </div>
       ${mvg && mvg.error ? `<p class="err">MVG: ${esc(mvg.error)}</p>` : ''}
-      <div class="list" style="--inset:132px">${routes.slice(0, 4).map(routeRow).join('') || '<div class="row muted">No connections found.</div>'}</div>
+      <div class="list" style="--inset:132px">${listed.map(routeRow).join('') || '<div class="row muted">No connections found.</div>'}</div>
       ${incidents.slice(0, 3).map(m => `<p class="section-note"><span class="tag orange">${esc([...new Set(m.lines.filter(l => lines.has(l.label)).map(l => l.label))].join(', '))}</span> ${esc(m.title)}</p>`).join('')}
     </div>` : ''}
     ${fillBoardLater(bestMvg, focus)}`;
@@ -996,6 +1075,14 @@ document.addEventListener('click', async e => {
   }
   if (t.closest('[data-export]')) return exportICS();
 
+  const leave = t.closest('[data-leave-mode]');
+  if (leave) {
+    UI.leave.mode = leave.dataset.leaveMode;
+    if (UI.leave.mode === 'custom' && !UI.leave.time) {
+      UI.leave.time = minutesToTime(Math.min(Math.ceil((munichNow().minutes + 1) / 15) * 15, 23 * 60 + 45)); // next quarter hour
+    }
+    return render();
+  }
   const sort = t.closest('[data-route-sort]');
   if (sort) { SETTINGS.routeSort = sort.dataset.routeSort; saveSettings(); return render(); }
   const diet = t.closest('[data-diet]');
@@ -1119,6 +1206,7 @@ document.addEventListener('input', e => {
 
 document.addEventListener('change', e => {
   const id = e.target.id;
+  if (id === 'leaveAt') { if (e.target.value) { UI.leave.time = e.target.value; render(); } return; }
   if (id === 'seedCustom') { $('appearanceSection').innerHTML = appearanceHtml(); return; }
   if (id === 'arriveEarly') SETTINGS.arriveEarlyMin = Math.max(0, Math.min(30, Number(e.target.value) || 0));
   else if (id === 'dietSelect') SETTINGS.diet = e.target.value;
