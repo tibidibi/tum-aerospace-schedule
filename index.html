@@ -8,8 +8,8 @@
   <title>Flight Deck · TUM Aerospace</title>
   <meta name="description" content="Unofficial, student-made schedule for TUM Aerospace 1st semester: TUMonline sync, live commute, Mensa and Moodle. Not affiliated with or endorsed by the Technical University of Munich.">
   <link rel="manifest" href="manifest.webmanifest">
-  <link rel="icon" href="icon.svg" type="image/svg+xml">
-  <link rel="apple-touch-icon" href="icon-192.png">
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
   <script>
     // Your colour seed, before first paint (app.js changes it from Settings)
     try { var seed = localStorage.getItem('fd_md_seed'); if (seed) document.documentElement.style.setProperty('--seed', seed); } catch (e) {}
@@ -18,7 +18,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@8..144,400;8..144,500;8..144,600;8..144,700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,400..600,0..1,0&display=block" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
   <div class="app">
@@ -76,12 +76,12 @@
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-  <script src="data.js"></script>
-  <script src="calendar.js"></script>
-  <script src="services.js"></script>
-  <script src="optimizer.js"></script>
-  <script src="squad.js"></script>
-  <script src="state.js"></script>
-  <script src="app.js"></script>
+  <script src="js/timetable.js"></script>
+  <script src="js/calendar.js"></script>
+  <script src="js/services.js"></script>
+  <script src="js/autopilot.js"></script>
+  <script src="js/squad.js"></script>
+  <script src="js/state.js"></script>
+  <script src="js/app.js"></script>
 </body>
 </html>

@@ -11,5 +11,8 @@ Thumbs.db
 node_modules/
 
 # Cloudflare Worker local state
-flight-deck/worker/.wrangler/
+worker/.wrangler/
 .dev.vars
+
+# Design mockups (kept locally)
+mockups/

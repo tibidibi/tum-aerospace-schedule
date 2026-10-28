@@ -414,7 +414,7 @@ function maybeNotify(focus, first, pick, route) {
   const title = `Leave in ${Math.max(1, Math.round(minsLeft))} min`;
   const body = `${courseOf(first).shortName} at ${first.startTime}. Leave at ${hhmm(pick.leaveBy)}${via}.`;
   navigator.serviceWorker?.getRegistration().then(reg => reg
-    ? reg.showNotification(title, { body, tag: 'leave', icon: 'icon.svg' })
+    ? reg.showNotification(title, { body, tag: 'leave', icon: 'icons/icon.svg' })
     : new Notification(title, { body })).catch(() => {});
 }
 
@@ -934,7 +934,7 @@ function openSettings() {
         <button type="button" class="row" data-export><span class="grow" style="color:var(--md-primary)">Export classes and appointments (.ics)</span></button>
       </div>
     </section>
-    <p class="section-note">Unofficial student tool, not affiliated with TUM. Always check TUMonline. <a href="../flight-deck/">Open the classic Flight Deck</a></p>`);
+    <p class="section-note">Unofficial student tool, not affiliated with TUM. Always check TUMonline.</p>`);
   renderTumSection();
 }
 

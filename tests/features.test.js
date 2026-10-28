@@ -1,18 +1,18 @@
 /**
  * Checks for the live features: semester dates, TUMonline parsing and merge, .ics export,
  * MVG/TomTom ranking, the Ottobrunn menu parser, the optimizer and squad links.
- * Run with: node test_features.js
+ * Run with: node tests/features.test.js
  */
 
 const assert = require('assert');
 const fs = require('fs');
 
 // The page loads these as plain scripts sharing globals; mirror that here
-Object.assign(global, require('./data.js'));
-Object.assign(global, require('./calendar.js'));
-Object.assign(global, require('./services.js'));
-Object.assign(global, require('./optimizer.js'));
-Object.assign(global, require('./squad.js'));
+Object.assign(global, require('../js/timetable.js'));
+Object.assign(global, require('../js/calendar.js'));
+Object.assign(global, require('../js/services.js'));
+Object.assign(global, require('../js/autopilot.js'));
+Object.assign(global, require('../js/squad.js'));
 
 const ok = msg => console.log(`✓ ${msg}`);
 console.log('--- Running Feature Tests ---');
@@ -124,7 +124,7 @@ assert(ics.split('\r\n').every(l => new TextEncoder().encode(l).length <= 75), '
 ok('.ics: lecture-period end, holiday EXDATEs, leave-now alarm, escaping, folding');
 
 // ---------- MVG ranking (real response, Leopoldstraße 100 → Ottobrunn) ----------
-const raw = JSON.parse(fs.readFileSync('./fixtures/mvg_routes.json', 'utf8'));
+const raw = JSON.parse(fs.readFileSync(__dirname + '/fixtures/mvg_routes.json', 'utf8'));
 const routes = raw.map(normalizeMvgRoute);
 assert.strictEqual(routes[0].legs[0].walk, true);
 assert.strictEqual(routes[0].firstStop.line, '59');
@@ -158,7 +158,7 @@ assert.strictEqual(modes[0].fastest, true);
 ok('Mode comparison: buffers applied, fastest picked, MVG wins near-ties');
 
 // ---------- Mensa ----------
-const menu = parseStwmMenu(fs.readFileSync('./fixtures/mensa_ottobrunn.html', 'utf8'));
+const menu = parseStwmMenu(fs.readFileSync(__dirname + '/fixtures/mensa_ottobrunn.html', 'utf8'));
 assert.strictEqual(menu.days[0].date, '2026-10-22');
 assert(menu.days.length >= 2);
 const dishes = menu.days[0].dishes;
@@ -211,7 +211,7 @@ ok('Squad: link round-trip without secrets, sanitized input, free-together slots
 
 // ---------- Worker routes (run under Node; no edge cache, no TomTom key) ----------
 (async () => {
-  const { default: worker } = await import('./worker/index.js');
+  const { default: worker } = await import('../worker/index.js');
   const get = path => worker.fetch(new Request(`https://w.test${path}`), {});
   const feed = await get(`/feed.ics?s=${encodeShare({ name: 'Me', groups: defaults, alarms: { 1: 50 } })}`);
   assert.strictEqual(feed.status, 200);

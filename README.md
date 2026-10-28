@@ -2,21 +2,71 @@
 
 > **Unofficial.** A student-made tool, not affiliated with, endorsed by, or maintained by the Technical University of Munich (TUM). Always check TUMonline for the official schedule.
 
-Two front ends for the same schedule:
+Your 1st-semester Aerospace timetable, plus what you need to get through the day: when to leave and how, the Mensa menu, and the Moodle course of the class you're in. Material You design, tinted from a colour you pick.
 
-| Folder | What it is |
+No build step, no dependencies: plain HTML, CSS and JavaScript.
+
+## What it does
+
+**Today**
+- A narrow day plan with a "now" line, next to your commute: **leave by**, MVG vs car vs bike, the connections with live delays and disruptions, rain at leave time, and a live departure board from your first stop.
+- **Lunch:** your free window while the Mensa is open (11:00–14:00) and today's menu, filtered by diet.
+- **Moodle** on the right for the class you're in or the next one. *Follow along* opens Moodle on the right half of your screen and moves it to each course as it starts.
+
+**Week**, with semester weeks (breaks left out) and `.ics` export. **Groups**: pick your exercise groups, or let **Autopilot** rank all 1,456 combinations. **Squad**: share your schedule as a link and see shared groups and free time together.
+
+**Your own appointments**: one-off or weekly. They show in the day plan and the week and go into the `.ics` export.
+
+**TUMonline sync** (Settings › TUMonline): enter your TUM ID, activate the token named **TUM Flight Deck** in TUMonline › Token-Management, and the app syncs on its own. Your TUMonline calendar then wins: its times, rooms and cancellations replace the PDF data, and your exercise groups are picked from your registrations. The token stays in your browser.
+
+Keys: **1–4** switch views, **← →** change week, **T** this week, **,** settings.
+
+## Files
+
+| Path | What's in it |
 |---|---|
-| [`cupertino/`](cupertino/) | The new Material You app, tinted from a colour you pick in Settings: navigation drawer, a narrow day plan next to your commute (leave-by, MVG/car/bike, live departures) and lunch, Moodle on the right. Week, Groups (with Autopilot) and Squad views. |
-| [`flight-deck/`](flight-deck/) | The original Flight Deck app with its four styles, tests, the Cloudflare Worker and the timetable PDF. See its [README](flight-deck/README.md). |
+| `index.html`, `css/style.css` | The page and the Material You styles (every colour derived from one seed) |
+| `js/timetable.js` | Courses, sessions, semester dates and campuses from the official timetable PDF |
+| `js/calendar.js` | Semester weeks, TUMonline parsing and merge, `.ics` |
+| `js/services.js` | MVG, TomTom (via the Worker), Mensa, NavigaTUM, weather |
+| `js/autopilot.js` | Ranks exercise-group combinations |
+| `js/squad.js` | Share links and free time together |
+| `js/state.js` | Your groups, settings, appointments and the TUMonline connection |
+| `js/app.js` | Everything you see and click |
+| `sw.js`, `manifest.webmanifest`, `icons/` | Offline support and installing as an app |
+| `worker/` | Optional Cloudflare Worker (below) |
+| `tests/` | `node tests/features.test.js` |
 
-Both apps use the same browser storage, so your groups, home address and TUMonline token carry over between them.
-
-## Run it
+## Run it locally
 
 ```bash
 python3 -m http.server 8080
 ```
 
-Then open http://localhost:8080/cupertino/ (or `/flight-deck/`).
+Then open http://localhost:8080. A real web server is needed (not `file://`) for offline support.
 
-`cupertino/` has its own copies of the schedule logic from `flight-deck/` (`data.js`, `calendar.js`, `services.js`, `optimizer.js`, `squad.js`). If you fix one, fix the other.
+## Host it on GitHub Pages
+
+1. The repository has to be public (or on a paid plan).
+2. Settings › Pages › Build and deployment › Source: **Deploy from a branch**, branch **main**, folder **/ (root)**.
+3. After a minute it's live at `https://<your-user>.github.io/tum-aerospace-schedule/`. Open it on your phone and use *Add to Home Screen* to install it.
+
+Every push to `main` redeploys. The `.nojekyll` file makes Pages serve the files as they are.
+
+## Optional: the Worker
+
+A free Cloudflare Worker in [`worker/`](worker/) adds what a static page can't do on its own. Paste its URL into Settings › Advanced.
+
+| Route | What it adds |
+|---|---|
+| `/mensa/ottobrunn` | Mensa Ottobrunn's menu (only published as an HTML page with no CORS) |
+| `/route` | Car and bike times with live traffic (TomTom), keeping your API key secret |
+| `/feed.ics?s=…` | A calendar subscription with "leave now" alerts |
+
+```bash
+cd worker
+npx wrangler deploy
+npx wrangler secret put TOMTOM_KEY
+```
+
+Set `ALLOWED_ORIGIN` in `worker/wrangler.toml` to your Pages origin (e.g. `https://you.github.io`) so other sites can't use your TomTom quota.

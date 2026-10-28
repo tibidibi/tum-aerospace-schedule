@@ -5,11 +5,11 @@
  *   GET /feed.ics?s=<share code>                                         Subscribable calendar with "leave now" alarms
  * Deploy: npx wrangler deploy && npx wrangler secret put TOMTOM_KEY
  */
-import data from '../data.js';
-import calendar from '../calendar.js';
-import services from '../services.js';
-import optimizer from '../optimizer.js';
-import squad from '../squad.js';
+import data from '../js/timetable.js';
+import calendar from '../js/calendar.js';
+import services from '../js/services.js';
+import optimizer from '../js/autopilot.js';
+import squad from '../js/squad.js';
 
 // The shared modules are plain browser scripts that read each other through globals
 Object.assign(globalThis, data, calendar, services, optimizer, squad);
