@@ -329,6 +329,9 @@ input[type="search"].field::-webkit-search-cancel-button { cursor: pointer; }
 .section { display: flex; flex-direction: column; gap: 8px; }
 .section-label { padding: 0 4px; min-height: 40px; font-size: 14px; font-weight: 500; color: var(--md-on-surface-variant); display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 8px; }
 .section-label > span:last-child:not(.seg) { font-weight: 400; }
+.home-chip { max-width: 55%; gap: 6px; min-height: 32px; }
+.home-chip span:last-child { overflow: hidden; text-overflow: ellipsis; }
+.home-chip .msr { font-size: 18px; }
 .section-note { padding: 0 4px; font-size: 13px; color: var(--md-on-surface-variant); margin: 0; }
 .list { background: var(--md-surface-lowest); border-radius: 16px; overflow: hidden; }
 .inspector .list, .sheet .list { background: var(--md-surface-lowest); }

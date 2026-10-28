@@ -416,7 +416,8 @@ function commuteHead(now, focus) {
   if (!focus.live.length) return '';
   if (!SETTINGS.home) return '<div class="section-label">Getting there</div>';
   const plan = leavePlan(now, focus);
-  return `<div class="section-label">${esc(plan.label)}</div>${leaveControls(now, focus, plan)}`;
+  return `<div class="section-label">${esc(plan.label)}
+    <button type="button" class="btn plain home-chip" data-edit-home aria-label="Change home address, now ${esc(SETTINGS.home.name)}">${icon('home')}<span>${esc(SETTINGS.home.name)}</span></button></div>${leaveControls(now, focus, plan)}`;
 }
 
 function leaveControls(now, focus, plan) {
@@ -497,7 +498,7 @@ async function commuteHtml(now, focus, out = {}) {
     return `<div class="section">
       <div class="card"><strong>Add your home address</strong>
       <span class="sub">Then you'll see when to leave and the best way in: MVG, car or bike, with live delays.</span>
-      <div><button type="button" class="btn" data-open-settings>Set home address</button></div></div></div>`;
+      <div><button type="button" class="btn" data-edit-home>Set home address</button></div></div></div>`;
   }
   const first = focus.live[0];
   const last = focus.live[focus.live.length - 1];
@@ -1158,16 +1159,38 @@ function saveAppointment(e) {
   toast(id ? 'Appointment saved' : `Added ${data.title} · ${formatDateShort(data.date)} ${data.start}`);
 }
 
+// Your home address: search MVG for a new one, or remove it. `back` reopens Settings afterwards.
+function openHome(back = false) {
+  UI.homeBack = back;
+  openSheet('home', 'Home address', `
+    <section class="section">
+      <div class="list">
+        <div class="row"><span class="grow">${SETTINGS.home ? esc(SETTINGS.home.name) : 'Not set'}<span class="sub">${SETTINGS.home ? esc(SETTINGS.home.place) : 'Used to plan your trips to campus and back'}</span></span>
+          ${SETTINGS.home ? '<button type="button" class="btn danger" data-home-clear>Remove</button>' : ''}</div>
+        <div class="row"><label class="search-field"><span class="msr" aria-hidden="true">search</span><input class="field" id="homeSearch" type="search" placeholder="Search street and number, town" aria-label="Search home address" autocomplete="off"></label></div>
+      </div>
+      <div class="list results" id="homeResults" role="listbox" hidden></div>
+      <p class="section-note">Stays on this device. Trips are planned from here to campus and back.</p>
+    </section>`);
+  $('homeSearch').focus();
+}
+
+function homeDone(message) {
+  SETTINGS.leadMinutes = {};
+  saveSettings();
+  toast(message);
+  if (UI.homeBack) openSettings();
+  else $('sheet').close();
+}
+
 function openSettings() {
   openSheet('settings', 'Settings', `
     <section class="section" id="appearanceSection">${appearanceHtml()}</section>
     <section class="section">
       <div class="section-label">Home</div>
       <div class="list">
-        <div class="row"><span class="grow">${SETTINGS.home ? esc(SETTINGS.home.name) : 'Not set'}<span class="sub">${SETTINGS.home ? esc(SETTINGS.home.place) : 'Used to plan your trips to campus and back'}</span></span></div>
-        <div class="row"><label class="search-field"><span class="msr" aria-hidden="true">search</span><input class="field" id="homeSearch" type="search" placeholder="Search street and number, town" aria-label="Search home address" autocomplete="off"></label></div>
+        <button type="button" class="row" data-edit-home data-from-settings><span class="grow">${SETTINGS.home ? esc(SETTINGS.home.name) : 'Not set'}<span class="sub">${SETTINGS.home ? esc(SETTINGS.home.place) : 'Used to plan your trips to campus and back'}</span></span><span class="value">${SETTINGS.home ? 'Change' : 'Set'}</span>${icon('chevron_right', 'chev')}</button>
       </div>
-      <div class="list results" id="homeResults" role="listbox" hidden></div>
     </section>
     <section class="section">
       <div class="section-label">Travel</div>
@@ -1323,13 +1346,16 @@ document.addEventListener('click', async e => {
     mode.setAttribute('aria-pressed', SETTINGS.modes[mode.dataset.mode]);
     return;
   }
+  const editHome = t.closest('[data-edit-home]');
+  if (editHome) return openHome('fromSettings' in editHome.dataset);
   const home = t.closest('[data-home-index]');
   if (home) {
     SETTINGS.home = UI.homeResults[Number(home.dataset.homeIndex)];
-    SETTINGS.leadMinutes = {};
-    saveSettings();
-    toast(`Home set to ${SETTINGS.home.name}`);
-    return openSettings();
+    return homeDone(`Home set to ${SETTINGS.home.name}`);
+  }
+  if (t.closest('[data-home-clear]')) {
+    SETTINGS.home = null;
+    return homeDone('Home address removed');
   }
   const tum = t.closest('[data-tum]');
   if (tum) return tum.dataset.tum === 'sync' ? tumSync() : tumDisconnect();
