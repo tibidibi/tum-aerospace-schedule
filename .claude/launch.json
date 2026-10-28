@@ -10,6 +10,16 @@
         "8080"
       ],
       "port": 8080
+    },
+    {
+      "name": "cupertino",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "8091"
+      ],
+      "port": 8091
     }
   ]
 }
