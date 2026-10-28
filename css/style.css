@@ -185,7 +185,7 @@ a:hover { text-decoration: underline; }
   background: var(--md-primary-container); color: var(--md-on-primary-container);
   font-size: 14px; font-weight: 500; box-shadow: var(--elev-3); position: relative; overflow: hidden;
 }
-.fab::after { content: ''; position: absolute; inset: 0; background: currentColor; opacity: 0; transition: opacity .15s; }
+.fab::after { content: ''; position: absolute; inset: 0; background: currentColor; opacity: 0; }
 .fab:hover::after { opacity: 0.08; }
 .fab .msr { font-size: 24px; }
 .fab-mobile { display: none; }
@@ -209,7 +209,6 @@ textarea.field { min-height: 96px; padding: 14px 16px; resize: vertical; font: i
   background: transparent; text-align: left; font-size: 14px; font-weight: 500;
   color: var(--md-on-surface-variant);
 }
-.side-item:hover { background: var(--state-hover); }
 .side-item[aria-current="page"] { background: var(--md-secondary-container); color: var(--md-on-secondary-container); font-weight: 600; }
 .side-item kbd { margin-left: auto; font: 12px var(--font); color: var(--md-on-surface-variant); opacity: 0.7; }
 .course-item { min-height: 44px; gap: 14px; font-weight: 400; }
@@ -258,7 +257,7 @@ textarea.field { min-height: 96px; padding: 14px 16px; resize: vertical; font: i
   font-weight: 500; font-size: 14px; letter-spacing: 0.01em; white-space: nowrap;
   position: relative; overflow: hidden;
 }
-.btn::after { content: ''; position: absolute; inset: 0; background: currentColor; opacity: 0; transition: opacity .15s; }
+.btn::after { content: ''; position: absolute; inset: 0; background: currentColor; opacity: 0; }
 .btn:hover { text-decoration: none; }
 .btn:hover::after { opacity: 0.08; }
 .btn:active::after { opacity: 0.12; }
@@ -273,7 +272,6 @@ textarea.field { min-height: 96px; padding: 14px 16px; resize: vertical; font: i
   width: 40px; height: 40px; border: 0; border-radius: 20px; background: transparent; color: var(--md-on-surface-variant);
   display: inline-flex; align-items: center; justify-content: center;
 }
-.icon-btn:hover { background: var(--state-hover); }
 
 /* Segmented buttons */
 .seg { display: inline-flex; border: 1px solid var(--md-outline); border-radius: 20px; overflow: hidden; flex-wrap: nowrap; max-width: 100%; }
@@ -282,7 +280,6 @@ textarea.field { min-height: 96px; padding: 14px 16px; resize: vertical; font: i
   color: var(--md-on-surface); display: inline-flex; align-items: center; gap: 6px; white-space: nowrap;
 }
 .seg button + button { border-left: 1px solid var(--md-outline); }
-.seg button:hover { background: var(--state-hover); }
 .seg button[aria-pressed="true"] { background: var(--md-secondary-container); color: var(--md-on-secondary-container); }
 .seg button[aria-pressed="true"]::before { content: 'check'; font-family: "Material Symbols Rounded"; font-size: 18px; line-height: 1; }
 .seg button:disabled { opacity: 0.38; cursor: default; }
@@ -353,7 +350,7 @@ input[type="search"].field::-webkit-search-cancel-button { cursor: pointer; }
   position: relative; color: var(--md-on-surface); background: transparent; border: 0; width: 100%; text-align: left;
 }
 .row + .row { border-top: 1px solid var(--md-surface-container); }
-a.row:hover, button.row:hover { text-decoration: none; background: var(--state-hover); }
+a.row:hover, button.row:hover { text-decoration: none; }
 .row .grow { flex: 1; min-width: 0; display: flex; flex-direction: column; font-size: 16px; line-height: 24px; }
 .row .sub { font-size: 14px; line-height: 20px; color: var(--md-on-surface-variant); }
 .row .value { color: var(--md-on-surface-variant); white-space: nowrap; }
@@ -397,7 +394,6 @@ a.row:hover, button.row:hover { text-decoration: none; background: var(--state-h
   }
 }
 .ev b { font-weight: 600; font-size: 13px; }
-.ev:hover { filter: brightness(0.96); }
 .ev.now { background: var(--c); color: #FFFFFF; box-shadow: var(--elev-1); }
 @supports (color: oklch(from red l c h)) { .ev.now { background: oklch(from var(--c) 0.50 0.14 h); } }
 .ev.past { opacity: 0.6; }
@@ -524,7 +520,6 @@ a.row:hover, button.row:hover { text-decoration: none; background: var(--state-h
 .sheet-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 24px 24px 8px; }
 .sheet-head h2 { margin: 0; font-size: 24px; line-height: 32px; font-weight: 400; }
 .sheet-done { border: 0; background: transparent; color: var(--md-primary); font-weight: 500; min-height: 40px; padding: 0 12px; border-radius: 20px; }
-.sheet-done:hover { background: color-mix(in srgb, var(--md-primary) 8%, transparent); }
 .sheet-body { padding: 8px 24px 24px; overflow-y: auto; display: flex; flex-direction: column; gap: 16px; }
 .sheet-body .row label { flex: 1; }
 .err { color: var(--md-error); font-size: 13px; margin: 0; padding: 0 4px; }
@@ -576,6 +571,141 @@ a.row:hover, button.row:hover { text-decoration: none; background: var(--state-h
   .toast { left: 12px; right: 12px; bottom: 96px; }
   .fab-mobile { display: inline-flex; position: fixed; right: 16px; bottom: calc(104px + env(safe-area-inset-bottom)); z-index: 21; width: 56px; padding: 0; margin: 0; justify-content: center; }
   .form-grid { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* ================= MOTION (Material 3) =================
+   Easing and duration tokens from the M3 motion spec. State changes use the standard curve;
+   things entering use emphasized-decelerate, things leaving emphasized-accelerate. */
+:root {
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --ease-emph-decel: cubic-bezier(0.05, 0.7, 0.1, 1);
+  --ease-emph-accel: cubic-bezier(0.3, 0, 0.8, 0.15);
+  --dur-short: 150ms;
+  --dur-medium: 250ms;
+  --dur-long: 400ms;
+}
+
+/* State layers: an overlay in the content colour, 8% on hover, 10% on focus, 12% pressed */
+a.row, button.row, .side-item, .seg button, .icon-btn, .sheet-done { position: relative; overflow: hidden; }
+.tabbar .pill { position: relative; overflow: hidden; }
+:is(.ev, a.row, button.row, .side-item, .seg button, .icon-btn, .sheet-done, .tabbar .pill)::after {
+  content: ''; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+  background: currentColor; opacity: 0;
+}
+:is(.ev, a.row, button.row, .side-item, .seg button, .icon-btn, .sheet-done, .tabbar .pill, .btn, .fab)::after {
+  transition: opacity var(--dur-short) var(--ease-standard);
+}
+:is(.ev, a.row, button.row, .side-item, .seg button, .icon-btn, .sheet-done, .btn, .fab):hover::after,
+.tabbar button:hover .pill::after { opacity: 0.08; }
+:is(.ev, a.row, button.row, .side-item, .seg button, .icon-btn, .sheet-done, .btn, .fab):focus-visible::after { opacity: 0.10; }
+:is(.ev, a.row, button.row, .side-item, .seg button, .icon-btn, .sheet-done, .btn, .fab):active::after,
+.tabbar button:active .pill::after { opacity: 0.12; }
+:is(button, a)[disabled]::after { opacity: 0 !important; }
+
+/* Ripple from the press point (added by app.js) */
+.ripple {
+  position: absolute; border-radius: 50%; pointer-events: none; z-index: 0;
+  background: currentColor; opacity: 0.12; transform: scale(0);
+  animation: ripple var(--dur-long) var(--ease-standard) forwards;
+  transition: opacity 300ms linear;
+}
+.ripple.out { opacity: 0; }
+@keyframes ripple { to { transform: scale(1); } }
+
+/* Colour, elevation and shape changes on controls ease instead of snapping */
+.side-item, .seg button, .tabbar button, .tabbar .pill, .icon-btn, .sheet-done, .chip, .tag, .swatch, .course-item .dot,
+.btn, .fab, .row, .mode, .leave-card, .course-card, .plan, .card, .weather {
+  transition: background-color var(--dur-medium) var(--ease-standard), color var(--dur-medium) var(--ease-standard),
+    box-shadow var(--dur-medium) var(--ease-standard), border-color var(--dur-medium) var(--ease-standard),
+    transform var(--dur-medium) var(--ease-standard), opacity var(--dur-medium) var(--ease-standard);
+}
+.fab:hover { box-shadow: 0 6px 10px 4px rgba(0, 0, 0, 0.15), 0 2px 3px rgba(0, 0, 0, 0.3); }
+.swatch:hover { transform: scale(1.06); }
+.swatch:active { transform: scale(0.96); }
+.switch .track, .switch .track::after {
+  transition: background-color var(--dur-medium) var(--ease-standard), box-shadow var(--dur-medium) var(--ease-standard),
+    left var(--dur-medium) var(--ease-emph-decel), top var(--dur-medium) var(--ease-emph-decel),
+    width var(--dur-medium) var(--ease-emph-decel), height var(--dur-medium) var(--ease-emph-decel);
+}
+.switch:active .track::after { width: 28px; height: 28px; top: 2px; left: 4px; }
+.switch[aria-pressed="true"]:active .track::after { left: 20px; }
+.toast { transition: opacity var(--dur-medium) var(--ease-emph-accel), transform var(--dur-medium) var(--ease-emph-accel); }
+.toast.show { transition-timing-function: var(--ease-emph-decel); transition-duration: var(--dur-long); }
+.stale { transition: opacity var(--dur-medium) var(--ease-standard); }
+.progress-card .bar span { transition: width var(--dur-long) var(--ease-standard); }
+
+/* Class tiles: their state (now, past, skipped) and the "now" line move smoothly as time passes */
+.ev {
+  transition: background-color var(--dur-long) var(--ease-standard), color var(--dur-long) var(--ease-standard),
+    opacity var(--dur-long) var(--ease-standard), box-shadow var(--dur-medium) var(--ease-standard),
+    transform var(--dur-medium) var(--ease-standard);
+}
+.ev:hover { box-shadow: var(--elev-1); }
+.ev:active { transform: scale(0.985); }
+.now-line { transition: top var(--dur-long) var(--ease-standard); }
+
+/* Entrances. A new view fades through (M3 "fade through"), its tiles and cards rise in, staggered */
+@keyframes fade-through { from { opacity: 0; transform: scale(0.98); } }
+@keyframes rise-in { from { opacity: 0; transform: translateY(12px); } }
+@keyframes tile-in { from { opacity: 0; transform: translateY(8px) scale(0.97); } }
+@keyframes slide-next { from { opacity: 0; transform: translateX(32px); } }
+@keyframes slide-prev { from { opacity: 0; transform: translateX(-32px); } }
+.view.enter-fade > * { animation: fade-through var(--dur-long) var(--ease-emph-decel) both; }
+.view.enter-fade :is(.travel > *, .section, .plan, .autopilot, .week-stats) { animation: rise-in var(--dur-long) var(--ease-emph-decel) both; animation-delay: 60ms; }
+.view.enter-fade .ev { animation: tile-in var(--dur-long) var(--ease-emph-decel) both; animation-delay: calc(80ms + var(--i, 0) * 30ms); }
+.view.enter-next :is(.week-col, .week-head) { animation: slide-next var(--dur-long) var(--ease-emph-decel) both; }
+.view.enter-prev :is(.week-col, .week-head) { animation: slide-prev var(--dur-long) var(--ease-emph-decel) both; }
+.title-block.enter-fade { animation: rise-in var(--dur-long) var(--ease-emph-decel) both; }
+.title-block.enter-next { animation: slide-next var(--dur-long) var(--ease-emph-decel) both; }
+.title-block.enter-prev { animation: slide-prev var(--dur-long) var(--ease-emph-decel) both; }
+
+/* Toggles redrawn on click replay their state change (app.js adds flash-on / flash-off) */
+@keyframes seg-on { from { background-color: transparent; color: var(--md-on-surface); } }
+@keyframes seg-off { from { background-color: var(--md-secondary-container); color: var(--md-on-secondary-container); } }
+@keyframes check-in { from { opacity: 0; transform: scale(0.3); } }
+.seg button.flash-on { animation: seg-on var(--dur-medium) var(--ease-standard); }
+.seg button.flash-off { animation: seg-off var(--dur-medium) var(--ease-standard); }
+.seg button.flash-on::before, .row.flash-on .check .msr, .swatch.flash-on::after { animation: check-in var(--dur-medium) var(--ease-emph-decel); display: inline-block; }
+.row.flash-on, .row.flash-off { animation: none; }
+@keyframes thumb-on { from { left: 8px; top: 8px; width: 16px; height: 16px; background-color: var(--md-outline); } }
+@keyframes thumb-off { from { left: 24px; top: 4px; width: 24px; height: 24px; background-color: var(--md-on-primary); } }
+@keyframes track-on { from { background-color: var(--md-surface-highest); box-shadow: inset 0 0 0 2px var(--md-outline); } }
+@keyframes track-off { from { background-color: var(--md-primary); box-shadow: none; } }
+.switch.flash-on .track { animation: track-on var(--dur-medium) var(--ease-standard); }
+.switch.flash-on .track::after { animation: thumb-on var(--dur-medium) var(--ease-emph-decel); }
+.switch.flash-off .track { animation: track-off var(--dur-medium) var(--ease-standard); }
+.switch.flash-off .track::after { animation: thumb-off var(--dur-medium) var(--ease-emph-decel); }
+@keyframes dot-on { from { background-color: transparent; transform: scale(0.6); } }
+@keyframes dot-off { from { background-color: var(--c); } }
+.course-item.flash-on .dot { animation: dot-on var(--dur-medium) var(--ease-emph-decel); }
+.course-item.flash-off .dot { animation: dot-off var(--dur-medium) var(--ease-standard); }
+
+/* Dialogs and the bottom sheet: open with emphasized-decelerate, close with emphasized-accelerate.
+   Uses @starting-style; browsers without it just open and close instantly. */
+.sheet {
+  opacity: 0; transform: translateY(24px) scale(0.96);
+  transition: opacity var(--dur-medium) var(--ease-emph-accel), transform var(--dur-medium) var(--ease-emph-accel),
+    overlay var(--dur-medium) allow-discrete, display var(--dur-medium) allow-discrete;
+}
+.sheet[open] { opacity: 1; transform: none; transition-duration: var(--dur-long); transition-timing-function: var(--ease-emph-decel); }
+@starting-style { .sheet[open] { opacity: 0; transform: translateY(24px) scale(0.96); } }
+.sheet::backdrop {
+  background-color: rgba(0, 0, 0, 0);
+  transition: background-color var(--dur-medium) var(--ease-standard), overlay var(--dur-medium) allow-discrete, display var(--dur-medium) allow-discrete;
+}
+.sheet[open]::backdrop { background-color: rgba(0, 0, 0, 0.32); }
+@starting-style { .sheet[open]::backdrop { background-color: rgba(0, 0, 0, 0); } }
+@media (max-width: 760px) {
+  .sheet { opacity: 1; transform: translateY(100%); }
+  .sheet[open] { transform: none; }
+  @starting-style { .sheet[open] { opacity: 1; transform: translateY(100%); } }
+}
+
+/* Respect "reduce motion": keep colour changes, drop movement */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 1ms !important; animation-delay: 0ms !important; animation-iteration-count: 1 !important; }
+  .ev, .now-line, .sheet, .toast, .swatch, .switch .track::after { transition-property: background-color, color, opacity !important; }
+  .ev:active, .swatch:hover, .swatch:active { transform: none; }
 }
 
 @media print {
