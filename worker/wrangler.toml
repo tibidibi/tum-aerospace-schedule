@@ -3,7 +3,8 @@ main = "index.js"
 compatibility_date = "2025-06-01"
 
 [vars]
-# Set to your GitHub Pages origin (e.g. "https://you.github.io") to stop other sites using your TomTom quota
-ALLOWED_ORIGIN = "*"
+# Your GitHub Pages origin: only it may ask for /route, so other sites can't use your TomTom quota.
+# "*" turns the check off (not recommended)
+ALLOWED_ORIGIN = "https://tibidibi.github.io"
 
 # Secret, not committed: npx wrangler secret put TOMTOM_KEY

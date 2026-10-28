@@ -10,10 +10,9 @@
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="icons/icon-192.png">
-  <script>
-    // Your colour seed, before first paint (app.js changes it from Settings)
-    try { var seed = localStorage.getItem('fd_md_seed'); if (seed) document.documentElement.style.setProperty('--seed', seed); } catch (e) {}
-  </script>
+  <!-- Pages can't send headers, so the CSP lives here. A Worker on your own domain (not *.workers.dev) goes into connect-src -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://campus.tum.de https://www.mvg.de https://tum-dev.github.io https://nav.tum.de https://api.open-meteo.com https://*.workers.dev; object-src 'none'; base-uri 'none'; form-action 'self'">
+  <script src="js/seed.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@8..144,400;8..144,500;8..144,600;8..144,700&display=swap" rel="stylesheet">

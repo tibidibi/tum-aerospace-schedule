@@ -50,13 +50,16 @@ async function road(url, env) {
   }
   if (!env.TOMTOM_KEY) return [{ error: 'TOMTOM_KEY is not set on this Worker' }, 501];
 
-  // ~100 m and 2-minute buckets, so a class full of students shares one TomTom call
+  // ~100 m and 2-minute buckets (5 for arrive-by, rounded earlier), so a class full of students shares
+  // one TomTom call and made-up arrival times can't skip the cache to burn the quota
   const round = s => s.split(',').map(n => Number(n).toFixed(3)).join(',');
-  const bucket = arriveAt || new Date(Math.floor(Date.now() / 120e3) * 120e3).toISOString();
+  const bucket = arriveAt
+    ? new Date(Math.floor(Date.parse(arriveAt) / 300e3) * 300e3).toISOString().replace(/\.\d{3}Z$/, 'Z')
+    : new Date(Math.floor(Date.now() / 120e3) * 120e3).toISOString();
   const key = `route/${mode}/${round(from)}/${round(to)}/${bucket}`;
   const result = await cached(key, 120, async () => {
     const q = new URLSearchParams({ key: env.TOMTOM_KEY, travelMode: mode, traffic: 'true', routeType: 'fastest' });
-    if (arriveAt) q.set('arriveAt', arriveAt);
+    if (arriveAt) q.set('arriveAt', bucket);
     const res = await fetch(`https://api.tomtom.com/routing/1/calculateRoute/${round(from)}:${round(to)}/json?${q}`);
     if (!res.ok) throw new Error(`TomTom answered ${res.status}`);
     return normalizeTomTom(await res.json());
@@ -89,6 +92,8 @@ export default {
     if (request.method !== 'GET') return respond({ error: 'GET only' }, { status: 405, origin });
     try {
       if (url.pathname === '/route') {
+        // CORS only stops browsers reading the answer; refuse other pages (and Origin-less scripts) before spending TomTom quota
+        if (origin !== '*' && request.headers.get('origin') !== origin) return respond({ error: 'Forbidden origin' }, { status: 403, origin });
         const [body, status] = await road(url, env);
         return respond(body, { status, origin, maxAge: status === 200 ? 60 : 0 });
       }

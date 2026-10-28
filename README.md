@@ -17,7 +17,7 @@ No build step, no dependencies: plain HTML, CSS and JavaScript.
 
 **Your own appointments**: one-off or weekly. They show in the day plan and the week and go into the `.ics` export.
 
-**TUMonline sync** (Settings › TUMonline): enter your TUM ID, activate the token named **TUM Flight Deck** in TUMonline › Token-Management, and the app syncs on its own. Your TUMonline calendar then wins: its times, rooms and cancellations replace the PDF data, and your exercise groups are picked from your registrations. The token stays in your browser.
+**TUMonline sync** (Settings › TUMonline): enter your TUM ID, activate the token named **TUM Flight Deck** in TUMonline › Token-Management, and the app syncs on its own. Your TUMonline calendar then wins: its times, rooms and cancellations replace the PDF data, and your exercise groups are picked from your registrations. The token stays in your browser. When you activate it, grant it **only calendar access**: that's all the app reads, and it limits what a leaked token could see.
 
 Keys: **1–4** switch views, **← →** change week, **T** this week, **,** settings.
 
@@ -53,6 +53,8 @@ Then open http://localhost:8080. A real web server is needed (not `file://`) for
 
 Every push to `main` redeploys. The `.nojekyll` file makes Pages serve the files as they are.
 
+**Security note:** every project page under `https://<your-user>.github.io/` shares one origin, so any of your other Pages projects can read this app's localStorage, TUMonline token included. Keep no untrusted code in your other Pages repos, or give this app an origin of its own: a custom domain, or the `<your-user>.github.io` repository itself.
+
 ## Optional: the Worker
 
 A free Cloudflare Worker in [`worker/`](worker/) adds what a static page can't do on its own. Paste its URL into Settings › Advanced.
@@ -69,4 +71,6 @@ npx wrangler deploy
 npx wrangler secret put TOMTOM_KEY
 ```
 
-Set `ALLOWED_ORIGIN` in `worker/wrangler.toml` to your Pages origin (e.g. `https://you.github.io`) so other sites can't use your TomTom quota.
+Set `ALLOWED_ORIGIN` in `worker/wrangler.toml` to your Pages origin (e.g. `https://you.github.io`): `/route` then answers only requests from that page, so other sites can't use your TomTom quota.
+
+The page's Content-Security-Policy (in `index.html`) allows Workers on `*.workers.dev`. If yours runs on your own domain, add it to `connect-src` there.

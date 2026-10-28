@@ -223,6 +223,11 @@ ok('Squad: link round-trip without secrets, sanitized input, free-together slots
   assert.strictEqual((await get('/route?mode=car&from=48.1,11.5&to=https://evil')).status, 400, 'coordinates only, no open proxy');
   assert.strictEqual((await get('/route?mode=car&from=48.1,11.5&to=48.0,11.6')).status, 501, 'tells you the key is missing');
   assert.strictEqual((await get('/anything')).status, 404);
-  ok('Worker: feed with alarms, strict /route validation, missing-key message');
+  const locked = { ALLOWED_ORIGIN: 'https://me.github.io' };
+  const routeFrom = origin => worker.fetch(new Request('https://w.test/route?mode=car&from=48.1,11.5&to=48.0,11.6', origin ? { headers: { origin } } : {}), locked);
+  assert.strictEqual((await routeFrom('https://evil.example')).status, 403, 'other sites are refused');
+  assert.strictEqual((await routeFrom(null)).status, 403, 'Origin-less scripts are refused');
+  assert.strictEqual((await routeFrom('https://me.github.io')).status, 501, 'your page gets through');
+  ok('Worker: feed with alarms, strict /route validation, origin lock, missing-key message');
   console.log('--- ALL FEATURE TESTS PASSED ---');
 })().catch(e => { console.error(e); process.exit(1); });

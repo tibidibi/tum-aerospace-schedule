@@ -612,9 +612,14 @@ function startMoodleFollow() {
   const url = (target && target.cls && moodleUrl(target.cls.courseId, target.cls.type)) || 'https://www.moodle.tum.de/my/';
   const w = Math.round(screen.availWidth / 2);
   const left = (screen.availLeft || 0) + screen.availWidth - w;
-  UI.moodleWin = window.open(url, 'tum-moodle', `popup,width=${w},height=${screen.availHeight},left=${left},top=${screen.availTop || 0}`);
+  // Open blank and cut `opener` before loading Moodle, so Moodle can't navigate this tab; we keep the handle to steer it
+  UI.moodleWin = window.open('', 'tum-moodle', `popup,width=${w},height=${screen.availHeight},left=${left},top=${screen.availTop || 0}`);
   UI.moodleUrl = url;
   if (!UI.moodleWin) toast('Your browser blocked the window. Allow pop-ups for this site, then try again.');
+  else {
+    try { UI.moodleWin.opener = null; } catch (e) { /* already on Moodle from an earlier follow: opener was cut then */ }
+    UI.moodleWin.location.href = url;
+  }
   renderInspector();
 }
 

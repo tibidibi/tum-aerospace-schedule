@@ -7,7 +7,7 @@ const SHELL_CACHE = `${CACHE_PREFIX}v3`;
 const SHELL = [
   './', 'index.html', 'manifest.webmanifest', 'css/style.css',
   'js/timetable.js', 'js/calendar.js', 'js/services.js', 'js/autopilot.js', 'js/squad.js', 'js/state.js', 'js/app.js',
-  'icons/icon.svg', 'icons/icon-192.png'
+  'js/seed.js', 'icons/icon.svg', 'icons/icon-192.png'
 ];
 
 self.addEventListener('install', event => {
