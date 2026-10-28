@@ -3,7 +3,7 @@
  * Live data (TUMonline, MVG, Mensa…) has its own last-known-copy fallback in cachedFetch.
  */
 const CACHE_PREFIX = 'tum-calendar-';
-const SHELL_CACHE = `${CACHE_PREFIX}v2`;
+const SHELL_CACHE = `${CACHE_PREFIX}v3`;
 const SHELL = [
   './', 'index.html', 'manifest.webmanifest', 'css/style.css',
   'js/timetable.js', 'js/calendar.js', 'js/services.js', 'js/autopilot.js', 'js/squad.js', 'js/state.js', 'js/app.js',

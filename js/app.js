@@ -983,7 +983,7 @@ function openSettings() {
       <div class="section-label">Home</div>
       <div class="list">
         <div class="row"><span class="grow">${SETTINGS.home ? esc(SETTINGS.home.name) : 'Not set'}<span class="sub">${SETTINGS.home ? esc(SETTINGS.home.place) : 'Used to plan your trips to campus and back'}</span></span></div>
-        <div class="row"><input class="field" id="homeSearch" type="search" placeholder="Search street and number, town" aria-label="Search home address" autocomplete="off"></div>
+        <div class="row"><label class="search-field"><span class="msr" aria-hidden="true">search</span><input class="field" id="homeSearch" type="search" placeholder="Search street and number, town" aria-label="Search home address" autocomplete="off"></label></div>
       </div>
       <div class="list results" id="homeResults" role="listbox" hidden></div>
     </section>
