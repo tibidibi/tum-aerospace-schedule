@@ -190,7 +190,10 @@ assert.strictEqual(navLink('OTN Hörsaal 1 (9387.EG.008)'), 'https://nav.tum.de/
 assert.strictEqual(campusFromRoom('OTN Hörsaal 1 (9387.EG.008)'), 'Ottobrunn');
 const w = walkMinutes({ lat: 48.265424, lon: 11.670841 }, { lat: 48.2661, lon: 11.668346 });
 assert(w >= 2 && w <= 5, `MW → Otto-Lilienthal-Hörsaal is a short walk (${w} min)`);
-ok('Rooms: NavigaTUM ids, links, campus, walking time');
+assert.deepStrictEqual(roomOption({ id: '5510.02.001', type: 'room', name: '5510.02.001 (\u0019MW\u0017 \u00192001\u0017 Rudolf-Diesel-Hörsaal)', subtext: 'garching, MW' }),
+  { value: 'MW 2001 Rudolf-Diesel-Hörsaal (5510.02.001)', hint: 'garching, MW', campus: 'Garching' });
+assert.strictEqual(roomIdFrom(roomOption({ id: '9387.EG.008', name: '9387.EG.008 (OTN Hörsaal 1)', subtext: 'ottobrunn' }).value), '9387.EG.008');
+ok('Rooms: NavigaTUM ids, links, campus, search hits, walking time');
 
 // ---------- Optimizer ----------
 assert.strictEqual(scoreSchedule(template).conflict, false, 'default groups are conflict-free');

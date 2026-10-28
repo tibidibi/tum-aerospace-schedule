@@ -307,6 +307,20 @@ async function roomInfo(room) {
   };
 }
 
+// A NavigaTUM search hit as a room string like the timetable's, "MW 2001 Rudolf-Diesel-Hörsaal (5510.02.001)",
+// plus the campus its subtext names. Search highlights come wrapped in \u0019…\u0017.
+function roomOption(entry) {
+  const name = String(entry.name || '').replace(/[\u0017\u0019]/g, '');
+  const inner = (name.match(/^\S+ \((.+)\)$/) || [])[1] || name;
+  const campus = TUM_CAMPUSES.find(c => c.match.test(entry.subtext || ''));
+  return { value: `${inner} (${entry.id})`, hint: entry.subtext || '', campus: campus ? campus.id : '' };
+}
+
+async function searchRooms(q) {
+  const res = await cachedFetch(`${NAV_API}search?q=${encodeURIComponent(q)}&limit_all=8`, { ttl: 7 * 864e5 });
+  return (res.sections || []).flatMap(s => s.entries || []).filter(e => e.type === 'room').map(roomOption);
+}
+
 function distanceMeters(a, b) {
   const R = 6371e3, rad = x => x * Math.PI / 180;
   const dLat = rad(b.lat - a.lat), dLon = rad(b.lon - a.lon);
@@ -339,6 +353,6 @@ function hourForecast(hours, dateStr, minutes) {
 if (typeof module !== 'undefined' && module.exports) {
   module.exports = {
     cachedFetch, normalizeMvgRoute, rankRoutes, normalizeTomTom, compareModes, isoWeek, priceTable, formatPrice, DIETS,
-    parseStwmMenu, lunchWindow, navLink, distanceMeters, walkMinutes, hourForecast
+    parseStwmMenu, lunchWindow, navLink, roomOption, distanceMeters, walkMinutes, hourForecast
   };
 }

@@ -182,7 +182,7 @@ function controlSelector(el) {
   return parts.length ? parts.join('') : null;
 }
 
-// Toggles (segmented buttons, switches, group rows, course dots) are redrawn on click, so their
+// Toggles (segmented buttons, switches, group rows) are redrawn on click, so their
 // state change can't transition. Remember what flips and play it on the new elements instead.
 document.addEventListener('click', e => {
   const el = e.target.closest('[aria-pressed]');
@@ -191,7 +191,7 @@ document.addEventListener('click', e => {
   if (!sel) return;
   const wasOn = el.getAttribute('aria-pressed') === 'true';
   const group = el.closest('.seg, .list');
-  const off = group && !el.classList.contains('switch') && !el.classList.contains('course-item')
+  const off = group && !el.classList.contains('switch')
     ? [...group.querySelectorAll('[aria-pressed="true"]')].filter(x => x !== el).map(controlSelector).filter(Boolean)
     : [];
   UI.flash = wasOn && !off.length ? { on: null, off: [sel] } : { on: sel, off };
@@ -271,11 +271,8 @@ function setToolbar({ eyebrow = '', title = '', subtitle = '', actions = '' }) {
 }
 
 function renderSidebar() {
-  $('courseList').innerHTML = COURSES.map(c => {
-    const on = STATE.courseVisibility[c.id] !== false;
-    return `<button type="button" class="side-item course-item ${on ? '' : 'off'}" style="--c:${colorOf(c.id)}" data-toggle-course="${c.id}" aria-pressed="${on}" title="${on ? 'Hide' : 'Show'} ${esc(c.name)}">
-      <span class="dot"></span>${esc(c.shortName)}</button>`;
-  }).join('');
+  $('courseList').innerHTML = COURSES.map(c => `<button type="button" class="side-item course-item" style="--c:${colorOf(c.id)}" data-course-info="${c.id}" title="${esc(c.name)}">
+      <span class="dot"></span>${esc(c.shortName)}</button>`).join('');
   const n = semesterWeeks();
   const w = Math.min(n, Math.max(0, weekIndexOf(munichNow().date) + 1));
   const synced = TUM.status === 'connected';
@@ -854,7 +851,7 @@ function appointmentEvents(now = new Date()) {
     `DTEND;TZID=Europe/Berlin:${compact(a.date)}T${time(a.end)}`,
     ...(a.repeat === 'weekly' ? [`RRULE:FREQ=WEEKLY;UNTIL=${compact(SEMESTER.end)}T225959Z`] : []),
     `SUMMARY:${icsEscape(a.title)}`,
-    ...(a.location ? [`LOCATION:${icsEscape(a.location)}`] : []),
+    ...(a.room || a.campus ? [`LOCATION:${icsEscape([a.room, campusName(a.campus)].filter(Boolean).join(', '))}`] : []),
     ...(a.notes ? [`DESCRIPTION:${icsEscape(a.notes)}`] : []),
     'STATUS:CONFIRMED',
     'TRANSP:OPAQUE',
@@ -911,7 +908,7 @@ function renderGroups() {
       <ul>${Object.entries(p.groups).map(([k, g]) => `<li>${esc(COURSES.find(c => c.id === k).shortName)}: <strong>${esc(g)}</strong></li>`).join('')}</ul>
       <span class="metrics">${planSummary(p.metrics)}</span>
       ${isCurrent(p) ? '' : `<button type="button" class="btn" data-plan="${i}">Use this plan</button>`}
-    </div>`).join('') || '<p class="section-note">No conflict-free combination. Hide a course or unskip a class.</p>'}</div>
+    </div>`).join('') || '<p class="section-note">No conflict-free combination. Unskip a class or pick groups by hand.</p>'}</div>
     <p class="section-note">Your current pick: ${current.conflict ? '<span class="tag red">Has a clash</span> · ' : ''}${planSummary(current)}</p>
   </section>`;
   UI.plans = plans;
@@ -1035,6 +1032,29 @@ function openClass(id, date) {
     </div>`);
 }
 
+// The course as a whole: Moodle, lecturer and its sessions in the shown week
+function openCourse(id) {
+  const course = COURSES.find(c => c.id === id);
+  if (!course) return;
+  const week = getWeek(STATE.weekIdx);
+  const sessions = week.items.filter(c => c.courseId === id);
+  const group = STATE.selectedGroups[id];
+  const links = [[course.moodle, 'Lecture course', 'school'], [course.moodleExercise, 'Exercise course', 'menu_book']].filter(([u]) => u);
+  openSheet('course', course.name, `
+    <div class="course-card" style="--c:${colorOf(id)}">
+      <span class="when">Week ${STATE.weekIdx + 1} · ${sessions.length} ${sessions.length === 1 ? 'session' : 'sessions'}</span>
+      <span class="name">${esc(course.shortName)}</span>
+      <span class="meta">${[course.lecturer, course.hasGroups && group].filter(Boolean).map(esc).join(' · ')}</span>
+    </div>
+    ${links.length ? `<div class="list">${links.map(([u, label, ic]) => `<a class="row" href="${u}" target="_blank" rel="noopener"><span class="badge" style="--c:${colorOf(id)}">${icon(ic)}</span><span class="grow">${label}<span class="sub">Open on Moodle</span></span>${icon('open_in_new', 'chev sm')}</a>`).join('')}</div>` : ''}
+    ${sessions.length ? `<div class="section"><div class="section-label">This week</div>
+      <div class="list" style="--inset:66px">${sessions.map(c => `<button type="button" class="row ${c.cancelled ? 'muted' : ''}" data-class="${esc(c.id)}" data-date="${c.date}">
+        <span class="value num" style="width:40px">${c.startTime}</span>
+        <span class="grow">${esc(weekdayName(c.date))} · ${esc(TYPE_SHORT[c.type] || c.typeName)}${c.group ? ` · ${esc(c.group)}` : ''}<span class="sub">${esc(shortRoom(c.room))}${c.cancelled ? ' · cancelled' : ''}</span></span>
+        ${icon('chevron_right', 'chev')}</button>`).join('')}</div></div>` : ''}
+    ${course.hasGroups ? `<div class="list"><button type="button" class="row" data-goto-groups><span class="grow" style="color:var(--md-primary)">Change group</span>${icon('chevron_right', 'chev')}</button></div>` : ''}`);
+}
+
 // Material You: every colour role is derived from this seed (see style.css)
 const SEEDS = [['#3070B3', 'TUM blue'], ['#006A6A', 'Teal'], ['#4C7A34', 'Green'], ['#9A6000', 'Amber'], ['#B4446E', 'Rose'], ['#6750A4', 'Violet']];
 const SEED_KEY = 'fd_md_seed';
@@ -1070,11 +1090,13 @@ function defaultApptDate() {
   return today;
 }
 
+const campusName = id => (TUM_CAMPUSES.find(c => c.id === id) || {}).name || id || '';
+
 function openAppointment(id, date) {
   const a = STATE.custom.find(x => x.id === id);
   const now = munichNow();
   const startMin = Math.min(Math.ceil((now.minutes + 1) / 60) * 60, 22 * 60);
-  const v = a || { title: '', date: date || defaultApptDate(), start: minutesToTime(startMin), end: minutesToTime(startMin + 60), location: '', notes: '', repeat: 'none' };
+  const v = a || { title: '', date: date || defaultApptDate(), start: minutesToTime(startMin), end: minutesToTime(startMin + 60), campus: '', room: '', notes: '', repeat: 'none' };
   openSheet('appt', a ? 'Edit appointment' : 'New appointment', `
     <form data-appt-form data-id="${esc(a ? a.id : '')}" class="section">
       <div class="form-grid">
@@ -1082,7 +1104,13 @@ function openAppointment(id, date) {
         <label class="tf span-2">Date<input class="field" type="date" name="date" required value="${esc(v.date)}"></label>
         <label class="tf">Starts<input class="field" type="time" name="start" required value="${esc(v.start)}"></label>
         <label class="tf">Ends<input class="field" type="time" name="end" required value="${esc(v.end)}"></label>
-        <label class="tf span-2">Location<input class="field" name="location" maxlength="120" value="${esc(v.location)}" placeholder="Optional"></label>
+        <label class="tf span-2">Campus<select class="field" name="campus" id="apptCampus">
+          <option value="">Not on campus</option>
+          ${TUM_CAMPUSES.map(c => `<option value="${esc(c.id)}" ${c.id === v.campus ? 'selected' : ''}>${esc(c.name)}</option>`).join('')}
+        </select></label>
+        <label class="tf span-2">Room<input class="field" type="search" name="room" id="apptRoom" list="apptRooms" maxlength="120" autocomplete="off" value="${esc(v.room)}" placeholder="Optional, e.g. MW 2001 or 5510.02.001"></label>
+        <datalist id="apptRooms"></datalist>
+        ${v.room ? `<a class="btn plain span-2 nav-link" href="${navLink(v.room)}" target="_blank" rel="noopener">${icon('location_on')}Open ${esc(shortRoom(v.room))} on NavigaTUM</a>` : ''}
         <label class="tf span-2">Notes<textarea class="field" name="notes" maxlength="500" placeholder="Optional">${esc(v.notes)}</textarea></label>
         <label class="check-row"><input type="checkbox" name="weekly" ${v.repeat === 'weekly' ? 'checked' : ''}>Repeat every week until the semester ends</label>
       </div>
@@ -1108,7 +1136,8 @@ function saveAppointment(e) {
     date: f.elements.date.value,
     start: f.elements.start.value,
     end: f.elements.end.value,
-    location: f.elements.location.value.trim(),
+    campus: f.elements.campus.value,
+    room: f.elements.room.value.trim(),
     notes: f.elements.notes.value.trim(),
     repeat: f.elements.weekly.checked ? 'weekly' : 'none'
   };
@@ -1215,13 +1244,8 @@ document.addEventListener('click', async e => {
   const ev = t.closest('[data-class]');
   if (ev) return openClass(ev.dataset.class, ev.dataset.date);
 
-  const course = t.closest('[data-toggle-course]');
-  if (course) {
-    const id = course.dataset.toggleCourse;
-    STATE.courseVisibility[id] = STATE.courseVisibility[id] === false;
-    saveState();
-    return render();
-  }
+  const info = t.closest('[data-course-info]');
+  if (info) return openCourse(info.dataset.courseInfo);
   const week = t.closest('[data-week]');
   if (week) return goToWeek(week.dataset.week === 'today' ? currentWeekIndex() : STATE.weekIdx + Number(week.dataset.week));
   if (t.closest('[data-export]')) return exportICS();
@@ -1334,9 +1358,10 @@ document.addEventListener('submit', async e => {
   renderSidebar();
 });
 
-let homeTimer = null;
+let homeTimer = null, roomTimer = null;
 document.addEventListener('input', e => {
   if (e.target.id === 'seedCustom') return setSeed(e.target.value);
+  if (e.target.id === 'apptRoom') return suggestRooms(e.target);
   if (e.target.id !== 'homeSearch') return;
   clearTimeout(homeTimer);
   const q = e.target.value.trim();
@@ -1354,6 +1379,23 @@ document.addEventListener('input', e => {
     list.hidden = false;
   }, 300);
 });
+
+// NavigaTUM rooms for the appointment form; picking one fills in its campus
+function suggestRooms(input) {
+  clearTimeout(roomTimer);
+  const q = input.value.trim();
+  const hit = (UI.roomOptions || []).find(o => o.value === q);
+  if (hit) {
+    if (hit.campus) $('apptCampus').value = hit.campus;
+    return;
+  }
+  if (q.length < 2) return;
+  roomTimer = setTimeout(async () => {
+    try { UI.roomOptions = await searchRooms(q); } catch (err) { return; }
+    const list = $('apptRooms');
+    if (list) list.innerHTML = UI.roomOptions.map(o => `<option value="${esc(o.value)}">${esc(o.hint)}</option>`).join('');
+  }, 250);
+}
 
 document.addEventListener('change', e => {
   const id = e.target.id;

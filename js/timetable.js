@@ -1017,9 +1017,22 @@ const CAMPUSES = {
   }
 };
 
+// Where your own appointments can be: TUM's campuses. `match` picks one from a NavigaTUM search subtext
+const TUM_CAMPUSES = [
+  { id: 'Garching', name: 'Garching Forschungszentrum', match: /garching(?!.*hochbr)/i },
+  { id: 'Ottobrunn', name: 'Ottobrunn / Taufkirchen', match: /ottobrunn|taufkirchen/i },
+  { id: 'Stammgelände', name: 'München Stammgelände (Innenstadt)', match: /stammgel|innenstadt|arcis/i },
+  { id: 'Garching-Hochbrück', name: 'Garching-Hochbrück', match: /hochbr/i },
+  { id: 'Weihenstephan', name: 'Freising-Weihenstephan', match: /weihenstephan|freising/i },
+  { id: 'Klinikum rechts der Isar', name: 'Klinikum rechts der Isar', match: /klinikum|rechts der isar/i },
+  { id: 'Olympiapark', name: 'Olympiapark (Sport)', match: /olympia/i },
+  { id: 'Straubing', name: 'Straubing', match: /straubing/i },
+  { id: 'Heilbronn', name: 'Heilbronn', match: /heilbronn/i }
+];
+
 // Studierendenwerk canteens serve lunch 11:00–14:00
 const LUNCH_HOURS = { from: 11 * 60, to: 14 * 60 };
 
 if (typeof module !== 'undefined' && module.exports) {
-  module.exports = { COURSES, DAYS, CLASSES, SEMESTER, CAMPUSES, LUNCH_HOURS, timeToMinutes, moodleUrl };
+  module.exports = { COURSES, DAYS, CLASSES, SEMESTER, CAMPUSES, TUM_CAMPUSES, LUNCH_HOURS, timeToMinutes, moodleUrl };
 }

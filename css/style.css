@@ -184,6 +184,7 @@ a:hover { text-decoration: underline; }
 .tf.span-2 { grid-column: 1 / -1; }
 .tf .field { color: var(--md-on-surface); }
 textarea.field { min-height: 96px; padding: 14px 16px; resize: vertical; font: inherit; font-size: 16px; line-height: 24px; }
+.nav-link { justify-self: start; }
 .check-row { grid-column: 1 / -1; display: flex; align-items: center; gap: 12px; font-size: 16px; color: var(--md-on-surface); }
 .check-row input { width: 20px; height: 20px; accent-color: var(--md-primary); }
 .form-actions { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; }
@@ -201,8 +202,6 @@ textarea.field { min-height: 96px; padding: 14px 16px; resize: vertical; font: i
 .side-item kbd { margin-left: auto; font: 12px var(--font); color: var(--md-on-surface-variant); opacity: 0.7; }
 .course-item { min-height: 44px; gap: 14px; font-weight: 400; }
 .course-item .dot { width: 12px; height: 12px; border-radius: 50%; background: var(--c); flex-shrink: 0; margin: 0 5px; }
-.course-item.off { opacity: 0.55; }
-.course-item.off .dot { background: transparent; box-shadow: inset 0 0 0 2px var(--c); }
 .side-foot { margin-top: auto; display: flex; flex-direction: column; gap: 8px; }
 .progress-card { padding: 14px 16px; border-radius: 16px; background: var(--md-surface-high); display: flex; flex-direction: column; gap: 8px; font-size: 12px; color: var(--md-on-surface-variant); }
 .progress-card > span:first-child { font-size: 14px; font-weight: 500; color: var(--md-on-surface); }
@@ -662,10 +661,6 @@ a.row, button.row, .side-item, .seg button, .icon-btn, .sheet-done { position: r
 .switch.flash-on .track::after { animation: thumb-on var(--dur-medium) var(--ease-emph-decel); }
 .switch.flash-off .track { animation: track-off var(--dur-medium) var(--ease-standard); }
 .switch.flash-off .track::after { animation: thumb-off var(--dur-medium) var(--ease-emph-decel); }
-@keyframes dot-on { from { background-color: transparent; transform: scale(0.6); } }
-@keyframes dot-off { from { background-color: var(--c); } }
-.course-item.flash-on .dot { animation: dot-on var(--dur-medium) var(--ease-emph-decel); }
-.course-item.flash-off .dot { animation: dot-off var(--dur-medium) var(--ease-standard); }
 
 /* Dialogs and the bottom sheet: open with emphasized-decelerate, close with emphasized-accelerate.
    Uses @starting-style; browsers without it just open and close instantly. */

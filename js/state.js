@@ -15,7 +15,7 @@ const STATE = {
   autopilot: 'latestStart',
   view: 'today',             // 'today' | 'week' | 'groups' | 'squad'
   weekIdx: 0,
-  custom: [],                // your own appointments: { id, title, date, start, end, location, notes, repeat: 'none' | 'weekly' }
+  custom: [],                // your own appointments: { id, title, date, start, end, campus, room, notes, repeat: 'none' | 'weekly' }
   customRev: 0               // bumps on every change, for the week cache
 };
 
@@ -25,7 +25,8 @@ const CUSTOM_KEY = 'fd_custom';
 function loadCustom() {
   try {
     const saved = JSON.parse(localStorage.getItem(CUSTOM_KEY) || '[]');
-    if (Array.isArray(saved)) STATE.custom = saved;
+    // Older appointments had one free-text location: keep it as the room
+    if (Array.isArray(saved)) STATE.custom = saved.map(({ location, ...a }) => location && !a.room && !a.campus ? { ...a, room: location, campus: campusFromRoom(location) || '' } : a);
   } catch (e) {}
 }
 
@@ -47,7 +48,7 @@ function customFor(dates) {
       out.push({
         id: a.id, custom: true, courseId: 'custom', course: a.title, type: 'C', typeName: 'Appointment', group: null,
         date, dayIndex: weekdayIndex(date), startMin, endMin, startTime: a.start, endTime: a.end, durationMin: endMin - startMin,
-        room: a.location || '', lecturer: '', campus: null, notes: a.notes || '', repeat: a.repeat,
+        room: a.room || '', lecturer: '', campus: a.campus || null, notes: a.notes || '', repeat: a.repeat,
         cancelled: false, changed: { room: false, time: false }
       });
     }
@@ -61,7 +62,6 @@ function loadState() {
   try {
     const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
     if (saved.selectedGroups) Object.assign(STATE.selectedGroups, saved.selectedGroups);
-    if (saved.courseVisibility) Object.assign(STATE.courseVisibility, saved.courseVisibility);
     if (Array.isArray(saved.skippedClasses)) STATE.skippedClasses = new Set(saved.skippedClasses);
     if (Array.isArray(saved.manualGroups)) STATE.manualGroups = new Set(saved.manualGroups);
     if (saved.attendance && typeof saved.attendance === 'object') STATE.attendance = saved.attendance;
