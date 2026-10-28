@@ -14,6 +14,9 @@ const PX_PER_MIN = 0.9;
 const UI = {
   commute: { key: null, at: 0, html: '', busy: false },
   leave: { date: null, mode: 'default', time: '' }, // when you leave: 'default' (for/after classes) | 'now' | 'custom'
+  enter: 'fade',        // entrance for the next render: 'fade' (new view) | 'next' | 'prev' (week change) | null
+  flash: null,          // pressed-state change to animate across a re-render: { on, off: [selectors] }
+  todaySig: null,       // what Today's day plan was drawn from, so the 30 s tick can update it in place
   board: { key: null, html: '' },
   lunch: { key: null, html: '' },
   leaveBy: {},          // date -> last leave-by (ms), to flag when it moves earlier
@@ -102,14 +105,19 @@ function hoursHtml(from, to) {
   return html;
 }
 
+// Whether a session is over or running right now
+function evState(c, now) {
+  const isToday = c.date === now.date;
+  const past = isToday && c.endMin <= now.minutes;
+  return { past, live: isToday && c.startMin <= now.minutes && !past && !c.cancelled };
+}
+
 function eventsHtml(list, from, now, { compact = false } = {}) {
   const lanes = laneMap(list);
-  return list.map(c => {
+  return list.map((c, i) => {
     const top = (c.startMin - from) * PX_PER_MIN;
     const height = Math.max((c.endMin - c.startMin) * PX_PER_MIN - 2, 18);
-    const isToday = c.date === now.date;
-    const past = isToday && c.endMin <= now.minutes;
-    const live = isToday && c.startMin <= now.minutes && !past && !c.cancelled;
+    const { past, live } = evState(c, now);
     const cls = [
       past ? 'past' : '', live ? 'now' : '',
       STATE.skippedClasses.has(c.id) ? 'skipped' : '', c.cancelled ? 'cancelled' : '',
@@ -118,7 +126,7 @@ function eventsHtml(list, from, now, { compact = false } = {}) {
     const course = courseOf(c);
     const where = shortRoom(c.room);
     const sub = compact ? where : [`${c.startTime}–${c.endTime}`, where].filter(Boolean).join(' · ');
-    return `<button type="button" class="ev ${cls}" style="--c:${colorOf(c.courseId)};top:${top}px;height:${height}px"
+    return `<button type="button" class="ev ${cls}" style="--c:${colorOf(c.courseId)};--i:${i};top:${top}px;height:${height}px"
       data-class="${esc(c.id)}" data-date="${c.date}" aria-label="${esc([course.name, TYPE_SHORT[c.type] || c.typeName, `${c.startTime} to ${c.endTime}`, where].filter(Boolean).join(', '))}">
       <b>${c.custom ? esc(c.course) : `${esc(course.shortName)}${c.type !== 'L' ? ` · ${esc(TYPE_SHORT[c.type] || '')}` : ''}${c.group ? ` ${esc(c.group.replace(/^Group /, 'G'))}` : ''}`}</b>
       ${height >= 36 ? `<span class="ev-sub">${esc(sub)}</span>` : ''}
@@ -147,9 +155,108 @@ function render() {
   else renderSquad();
   if (['today', 'week'].includes(STATE.view)) renderInspector();
   if (UI.sheet === 'settings') renderTumSection();
+  playEnter();
+  applyFlash();
+}
+
+// ================= MOTION =================
+// Material 3 motion, driven from CSS (style.css › MOTION). JS only says what changed.
+const reduceMotion = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+// Entrance for a new view or week: the class lives until the next render, so periodic re-renders don't replay it
+function playEnter() {
+  const view = $('view');
+  const title = document.querySelector('.title-block');
+  view.classList.remove('enter-fade', 'enter-next', 'enter-prev');
+  title.classList.remove('enter-fade', 'enter-next', 'enter-prev');
+  if (!UI.enter) return;
+  void view.offsetWidth; // restart the animation
+  view.classList.add(`enter-${UI.enter}`);
+  title.classList.add(`enter-${UI.enter}`);
+  UI.enter = null;
+}
+
+// A selector that finds this control again after a re-render, from its data-* attributes
+function controlSelector(el) {
+  const parts = Object.entries(el.dataset).map(([k, v]) => `[data-${k.replace(/[A-Z]/g, m => `-${m.toLowerCase()}`)}="${CSS.escape(v)}"]`);
+  return parts.length ? parts.join('') : null;
+}
+
+// Toggles (segmented buttons, switches, group rows, course dots) are redrawn on click, so their
+// state change can't transition. Remember what flips and play it on the new elements instead.
+document.addEventListener('click', e => {
+  const el = e.target.closest('[aria-pressed]');
+  if (!el || el.disabled) return;
+  const sel = controlSelector(el);
+  if (!sel) return;
+  const wasOn = el.getAttribute('aria-pressed') === 'true';
+  const group = el.closest('.seg, .list');
+  const off = group && !el.classList.contains('switch') && !el.classList.contains('course-item')
+    ? [...group.querySelectorAll('[aria-pressed="true"]')].filter(x => x !== el).map(controlSelector).filter(Boolean)
+    : [];
+  UI.flash = wasOn && !off.length ? { on: null, off: [sel] } : { on: sel, off };
+  setTimeout(() => { UI.flash = null; }, 0); // only for the redraw this click causes
+}, true);
+
+function applyFlash() {
+  if (!UI.flash || reduceMotion()) { UI.flash = null; return; }
+  const { on, off } = UI.flash;
+  UI.flash = null;
+  const mark = (sel, cls) => document.querySelectorAll(sel).forEach(el => {
+    el.classList.remove('flash-on', 'flash-off');
+    void el.offsetWidth;
+    el.classList.add(cls);
+    el.addEventListener('animationend', () => el.classList.remove(cls), { once: true });
+  });
+  if (on) mark(on, 'flash-on');
+  off.forEach(sel => mark(sel, 'flash-off'));
+}
+
+// Ripple from the press point, Material-style
+const RIPPLE_HOSTS = '.btn, .fab, .ev, a.row, button.row, .side-item, .seg button, .icon-btn, .sheet-done, .tabbar .pill, .tabbar button';
+document.addEventListener('pointerdown', e => {
+  if (e.button !== 0 || reduceMotion()) return;
+  let host = e.target.closest(RIPPLE_HOSTS);
+  if (!host || host.disabled) return;
+  if (host.matches('.tabbar button')) host = host.querySelector('.pill');
+  const r = host.getBoundingClientRect();
+  const size = Math.hypot(r.width, r.height) * 2;
+  const ripple = document.createElement('span');
+  ripple.className = 'ripple';
+  ripple.style.cssText = `width:${size}px;height:${size}px;left:${e.clientX - r.left - size / 2}px;top:${e.clientY - r.top - size / 2}px`;
+  host.appendChild(ripple);
+  const started = performance.now();
+  const release = () => {
+    setTimeout(() => {
+      ripple.classList.add('out');
+      setTimeout(() => ripple.remove(), 300);
+    }, Math.max(0, 225 - (performance.now() - started)));
+  };
+  addEventListener('pointerup', release, { once: true });
+  addEventListener('pointercancel', release, { once: true });
+});
+
+// New data replacing old (trips, departures, menu) fades in instead of popping
+function swapIn(el, html) {
+  if (el._html === html) return;
+  el.innerHTML = html;
+  el._html = html;
+  if (!reduceMotion() && el.animate) {
+    el.animate([{ opacity: 0, transform: 'translateY(6px)' }, { opacity: 1, transform: 'none' }],
+      { duration: 300, easing: 'cubic-bezier(0.05, 0.7, 0.1, 1)' });
+  }
+}
+
+// Weeks slide in from the side you're heading to
+function goToWeek(weekIdx) {
+  const next = clampWeek(weekIdx);
+  if (next !== STATE.weekIdx && STATE.view === 'week') UI.enter = next > STATE.weekIdx ? 'next' : 'prev';
+  STATE.weekIdx = next;
+  render();
 }
 
 function setView(view) {
+  if (view !== STATE.view) UI.enter = 'fade';
   STATE.view = view;
   if (view === 'week') STATE.weekIdx = STATE.weekIdx || currentWeekIndex();
   window.scrollTo(0, 0);
@@ -212,7 +319,7 @@ function renderToday() {
       ${closures.map(x => `<div class="closure">${esc(x.label)}</div>`).join('')}
       <div class="timeline" style="--hour-px:${60 * PX_PER_MIN}px">
         <div class="tl-hours" style="height:${(to - from) * PX_PER_MIN}px">${hoursHtml(from, to)}</div>
-        <div class="tl-track" style="height:${(to - from) * PX_PER_MIN}px">
+        <div class="tl-track day-track" data-from="${from}" data-to="${to}" style="height:${(to - from) * PX_PER_MIN}px">
           ${eventsHtml(focus.sessions, from, now)}
           ${showNow ? `<div class="now-line" style="top:${(now.minutes - from) * PX_PER_MIN}px"></div>` : ''}
         </div>
@@ -230,6 +337,44 @@ function renderToday() {
     </section>
   </div>`;
 
+  UI.todaySig = todaySig(focus);
+  // What's already drawn, so swapIn only animates real changes
+  if (commuteKey(now, focus) === UI.commute.key) $('commuteBody')._html = UI.commute.html;
+  if (UI.board.key === focus.date) $('board')._html = UI.board.html;
+  if (UI.lunch.key === lunchKey(focus)) $('lunch')._html = UI.lunch.html;
+  if (commuteKey(now, focus) !== UI.commute.key || Date.now() - UI.commute.at > 60e3) fillCommute(now, focus);
+  if (UI.lunch.key !== lunchKey(focus)) fillLunch(focus);
+}
+
+function todaySig(focus) {
+  return focus ? `${focus.date}|${focus.sessions.map(c => `${c.id}@${c.startMin}-${c.endMin}${c.cancelled ? 'x' : ''}`).join(',')}|${[...STATE.skippedClasses].join(',')}` : 'none';
+}
+
+// The 30 s tick: when the day hasn't changed, move the "now" line and update which class is
+// past or running on the tiles already on screen, so both transition instead of being redrawn
+function tickToday() {
+  const now = munichNow();
+  const focus = focusDay(now);
+  const track = document.querySelector('#view .day-track');
+  if (!focus || !track || todaySig(focus) !== UI.todaySig) return renderToday();
+  for (const tile of track.querySelectorAll('.ev')) {
+    const c = focus.sessions.find(x => x.id === tile.dataset.class && x.date === tile.dataset.date);
+    if (!c) continue;
+    const { past, live } = evState(c, now);
+    tile.classList.toggle('past', past);
+    tile.classList.toggle('now', live);
+  }
+  const from = Number(track.dataset.from), to = Number(track.dataset.to);
+  let line = track.querySelector('.now-line');
+  const show = focus.isToday && now.minutes >= from && now.minutes <= to;
+  if (show && !line) {
+    line = document.createElement('div');
+    line.className = 'now-line';
+    track.appendChild(line);
+  }
+  if (line && !show) line.remove();
+  else if (line) line.style.top = `${(now.minutes - from) * PX_PER_MIN}px`;
+  $('subtitle').textContent = todaySubtitle(focus);
   if (commuteKey(now, focus) !== UI.commute.key || Date.now() - UI.commute.at > 60e3) fillCommute(now, focus);
   if (UI.lunch.key !== lunchKey(focus)) fillLunch(focus);
 }
@@ -337,7 +482,7 @@ async function fillCommute(now, focus) {
   UI.commute = { ...UI.commute, key, html, homeBy: out.homeBy || null, at: Date.now() };
   const el = $('commuteBody');
   if (el && STATE.view === 'today') {
-    el.innerHTML = UI.commute.html;
+    swapIn(el, UI.commute.html);
     $('subtitle').textContent = todaySubtitle(focus);
   }
 }
@@ -479,7 +624,7 @@ function fillBoardLater(route, focus) {
         </table></div>
       </div>` : '' };
     const el = $('board');
-    if (el && STATE.view === 'today') el.innerHTML = UI.board.html;
+    if (el && STATE.view === 'today') swapIn(el, UI.board.html);
   }).catch(() => {});
   return '';
 }
@@ -546,7 +691,7 @@ async function fillLunch(focus) {
       <div class="list">${blocks.join('')}</div>
     </div>` };
   const el = $('lunch');
-  if (el && STATE.view === 'today') el.innerHTML = UI.lunch.html;
+  if (el && STATE.view === 'today') swapIn(el, UI.lunch.html);
 }
 
 // ================= INSPECTOR: MOODLE =================
@@ -604,6 +749,7 @@ function renderInspector() {
         <span class="grow">${esc(courseOf(c).shortName)}<span class="sub">${esc(TYPE_SHORT[c.type] || '')} · ${esc(shortRoom(c.room))}</span></span>
         ${icon('chevron_right', 'chev')}</button>`).join('')}</div>
     </div>` : ''}`;
+  applyFlash();
 }
 
 // Moodle forbids iframes, so we steer a window we opened instead
@@ -1074,10 +1220,7 @@ document.addEventListener('click', async e => {
     return render();
   }
   const week = t.closest('[data-week]');
-  if (week) {
-    STATE.weekIdx = week.dataset.week === 'today' ? currentWeekIndex() : clampWeek(STATE.weekIdx + Number(week.dataset.week));
-    return render();
-  }
+  if (week) return goToWeek(week.dataset.week === 'today' ? currentWeekIndex() : STATE.weekIdx + Number(week.dataset.week));
   if (t.closest('[data-export]')) return exportICS();
 
   const leave = t.closest('[data-leave-mode]');
@@ -1237,11 +1380,9 @@ document.addEventListener('keydown', e => {
   if (views[e.key]) setView(views[e.key]);
   else if (e.key === ',') openSettings();
   else if (STATE.view === 'week' && (e.key === 'ArrowLeft' || e.key === 'ArrowRight')) {
-    STATE.weekIdx = clampWeek(STATE.weekIdx + (e.key === 'ArrowLeft' ? -1 : 1));
-    render();
+    goToWeek(STATE.weekIdx + (e.key === 'ArrowLeft' ? -1 : 1));
   } else if (e.key === 't' || e.key === 'T') {
-    STATE.weekIdx = currentWeekIndex();
-    render();
+    goToWeek(currentWeekIndex());
   }
 });
 
@@ -1251,7 +1392,7 @@ setInterval(() => {
   UI.tick++;
   if (STATE.view === 'today') {
     if (UI.tick % 2 === 0) UI.commute.at = 0;
-    if (!$('sheet').open) renderToday();
+    if (!$('sheet').open) tickToday();
     renderInspector();
   } else if (UI.moodleWin) {
     followMoodle(munichNow(), moodleTarget(munichNow(), focusDay()));
