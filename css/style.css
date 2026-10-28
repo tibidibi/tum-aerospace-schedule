@@ -235,6 +235,8 @@ textarea.field { min-height: 96px; padding: 14px 16px; resize: vertical; font: i
   padding: 20px 16px 28px;
   display: flex; flex-direction: column; gap: 16px;
 }
+/* Scroll the panel rather than squash its cards and lists */
+.inspector > * { flex-shrink: 0; }
 
 /* ================= BUTTONS & CONTROLS ================= */
 .btn {
