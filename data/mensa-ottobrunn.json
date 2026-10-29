@@ -450,6 +450,61 @@
      "prices": null
     }
    ]
+  },
+  {
+   "date": "2026-11-11",
+   "dishes": [
+    {
+     "name": "Dim Sum: Asian Dumplings mit Asiagemüse",
+     "dish_type": "Pasta",
+     "labels": [
+      "VEGAN",
+      "VEGETARIAN"
+     ],
+     "prices": null
+    },
+    {
+     "name": "Gegrillte Zucchini mit Tomaten-Paprika-Ragout",
+     "dish_type": "Grill",
+     "labels": [
+      "VEGAN",
+      "VEGETARIAN"
+     ],
+     "prices": null
+    },
+    {
+     "name": "Eintopf mit Reis, Bohnen und Gemüse",
+     "dish_type": "Studitopf",
+     "labels": [
+      "VEGAN",
+      "VEGETARIAN"
+     ],
+     "prices": null
+    },
+    {
+     "name": "Entenkeule (1 Stück) mit Bratenssauce",
+     "dish_type": "Fleisch",
+     "labels": [],
+     "prices": null
+    },
+    {
+     "name": "Veganer Sojacreme-Joghurt mit Brombeeren und Minze",
+     "dish_type": "Dessert (Glas)",
+     "labels": [
+      "VEGAN",
+      "VEGETARIAN"
+     ],
+     "prices": null
+    },
+    {
+     "name": "Faschingskrapfen mit Vierfruchtfüllung",
+     "dish_type": "",
+     "labels": [
+      "VEGETARIAN"
+     ],
+     "prices": null
+    }
+   ]
   }
  ]
 }
