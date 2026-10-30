@@ -103,7 +103,7 @@
      "prices": null
     },
     {
-     "name": "Seelachsfilet (1 Stück) in Pankokruste mit Asia-Pesto",
+     "name": "Gegrilltes Zanderfilet (1 Stück) mit Zitronensauce",
      "dish_type": "Fisch",
      "labels": [
       "FISH"
@@ -499,6 +499,51 @@
     {
      "name": "Faschingskrapfen mit Vierfruchtfüllung",
      "dish_type": "",
+     "labels": [
+      "VEGETARIAN"
+     ],
+     "prices": null
+    }
+   ]
+  },
+  {
+   "date": "2026-11-12",
+   "dishes": [
+    {
+     "name": "Tortellini (Käsefüllung) mit Kräutersauce",
+     "dish_type": "Pasta",
+     "labels": [
+      "VEGETARIAN"
+     ],
+     "prices": null
+    },
+    {
+     "name": "Putensteak (1 Stück) mit Chimichuri aus Koriander, Tomate und Petersilie",
+     "dish_type": "Grill",
+     "labels": [],
+     "prices": null
+    },
+    {
+     "name": "Pikante Hirse mit schwarzen Bohnen und Gemüse",
+     "dish_type": "Studitopf",
+     "labels": [
+      "VEGAN",
+      "VEGETARIAN"
+     ],
+     "prices": null
+    },
+    {
+     "name": "Falafel mit Hummus",
+     "dish_type": "Vegan",
+     "labels": [
+      "VEGAN",
+      "VEGETARIAN"
+     ],
+     "prices": null
+    },
+    {
+     "name": "Schokopudding mit Sahne",
+     "dish_type": "Dessert (Glas)",
      "labels": [
       "VEGETARIAN"
      ],
