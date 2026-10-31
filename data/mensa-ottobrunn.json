@@ -550,6 +550,52 @@
      "prices": null
     }
    ]
+  },
+  {
+   "date": "2026-11-13",
+   "dishes": [
+    {
+     "name": "Pasta mit Käsesauce",
+     "dish_type": "Pasta",
+     "labels": [
+      "VEGETARIAN"
+     ],
+     "prices": null
+    },
+    {
+     "name": "Bauerneintopf",
+     "dish_type": "Studitopf",
+     "labels": [
+      "VEGAN",
+      "VEGETARIAN"
+     ],
+     "prices": null
+    },
+    {
+     "name": "Panierter Seelachs (1 Stück) mit Remouladensuce",
+     "dish_type": "Fisch",
+     "labels": [
+      "FISH"
+     ],
+     "prices": null
+    },
+    {
+     "name": "Apfelstrudel mit Vanillesauce",
+     "dish_type": "Süßspeise",
+     "labels": [
+      "VEGETARIAN"
+     ],
+     "prices": null
+    },
+    {
+     "name": "Vanillecreme",
+     "dish_type": "Dessert (Glas)",
+     "labels": [
+      "VEGETARIAN"
+     ],
+     "prices": null
+    }
+   ]
   }
  ]
 }
