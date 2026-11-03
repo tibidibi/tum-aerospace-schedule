@@ -596,6 +596,51 @@
      "prices": null
     }
    ]
+  },
+  {
+   "date": "2026-11-16",
+   "dishes": [
+    {
+     "name": "Kürbis-Teigtaschen mit Käsesauce, Kirschtomaten und Basilikum",
+     "dish_type": "Pasta",
+     "labels": [
+      "VEGETARIAN"
+     ],
+     "prices": null
+    },
+    {
+     "name": "Asia-Reisbällchen mit veganem Currydip",
+     "dish_type": "Wok",
+     "labels": [
+      "VEGAN",
+      "VEGETARIAN"
+     ],
+     "prices": null
+    },
+    {
+     "name": "Bulgur mit Gemüse",
+     "dish_type": "Studitopf",
+     "labels": [
+      "VEGAN",
+      "VEGETARIAN"
+     ],
+     "prices": null
+    },
+    {
+     "name": "Hähnchenschnitzel (1 Stück) mit Mango-Chili-Dip",
+     "dish_type": "Fleisch",
+     "labels": [],
+     "prices": null
+    },
+    {
+     "name": "Topfencreme mit Himbeeren",
+     "dish_type": "Dessert (Glas)",
+     "labels": [
+      "VEGETARIAN"
+     ],
+     "prices": null
+    }
+   ]
   }
  ]
 }
