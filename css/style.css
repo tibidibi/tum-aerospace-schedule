@@ -219,9 +219,11 @@ textarea.field { min-height: 96px; padding: 14px 16px; resize: vertical; font: i
 .toolbar {
   position: sticky; top: 0; z-index: 5;
   display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px;
-  padding: 24px 28px 16px;
+  padding: 24px 68px 16px 28px;
   background: var(--md-surface);
 }
+.toolbar .account-btn { position: absolute; top: 16px; right: 16px; }
+.account-btn .msr { font-size: 28px; }
 .title-block { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
 .eyebrow { font-size: 14px; font-weight: 500; color: var(--md-primary); letter-spacing: 0.01em; }
 .toolbar h1 { margin: 0; font-size: 36px; line-height: 44px; font-weight: 400; letter-spacing: 0; }
@@ -548,7 +550,8 @@ a.row:hover, button.row:hover { text-decoration: none; }
   .sidebar { display: none; }
   .main { border-radius: 0; overflow: visible; min-height: 0; }
   .inspector { grid-column: 1; margin: 0 8px; border-radius: 28px; }
-  .toolbar { padding: 16px 16px 12px; }
+  .toolbar { padding: 16px 60px 12px 16px; }
+  .toolbar .account-btn { top: 8px; right: 8px; }
   .toolbar h1 { font-size: 28px; line-height: 36px; }
   .view { padding: 4px 12px 24px; }
   .day-col { padding: 12px 12px 16px 4px; }
@@ -703,7 +706,7 @@ a.row, button.row, .side-item, .seg button, .icon-btn, .sheet-done { position: r
 
 @media print {
   body { background: #FFFFFF; }
-  .sidebar, .inspector, .tabbar, .toolbar-actions { display: none !important; }
+  .sidebar, .inspector, .tabbar, .toolbar-actions, .account-btn { display: none !important; }
   .app, .app.no-inspector { display: block; padding: 0; }
   .toolbar { position: static; }
 }

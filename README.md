@@ -17,7 +17,7 @@ No build step, no dependencies: plain HTML, CSS and JavaScript.
 
 **Your own appointments**: one-off or weekly. They show in the day plan and the week and go into the `.ics` export.
 
-**TUMonline sync** (Settings › TUMonline): enter your TUM ID, activate the token named **TUM Flight Deck** in TUMonline › Token-Management, and the app syncs on its own. Your TUMonline calendar then wins: its times, rooms and cancellations replace the PDF data, and your exercise groups are picked from your registrations. The token stays in your browser. When you activate it, grant it **only calendar access**: that's all the app reads, and it limits what a leaked token could see.
+**TUMonline sync** (account icon, top right): enter your TUM ID, activate the token named **TUM Flight Deck** in TUMonline › Token-Management, and the app syncs on its own. Your TUMonline calendar then wins: its times, rooms and cancellations replace the PDF data, and your exercise groups are picked from your registrations. The token stays in your browser. When you activate it, grant it **only calendar access**: that's all the app reads, and it limits what a leaked token could see.
 
 Keys: **1–4** switch views, **← →** change week, **T** this week, **,** settings.
 

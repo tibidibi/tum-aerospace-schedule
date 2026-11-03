@@ -173,7 +173,7 @@ function render() {
   else if (STATE.view === 'groups') renderGroups();
   else renderSquad();
   if (['today', 'week'].includes(STATE.view)) renderInspector();
-  if (UI.sheet === 'settings') renderTumSection();
+  if (UI.sheet === 'account') renderTumSection();
   playEnter();
   applyFlash();
 }
@@ -851,7 +851,7 @@ function renderWeek() {
     <div class="week-stats">
       ${TUM.status === 'connected'
         ? `<span><b>TUMonline</b> times, rooms and cancellations${week.covered ? '' : ' (this week is outside the synced range)'}</span>`
-        : '<span><b>Timetable PDF</b> · <button type="button" class="btn plain" data-open-settings>connect TUMonline</button> for live rooms and cancellations</span>'}
+        : '<span><b>Timetable PDF</b> · <button type="button" class="btn plain" data-open-account>connect TUMonline</button> for live rooms and cancellations</span>'}
     </div>
     <div class="week-wrap">
       <div class="week ${STATE.showOtherGroups ? 'with-others' : ''}" style="--hour-px:${60 * PX_PER_MIN}px">
@@ -1225,7 +1225,6 @@ function openSettings() {
       </div>
       <p class="section-note">Car and bike need the Worker below (TomTom live traffic).</p>
     </section>
-    <section class="section" id="tumSection"></section>
     <section class="section">
       <div class="section-label">Mensa</div>
       <div class="list">
@@ -1243,8 +1242,20 @@ function openSettings() {
       </div>
     </section>
     <p class="section-note">Unofficial student tool, not affiliated with TUM. Always check TUMonline.</p>`);
-  renderTumSection();
   renderInstallSection();
+}
+
+// Moodle has no sign-in we can call and forbids iframes, so you log in on its own page and we never see the password
+function openAccount() {
+  openSheet('account', 'Account', `
+    <section class="section" id="tumSection"></section>
+    <section class="section">
+      <div class="section-label">Moodle</div>
+      <div class="list">
+        <a class="row" href="https://www.moodle.tum.de/login/index.php" target="_blank" rel="noopener"><span class="grow">Log in to Moodle<span class="sub">Opens TUM's login in a new tab. Course links then open signed in</span></span>${icon('open_in_new', 'chev sm')}</a>
+      </div>
+    </section>`);
+  renderTumSection();
 }
 
 // Chrome and Edge offer a real install prompt; Safari and the rest only have their own menus
@@ -1293,6 +1304,7 @@ document.addEventListener('click', async e => {
   const view = t.closest('[data-view]');
   if (view) return setView(view.dataset.view);
   if (t.closest('[data-open-settings]')) return openSettings();
+  if (t.closest('[data-open-account]')) return openAccount();
   const add = t.closest('[data-new-appt]');
   if (add) return openAppointment(null, add.dataset.date);
   const del = t.closest('[data-appt-delete]');
