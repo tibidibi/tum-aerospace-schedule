@@ -78,11 +78,23 @@ function statusTags(c) {
   return tags.join(' ');
 }
 
-// Up to two side-by-side lanes for overlapping sessions
+// Side-by-side lanes for overlapping sessions: session -> { lane, lanes }
 function laneMap(list) {
   const lanes = new Map();
   let cluster = [], end = -1;
-  const flush = () => { if (cluster.length > 1) cluster.forEach((c, i) => lanes.set(c, i % 2)); cluster = []; };
+  const flush = () => {
+    if (cluster.length > 1) {
+      const ends = []; // when each lane frees up
+      const picked = cluster.map(c => {
+        let lane = ends.findIndex(e => e <= c.startMin);
+        if (lane < 0) lane = ends.length;
+        ends[lane] = c.endMin;
+        return lane;
+      });
+      cluster.forEach((c, i) => lanes.set(c, { lane: picked[i], lanes: ends.length }));
+    }
+    cluster = [];
+  };
   for (const c of list) {
     if (c.startMin >= end) { flush(); end = c.endMin; } else end = Math.max(end, c.endMin);
     cluster.push(c);
@@ -117,21 +129,28 @@ function eventsHtml(list, from, now, { compact = false } = {}) {
   return list.map((c, i) => {
     const top = (c.startMin - from) * PX_PER_MIN;
     const height = Math.max((c.endMin - c.startMin) * PX_PER_MIN - 2, 18);
-    const { past, live } = evState(c, now);
+    const { past, live } = c.other ? {} : evState(c, now);
+    const lane = lanes.get(c);
     const cls = [
       past ? 'past' : '', live ? 'now' : '',
-      STATE.skippedClasses.has(c.id) ? 'skipped' : '', c.cancelled ? 'cancelled' : '',
-      lanes.has(c) ? `lane-${lanes.get(c)}` : '', c.custom ? 'custom' : ''
+      !c.other && STATE.skippedClasses.has(c.id) ? 'skipped' : '', c.cancelled ? 'cancelled' : '',
+      lane ? 'laned' : '', c.custom ? 'custom' : '', c.other ? 'other' : ''
     ].join(' ');
     const course = courseOf(c);
     const where = shortRoom(c.room);
-    const sub = compact ? where : [`${c.startTime}–${c.endTime}`, where].filter(Boolean).join(' · ');
-    return `<button type="button" class="ev ${cls}" style="--c:${colorOf(c.courseId)};--i:${i};top:${top}px;height:${height}px"
-      data-class="${esc(c.id)}" data-date="${c.date}" aria-label="${esc([course.name, TYPE_SHORT[c.type] || c.typeName, `${c.startTime} to ${c.endTime}`, where].filter(Boolean).join(', '))}">
-      <b>${c.custom ? esc(c.course) : `${esc(course.shortName)}${c.type !== 'L' ? ` · ${esc(TYPE_SHORT[c.type] || '')}` : ''}${c.group ? ` ${esc(c.group.replace(/^Group /, 'G'))}` : ''}`}</b>
+    const sub = compact ? (c.other ? course.shortName.split(' ')[0] : where) : [`${c.startTime}–${c.endTime}`, where].filter(Boolean).join(' · ');
+    const label = [course.name, TYPE_SHORT[c.type] || c.typeName, c.other ? `${c.group}, not your group` : '', `${c.startTime} to ${c.endTime}`, where].filter(Boolean).join(', ');
+    return `<button type="button" class="ev ${cls}" style="--c:${colorOf(c.courseId)};--i:${i};top:${top}px;height:${height}px${lane ? `;--lane:${lane.lane};--lanes:${lane.lanes}` : ''}"
+      data-class="${esc(c.id)}" data-date="${c.date}" aria-label="${esc(label)}"${c.other ? ` title="${esc(label)}"` : ''}>
+      <b>${c.custom ? esc(c.course) : compact && c.other ? esc(c.group.replace(/^Group /, 'G').replace(/^Room /, '')) : `${esc(course.shortName)}${c.type !== 'L' ? ` · ${esc(TYPE_SHORT[c.type] || '')}` : ''}${c.group ? ` ${esc(c.group.replace(/^Group /, 'G'))}` : ''}`}</b>
       ${height >= 36 ? `<span class="ev-sub">${esc(sub)}</span>` : ''}
     </button>`;
   }).join('');
+}
+
+function otherGroupsToggle() {
+  const on = STATE.showOtherGroups;
+  return `<button type="button" class="icon-btn" data-toggle-others aria-pressed="${on}" aria-label="Show other exercise groups" title="${on ? 'Hide' : 'Show'} other exercise groups">${icon(on ? 'visibility' : 'visibility_off')}</button>`;
 }
 
 function findSession(id, date) {
@@ -306,19 +325,20 @@ function renderToday() {
     subtitle: todaySubtitle(focus)
   });
 
-  const { from, to } = hourRange(focus.sessions);
   const week = getWeek(weekIndexOf(focus.date));
+  const drawn = drawnItems(week).filter(c => c.date === focus.date);
+  const { from, to } = hourRange(drawn);
   const closures = week.closures.filter(x => x.date === focus.date);
   const showNow = focus.isToday && now.minutes >= from && now.minutes <= to;
 
   $('view').innerHTML = `<div class="today">
     <section class="day-col" aria-label="Day plan">
-      <div class="col-head"><h2>${focus.isToday ? 'Today' : tomorrow ? 'Tomorrow' : weekdayName(focus.date)}</h2><span>${focus.sessions[0].startTime}–${focus.sessions[focus.sessions.length - 1].endTime}</span></div>
+      <div class="col-head"><h2>${focus.isToday ? 'Today' : tomorrow ? 'Tomorrow' : weekdayName(focus.date)}</h2><span>${focus.sessions[0].startTime}–${focus.sessions[focus.sessions.length - 1].endTime}</span>${otherGroupsToggle()}</div>
       ${closures.map(x => `<div class="closure">${esc(x.label)}</div>`).join('')}
       <div class="timeline" style="--hour-px:${60 * PX_PER_MIN}px">
         <div class="tl-hours" style="height:${(to - from) * PX_PER_MIN}px">${hoursHtml(from, to)}</div>
         <div class="tl-track day-track" data-from="${from}" data-to="${to}" style="height:${(to - from) * PX_PER_MIN}px">
-          ${eventsHtml(focus.sessions, from, now)}
+          ${eventsHtml(drawn, from, now)}
           ${showNow ? `<div class="now-line" style="top:${(now.minutes - from) * PX_PER_MIN}px"></div>` : ''}
         </div>
       </div>
@@ -799,11 +819,13 @@ function renderWeek() {
         <button type="button" data-week="today">Today</button>
         <button type="button" data-week="1" aria-label="Next week" ${w === n - 1 ? 'disabled' : ''}>${icon('chevron_right')}</button>
       </div>
+      ${otherGroupsToggle()}
       <button type="button" class="btn gray" data-new-appt>${icon('add')}New appointment</button>
       <button type="button" class="btn gray" data-export>Export .ics</button>`
   });
 
-  const { from, to } = hourRange(week.items);
+  const drawn = drawnItems(week);
+  const { from, to } = hourRange(drawn);
   const height = (to - from) * PX_PER_MIN;
   const heads = week.days.map((date, d) => {
     const items = week.items.filter(c => c.dayIndex === d && attending(c));
@@ -815,7 +837,7 @@ function renderWeek() {
     </div>`;
   }).join('');
   const cols = week.days.map((date, d) => {
-    const items = week.items.filter(c => c.dayIndex === d);
+    const items = drawn.filter(c => c.dayIndex === d);
     const closure = week.closures.find(x => x.dayIndex === d);
     const nowLine = date === now.date && now.minutes >= from && now.minutes <= to;
     return `<div class="week-col tl-track" style="height:${height}px">
@@ -832,7 +854,7 @@ function renderWeek() {
         : '<span><b>Timetable PDF</b> · <button type="button" class="btn plain" data-open-settings>connect TUMonline</button> for live rooms and cancellations</span>'}
     </div>
     <div class="week-wrap">
-      <div class="week" style="--hour-px:${60 * PX_PER_MIN}px">
+      <div class="week ${STATE.showOtherGroups ? 'with-others' : ''}" style="--hour-px:${60 * PX_PER_MIN}px">
         <span></span>${heads}
         <div class="tl-hours" style="height:${height}px">${hoursHtml(from, to)}</div>${cols}
       </div>
@@ -1009,12 +1031,13 @@ function openClass(id, date) {
   const mark = STATE.attendance[key];
   const url = moodleUrl(c.courseId, c.type);
   const skipped = STATE.skippedClasses.has(c.id);
+  const other = !c.date && c.group; // drawn by the eye, not part of your week
   UI.sheetClass = { id, date };
   openSheet('class', course.name, `
     <div class="course-card" style="--c:${colorOf(c.courseId)}">
       <span class="when">${esc(weekdayName(c.date || dateFor(c.dayIndex, STATE.weekIdx)))} · ${c.startTime}–${c.endTime}</span>
       <span class="name">${esc(TYPE_SHORT[c.type] || c.typeName)}${c.group ? ` · ${esc(c.group)}` : ''}</span>
-      <span class="meta">${statusTags(c)}</span>
+      <span class="meta">${other ? '<span class="tag">Not your group</span>' : statusTags(c)}</span>
     </div>
     <div class="list">
       <a class="row" href="${navLink(c.room)}" target="_blank" rel="noopener"><span class="grow">${esc(shortRoom(c.room))}<span class="sub">${esc(c.campus || '')} · open on NavigaTUM</span></span>${icon('open_in_new', 'chev sm')}</a>
@@ -1028,8 +1051,8 @@ function openClass(id, date) {
         <button type="button" data-attend="${esc(key)}" data-value="skipped" aria-pressed="${mark === 'skipped'}">Skipped</button>
       </span></div>` : ''}
     <div class="list">
-      <button type="button" class="row" data-skip="${esc(c.id)}"><span class="grow" style="color:${skipped ? 'var(--md-primary)' : 'var(--md-error)'}">${skipped ? 'Attend this class again' : 'Skip this class every week'}</span></button>
-      ${course.hasGroups && c.group ? `<button type="button" class="row" data-goto-groups><span class="grow" style="color:var(--md-primary)">Change group</span>${icon('chevron_right', 'chev')}</button>` : ''}
+      ${other ? `<button type="button" class="row" data-group="${esc(c.group)}" data-course="${c.courseId}"><span class="grow" style="color:var(--md-primary)">Switch to ${esc(c.group)}</span></button>` : `<button type="button" class="row" data-skip="${esc(c.id)}"><span class="grow" style="color:${skipped ? 'var(--md-primary)' : 'var(--md-error)'}">${skipped ? 'Attend this class again' : 'Skip this class every week'}</span></button>`}
+      ${!other && course.hasGroups && c.group ? `<button type="button" class="row" data-goto-groups><span class="grow" style="color:var(--md-primary)">Change group</span>${icon('chevron_right', 'chev')}</button>` : ''}
     </div>`);
 }
 
@@ -1272,6 +1295,11 @@ document.addEventListener('click', async e => {
   const week = t.closest('[data-week]');
   if (week) return goToWeek(week.dataset.week === 'today' ? currentWeekIndex() : STATE.weekIdx + Number(week.dataset.week));
   if (t.closest('[data-export]')) return exportICS();
+  if (t.closest('[data-toggle-others]')) {
+    STATE.showOtherGroups = !STATE.showOtherGroups;
+    saveState();
+    return render();
+  }
 
   const leave = t.closest('[data-leave-mode]');
   if (leave) {
@@ -1303,6 +1331,7 @@ document.addEventListener('click', async e => {
   const group = t.closest('[data-group]');
   if (group) {
     selectGroup(group.dataset.course, group.dataset.group);
+    if ($('sheet').open) $('sheet').close();
     toast(`${COURSES.find(c => c.id === group.dataset.course).shortName}: ${group.dataset.group}`);
     return render();
   }

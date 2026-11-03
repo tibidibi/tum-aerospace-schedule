@@ -305,6 +305,14 @@ function tumCoverage(tumEvents) {
   return { from: dates[0], to: dates[dates.length - 1] };
 }
 
+// The exercise groups you're not in, on the days of a merged week (see mergeWeek)
+function otherGroupSessions(week, visibility = {}) {
+  const mine = new Set(week.items.map(c => c.id));
+  return CLASSES
+    .filter(c => c.group && visibility[c.courseId] !== false && !mine.has(c.id) && !closureFor(week.days[c.dayIndex], c.startMin, c.endMin))
+    .map(c => ({ ...c, date: week.days[c.dayIndex], other: true, cancelled: false, changed: { room: false, time: false } }));
+}
+
 // ================= .ICS EXPORT =================
 // RFC 5545. Weekly series run through the lecture period, skipping the Christmas break.
 
@@ -425,6 +433,6 @@ if (typeof module !== 'undefined' && module.exports) {
     parseISODate, isoDate, addDays, daysBetween, weekdayIndex, semesterWeeks, weekStart, dateFor, weekIndexOf, clampWeek,
     munichNow, munichDate, minutesToTime, closureFor, formatDateShort, formatDateLong,
     tumUrl, decodeXml, xmlValues, tumError, parseTumCalendar, matchCourse, typeFromTitle, roomIdFrom, campusFromRoom,
-    detectGroups, mergeWeek, tumCoverage, TYPE_NAMES, buildICS, icsEscape, icsFold
+    detectGroups, mergeWeek, tumCoverage, otherGroupSessions, TYPE_NAMES, buildICS, icsEscape, icsFold
   };
 }
