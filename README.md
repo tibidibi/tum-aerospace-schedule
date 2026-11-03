@@ -50,7 +50,7 @@ Then open http://localhost:8080. A real web server is needed (not `file://`) for
 
 1. The repository has to be public (or on a paid plan).
 2. Settings › Pages › Build and deployment › Source: **Deploy from a branch**, branch **main**, folder **/ (root)**.
-3. After a minute it's live at `https://<your-user>.github.io/tum-aerospace-schedule/`. Open it on your phone and use *Add to Home Screen* to install it.
+3. After a minute it's live at `https://<your-user>.github.io/tum-aerospace-schedule/`. Open it and use *Settings › App › Install*, or *Add to Home Screen* on an iPhone, to install it.
 
 Every push to `main` redeploys. The `.nojekyll` file makes Pages serve the files as they are.
 

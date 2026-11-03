@@ -1209,6 +1209,7 @@ function homeDone(message) {
 function openSettings() {
   openSheet('settings', 'Settings', `
     <section class="section" id="appearanceSection">${appearanceHtml()}</section>
+    <section class="section" id="installSection"></section>
     <section class="section">
       <div class="section-label">Home</div>
       <div class="list">
@@ -1243,6 +1244,23 @@ function openSettings() {
     </section>
     <p class="section-note">Unofficial student tool, not affiliated with TUM. Always check TUMonline.</p>`);
   renderTumSection();
+  renderInstallSection();
+}
+
+// Chrome and Edge offer a real install prompt; Safari and the rest only have their own menus
+function renderInstallSection() {
+  const el = $('installSection');
+  if (!el) return;
+  if (matchMedia('(display-mode: standalone)').matches || navigator.standalone) { el.innerHTML = ''; return; }
+  const ios = /iPhone|iPad|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  const hint = UI.installed ? 'Installed. Open Flight Deck from your home screen or app list'
+    : ios ? 'Tap Share, then Add to Home Screen'
+    : "In your browser's menu, choose Install app or Add to Home Screen. Not every browser offers it";
+  el.innerHTML = `<div class="section-label">App</div>
+    <div class="list">
+      <div class="row"><span class="grow">Install Flight Deck<span class="sub">${UI.installPrompt ? 'Opens in its own window and works offline' : hint}</span></span>
+        ${UI.installPrompt ? '<button type="button" class="btn" data-install>Install</button>' : ''}</div>
+    </div>`;
 }
 
 function renderTumSection() {
@@ -1361,6 +1379,11 @@ document.addEventListener('click', async e => {
     return openClass(UI.sheetClass.id, UI.sheetClass.date);
   }
   if (t.closest('[data-goto-groups]')) { $('sheet').close(); return setView('groups'); }
+  if (t.closest('[data-install]')) {
+    UI.installPrompt.prompt(); // A prompt works only once: if it's dismissed, the browser's menu still can
+    UI.installPrompt = null;
+    return renderInstallSection();
+  }
 
   const seed = t.closest('[data-seed]');
   if (seed) {
@@ -1514,3 +1537,5 @@ render();
 if (TUM.status === 'pending') pollTumToken();
 if (TUM.status === 'connected' && (!TUM.syncedAt || Date.now() - TUM.syncedAt > 3600e3)) tumSync({ quiet: true });
 if ('serviceWorker' in navigator && location.protocol !== 'file:') navigator.serviceWorker.register('sw.js').catch(() => {});
+window.addEventListener('beforeinstallprompt', e => { e.preventDefault(); UI.installPrompt = e; renderInstallSection(); });
+window.addEventListener('appinstalled', () => { UI.installPrompt = null; UI.installed = true; renderInstallSection(); toast('Flight Deck installed'); });

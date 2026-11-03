@@ -330,6 +330,7 @@ input[type="search"].field::-webkit-search-cancel-button { cursor: pointer; }
 
 /* Lists in rounded containers */
 .section { display: flex; flex-direction: column; gap: 8px; }
+.section:empty { display: none; }
 .section-label { padding: 0 4px; min-height: 40px; font-size: 14px; font-weight: 500; color: var(--md-on-surface-variant); display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 8px; }
 .section-label > span:last-child:not(.seg) { font-weight: 400; }
 .home-chip { max-width: 55%; gap: 6px; min-height: 32px; }
