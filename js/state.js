@@ -13,6 +13,7 @@ const STATE = {
   detectedGroups: {},        // groups TUMonline has you in
   attendance: {},            // 'YYYY-MM-DD|classId' -> 'went' | 'skipped'
   autopilot: 'latestStart',
+  showOtherGroups: false,    // the eye on Today and Week: also draw the groups you're not in
   view: 'today',             // 'today' | 'week' | 'groups' | 'squad'
   weekIdx: 0,
   custom: [],                // your own appointments: { id, title, date, start, end, campus, room, notes, repeat: 'none' | 'weekly' }
@@ -66,6 +67,7 @@ function loadState() {
     if (Array.isArray(saved.manualGroups)) STATE.manualGroups = new Set(saved.manualGroups);
     if (saved.attendance && typeof saved.attendance === 'object') STATE.attendance = saved.attendance;
     if (saved.autopilot in OBJECTIVES) STATE.autopilot = saved.autopilot;
+    STATE.showOtherGroups = saved.showOtherGroups === true;
   } catch (e) {}
 }
 
@@ -80,7 +82,8 @@ function saveState() {
       skippedClasses: [...STATE.skippedClasses],
       manualGroups: [...STATE.manualGroups],
       attendance: STATE.attendance,
-      autopilot: STATE.autopilot
+      autopilot: STATE.autopilot,
+      showOtherGroups: STATE.showOtherGroups
     }));
   } catch (e) {}
 }
@@ -248,6 +251,13 @@ function getWeek(weekIdx) {
     weekCache.set(key, week);
   }
   return weekCache.get(key);
+}
+
+// What the calendars draw: your week, plus the other groups when the eye is on (yours take the left lane)
+function drawnItems(week) {
+  if (!STATE.showOtherGroups) return week.items;
+  return [...week.items, ...otherGroupSessions(week, STATE.courseVisibility)]
+    .sort((a, b) => a.dayIndex - b.dayIndex || a.startMin - b.startMin || !!a.other - !!b.other);
 }
 
 function currentWeekIndex() {

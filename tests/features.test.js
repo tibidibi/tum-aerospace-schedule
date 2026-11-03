@@ -35,6 +35,19 @@ assert.deepStrictEqual(isoWeek('2026-10-22'), { year: 2026, week: 43 });
 assert.deepStrictEqual(isoWeek('2027-01-01'), { year: 2026, week: 53 });
 ok('Semester weeks, Christmas break, partial closures, Munich time and ISO weeks');
 
+// ---------- The eye: other exercise groups ----------
+{
+  const groups = { math: 'Group 1', mech: 'Room OTN 1', cf: 'Group 2', cad: 'Group 3 & 4' };
+  const week = mergeWeek({ template: scheduleFor(groups, {}), weekIdx: 1 });
+  const others = otherGroupSessions(week);
+  assert.strictEqual(others.length, CLASSES.filter(c => c.group).length - week.items.filter(c => c.group).length, 'every group session is either yours or an other');
+  assert(others.every(c => c.other && c.date === week.days[c.dayIndex] && !week.items.some(x => x.id === c.id)));
+  assert(!otherGroupSessions(week, { math: false }).some(c => c.courseId === 'math'), 'hidden courses stay hidden');
+  const christmas = mergeWeek({ template: scheduleFor(groups, {}), weekIdx: 11 });
+  assert.strictEqual(otherGroupSessions(christmas).length, 0, 'no groups over the Christmas break');
+  ok('Other exercise groups: complement of yours, hidden courses and closures left out');
+}
+
 // ---------- TUMonline parsing (format from TUM-Dev/campus_flutter tests) ----------
 const xml = `<?xml version="1.0" encoding="utf-8"?>
 <rowset>

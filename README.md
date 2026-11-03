@@ -13,7 +13,7 @@ No build step, no dependencies: plain HTML, CSS and JavaScript.
 - **Lunch:** your free window while the Mensa is open (11:00–14:00) and today's menu, filtered by diet.
 - **Moodle** on the right for the class you're in or the next one. *Follow along* opens Moodle on the right half of your screen and moves it to each course as it starts.
 
-**Week**, with semester weeks (breaks left out) and `.ics` export. **Groups**: pick your exercise groups, or let **Autopilot** rank all 1,456 combinations. **Squad**: share your schedule as a link and see shared groups and free time together.
+**Week**, with semester weeks (breaks left out) and `.ics` export. The **eye** on Today and Week also shows the exercise groups you're not in; tap one to see it or switch to it. **Groups**: pick your exercise groups, or let **Autopilot** rank all 1,456 combinations. **Squad**: share your schedule as a link and see shared groups and free time together.
 
 **Your own appointments**: one-off or weekly. They show in the day plan and the week and go into the `.ics` export.
 
