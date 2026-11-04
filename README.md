@@ -2,7 +2,7 @@
 
 > **Unofficial.** A student-made tool, not affiliated with, endorsed by, or maintained by the Technical University of Munich (TUM). Always check TUMonline for the official schedule.
 
-Your 1st-semester Aerospace timetable, plus what you need to get through the day: when to leave and how, the Mensa menu, and the Moodle course of the class you're in. Material You design, tinted from a colour you pick.
+Your 1st-semester Aerospace timetable, plus what you need to get through the day: when to leave and how, the Mensa menu, and the Moodle course of the class you're in. Material You design, tinted from a colour you pick. Courses keep their colours from the timetable PDF, with exercises in a paler shade.
 
 No build step, no dependencies: plain HTML, CSS and JavaScript.
 

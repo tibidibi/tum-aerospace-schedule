@@ -11,8 +11,8 @@ const COURSES = [
     tumTitles: ['advanced mathematics for engineers', 'höhere mathematik', 'mathematics for engineers'], // lower-case keywords that identify this course in TUMonline titles
     lecturer: 'Renger',
     color: '#7FA662',        // Sage Green anchor
-    lectureBg: '#D5E8C8',    // Soft pastel sage green (from PDF #A9D08E)
-    exerciseBg: '#EDF5E7',   // Airy pastel mint (from PDF #E2EFDA)
+    lectureBg: '#A9D08E',    // As in the PDF
+    exerciseBg: '#E2EFDA',   // As in the PDF
     bgColor: '#EDF5E7',
     textColor: '#1B3B0C',    // Deep accessible contrast
     borderColor: '#548235',
@@ -28,8 +28,8 @@ const COURSES = [
     tumTitles: ['engineering mechanics', 'technische mechanik'],
     lecturer: 'Prof. Ryll',
     color: '#6586C8',        // Steel Blue anchor
-    lectureBg: '#C2D2ED',    // Soft pastel periwinkle blue (from PDF #8EA9DB)
-    exerciseBg: '#DDE6F5',   // Airy pastel sky (from PDF #B4C6E7)
+    lectureBg: '#8EA9DB',    // As in the PDF
+    exerciseBg: '#B4C6E7',   // As in the PDF
     bgColor: '#DDE6F5',
     textColor: '#0F2440',    // Deep navy contrast
     borderColor: '#305496',
@@ -46,8 +46,8 @@ const COURSES = [
     tumTitles: ['computational foundations'],
     lecturer: 'Prof. Werner',
     color: '#D4A017',        // Amber Gold anchor
-    lectureBg: '#FFE8A3',    // Soft pastel golden yellow (from PDF #FFD966)
-    exerciseBg: '#FFF2C6',   // Airy pastel cream gold (from PDF #FFE699)
+    lectureBg: '#FFD966',    // As in the PDF
+    exerciseBg: '#FFE699',   // As in the PDF
     bgColor: '#FFF2C6',
     textColor: '#402A00',    // Deep warm amber contrast
     borderColor: '#B8860B',
@@ -63,7 +63,7 @@ const COURSES = [
     tumTitles: ['electrical engineering', 'elektrotechnik'],
     lecturer: 'Prof. Herzog',
     color: '#737373',        // Slate Gray anchor
-    lectureBg: '#D9D9D9',    // Soft pastel slate gray (from PDF #A6A6A6)
+    lectureBg: '#A6A6A6',    // As in the PDF
     exerciseBg: '#ECECEC',   // Airy light gray
     bgColor: '#D9D9D9',
     textColor: '#1A1A1A',    // Deep slate contrast
@@ -79,8 +79,8 @@ const COURSES = [
     tumTitles: ['cad', 'technical drawing', 'technisches zeichnen'],
     lecturer: 'Radeck',
     color: '#E05353',        // Coral Red anchor
-    lectureBg: '#FFB8B8',    // Soft pastel coral red (from PDF #FF7171)
-    exerciseBg: '#FFE2E2',   // Airy pastel blush coral (from PDF #FFC5C5)
+    lectureBg: '#FF7171',    // As in the PDF
+    exerciseBg: '#FFC5C5',   // As in the PDF
     bgColor: '#FFE2E2',
     textColor: '#4D0505',    // Deep crimson contrast
     borderColor: '#C00000',
@@ -96,8 +96,8 @@ const COURSES = [
     tumTitles: ['aerospace materials', 'werkstoffe'],
     lecturer: 'Prof. Drechsler',
     color: '#8E7AA8',        // Lavender anchor
-    lectureBg: '#DFD8EC',    // Soft pastel lilac lavender (from PDF #C8BDDF)
-    exerciseBg: '#EDE8F5',   // Airy pastel lilac tint (from PDF #DCD5EB)
+    lectureBg: '#C8BDDF',    // As in the PDF
+    exerciseBg: '#DCD5EB',   // As in the PDF
     bgColor: '#EDE8F5',
     textColor: '#2C114D',    // Deep violet contrast
     borderColor: '#7030A0',
@@ -113,7 +113,7 @@ const COURSES = [
     tumTitles: ['introduction to aerospace', 'einführung in die luft- und raumfahrt'],
     lecturer: 'Aerospace Faculty',
     color: '#D99B77',        // Apricot Peach anchor
-    lectureBg: '#FDEEE5',    // Soft pastel apricot peach (from PDF #FCE4D6)
+    lectureBg: '#FCE4D6',    // As in the PDF
     exerciseBg: '#FDF3ED',   // Airy pastel peach tint
     bgColor: '#FDEEE5',
     textColor: '#4E2400',    // Deep russet contrast

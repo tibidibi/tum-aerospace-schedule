@@ -3,10 +3,6 @@
  * the Account sheet with your settings, with Moodle in the right-hand inspector next to the week.
  */
 
-const COURSE_COLORS = {
-  mech: '#007AFF', cf: '#FF9500', aero_mat: '#34C759', math: '#AF52DE',
-  cad: '#FF2D55', ee: '#D9A400', intro_aero: '#30B0C7', custom: '#7D5260'
-};
 const LINE_COLORS = { UBAHN: '#0065AE', SBAHN: '#408335', TRAM: '#D82020', BUS: '#00586A', REGIONAL_BUS: '#00586A', BAHN: '#6B6B6B' };
 const TYPE_SHORT = { L: 'Lecture', VI: 'Lecture + exercise', CE: 'Central exercise', E: 'Exercise', X: 'Exam', T: 'Event', C: 'Appointment' };
 const PX_PER_MIN = 0.9;
@@ -34,7 +30,14 @@ const UI = {
 const $ = id => document.getElementById(id);
 const esc = s => String(s ?? '').replace(/[&<>"']/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
 const hhmm = d => d.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Berlin' });
-const colorOf = courseId => COURSE_COLORS[courseId] || '#8E8E93';
+// A course's colour for dots, cards and dark tiles; your own appointments have their own
+const colorOf = courseId => courseId === 'custom' ? '#7D5260' : (COURSES.find(c => c.id === courseId) || {}).color || '#8E8E93';
+// As in the timetable PDF: exercises in a paler shade of their course's colour
+const isExercise = c => c.type === 'E' || c.type === 'CE';
+function pdfColor(c) {
+  const course = COURSES.find(x => x.id === c.courseId);
+  return course && (isExercise(c) && course.exerciseBg || course.lectureBg);
+}
 const shortRoom = room => String(room || '').split(' (')[0];
 const icon = (name, cls = '') => `<span class="msr ${cls}" aria-hidden="true">${name}</span>`;
 const courseOf = c => COURSES.find(x => x.id === c.courseId) || { id: c.courseId, shortName: c.course, name: c.course };
@@ -156,7 +159,7 @@ function eventsHtml(list, from, now, { compact = false } = {}) {
     const live = !c.other && !c.cancelled && c.date === now.date && c.startMin <= now.minutes && now.minutes < c.endMin;
     const lane = lanes.get(c);
     const cls = [
-      live ? 'now' : '',
+      live ? 'now' : '', isExercise(c) ? 'exercise' : '',
       !c.other && STATE.skippedClasses.has(c.id) ? 'skipped' : '', c.cancelled ? 'cancelled' : '',
       lane ? 'laned' : '', c.custom ? 'custom' : '', c.other ? 'other' : ''
     ].join(' ');
@@ -164,7 +167,7 @@ function eventsHtml(list, from, now, { compact = false } = {}) {
     const where = shortRoom(c.room);
     const sub = compact ? (c.other ? course.shortName.split(' ')[0] : where) : [`${c.startTime}–${c.endTime}`, where].filter(Boolean).join(' · ');
     const label = [course.name, TYPE_SHORT[c.type] || c.typeName, c.other ? `${c.group}, not your group` : '', `${c.startTime} to ${c.endTime}`, where].filter(Boolean).join(', ');
-    return `<button type="button" class="ev ${cls}" style="--c:${colorOf(c.courseId)};--i:${i};top:${top}px;height:${height}px${lane ? `;--lane:${lane.lane};--lanes:${lane.lanes}` : ''}"
+    return `<button type="button" class="ev ${cls}" style="--c:${colorOf(c.courseId)};${pdfColor(c) ? `--pdf:${pdfColor(c)};` : ''}--i:${i};top:${top}px;height:${height}px${lane ? `;--lane:${lane.lane};--lanes:${lane.lanes}` : ''}"
       data-class="${esc(c.id)}" data-date="${c.date}"${c.other || c.cancelled ? '' : ` data-start="${c.startMin}" data-end="${c.endMin}"`} aria-label="${esc(label)}"${c.other ? ` title="${esc(label)}"` : ''}>
       <b>${c.custom ? esc(c.course) : compact && c.other ? esc(c.group.replace(/^Group /, 'G').replace(/^Room /, '')) : `${esc(course.shortName)}${c.type !== 'L' ? ` · ${esc(TYPE_SHORT[c.type] || '')}` : ''}${c.group ? ` ${esc(c.group.replace(/^Group /, 'G'))}` : ''}`}</b>
       ${height >= 36 ? `<span class="ev-sub">${esc(sub)}</span>` : ''}

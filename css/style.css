@@ -383,12 +383,16 @@ a.row:hover, button.row:hover { text-decoration: none; }
   display: flex; flex-direction: column; gap: 1px;
 }
 @supports (color: oklch(from red l c h)) {
-  .ev { background: oklch(from var(--c) 0.90 0.06 h); color: oklch(from var(--c) 0.28 0.07 h); }
-  :where([data-theme="dark"]) .ev { background: oklch(from var(--c) 0.34 0.07 h); color: oklch(from var(--c) 0.92 0.04 h); }
+  /* Light: the timetable PDF's own colours. Dark: the same hues, with exercises paler like in the PDF.
+     Chroma stays capped by the course's own, so grey Electrical Engineering stays grey */
+  .ev { background: var(--pdf, oklch(from var(--c) 0.90 min(c, 0.06) h)); color: oklch(from var(--c) 0.28 min(c, 0.07) h); }
+  .ev.exercise { box-shadow: inset 0 0 0 1px oklch(from var(--c) 0.28 min(c, 0.07) h / 0.14); }
+  :where([data-theme="dark"]) .ev { background: oklch(from var(--c) 0.38 calc(c * 0.75) h); color: oklch(from var(--c) 0.93 min(c, 0.04) h); }
+  :where([data-theme="dark"]) .ev.exercise { background: oklch(from var(--c) 0.27 calc(c * 0.4) h); box-shadow: inset 0 0 0 1px oklch(from var(--c) 0.93 min(c, 0.04) h / 0.08); color: oklch(from var(--c) 0.85 min(c, 0.04) h); }
 }
 .ev b { font-weight: 600; font-size: 13px; }
 .ev.now { background: var(--c); color: #FFFFFF; box-shadow: var(--elev-1); }
-@supports (color: oklch(from red l c h)) { .ev.now { background: oklch(from var(--c) 0.50 0.14 h); } }
+@supports (color: oklch(from red l c h)) { .ev.now { background: oklch(from var(--c) 0.50 min(calc(c * 1.2), 0.14) h); } }
 .past-shade {
   position: absolute; top: 0; left: 0; right: 0; z-index: 1; pointer-events: none;
   background: color-mix(in srgb, var(--md-surface-low) 40%, transparent);
@@ -457,8 +461,8 @@ a.row:hover, button.row:hover { text-decoration: none; }
 .insp-head h2 { margin: 0; font-size: 22px; line-height: 28px; font-weight: 400; }
 .course-card { border-radius: 24px; padding: 20px; display: flex; flex-direction: column; gap: 4px; background: color-mix(in srgb, var(--c) 26%, var(--md-surface-lowest)); color: color-mix(in srgb, var(--c) 35%, var(--md-on-surface)); }
 @supports (color: oklch(from red l c h)) {
-  .course-card { background: oklch(from var(--c) 0.90 0.06 h); color: oklch(from var(--c) 0.26 0.07 h); }
-  :where([data-theme="dark"]) .course-card { background: oklch(from var(--c) 0.33 0.07 h); color: oklch(from var(--c) 0.92 0.04 h); }
+  .course-card { background: oklch(from var(--c) 0.90 min(c, 0.06) h); color: oklch(from var(--c) 0.26 min(c, 0.07) h); }
+  :where([data-theme="dark"]) .course-card { background: oklch(from var(--c) 0.33 min(c, 0.07) h); color: oklch(from var(--c) 0.92 min(c, 0.04) h); }
 }
 .course-card .when { font-size: 12px; font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase; opacity: 0.85; }
 .course-card .name { font-size: 22px; line-height: 28px; }
