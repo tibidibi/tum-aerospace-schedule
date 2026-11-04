@@ -21,7 +21,7 @@ No build step, no dependencies: plain HTML, CSS and JavaScript.
 
 **Your own appointments**: one-off or weekly. They show in the day plan and the week and go into the `.ics` export.
 
-**TUMonline sync** (account icon, top right): enter your TUM ID and TUMonline opens in a pop-up. Log in, activate the token named **TUM Flight Deck** under Token-Management, and the pop-up closes and the app syncs on its own. Your TUMonline calendar then wins: its times, rooms and cancellations replace the PDF data, and your exercise groups are picked from your registrations. The token stays in your browser. When you activate it, grant it **only calendar access**: that's all the app reads, and it limits what a leaked token could see.
+**TUMonline sync** (account icon, top right) is under development: new connections are switched off for now, while existing ones keep syncing and can still be disconnected. Enter your TUM ID and TUMonline opens in a pop-up. Log in, activate the token named **TUM Flight Deck** under Token-Management, and the pop-up closes and the app syncs on its own. Your TUMonline calendar then wins: its times, rooms and cancellations replace the PDF data, and your exercise groups are picked from your registrations. The token stays in your browser. When you activate it, grant it **only calendar access**: that's all the app reads, and it limits what a leaked token could see.
 
 **Light or dark:** the sun/moon next to the account icon. Until you pick, the app follows your system.
 
@@ -60,7 +60,7 @@ Then open http://localhost:8080. A real web server is needed (not `file://`) for
 
 Every push to `main` redeploys. The `.nojekyll` file makes Pages serve the files as they are.
 
-**Security note:** every project page under `https://<your-user>.github.io/` shares one origin, so any of your other Pages projects can read this app's localStorage, TUMonline token included. Keep no untrusted code in your other Pages repos, or give this app an origin of its own: a custom domain, or the `<your-user>.github.io` repository itself.
+**Security note:** every project page under `https://<your-user>.github.io/` shares one origin, so any of your other Pages projects can read this app's localStorage, TUMonline token included. That includes the `<your-user>.github.io` repository, so moving the app there doesn't isolate it. Keep no untrusted code in your other Pages repos, or give this app an origin of its own: Cloudflare Pages (`<project>.pages.dev`), a separate GitHub organization (`<org>.github.io`), or a custom subdomain set on this repository.
 
 ## Mensa menus
 

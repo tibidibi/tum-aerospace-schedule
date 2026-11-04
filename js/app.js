@@ -1470,10 +1470,11 @@ function renderTumSection() {
       <span class="sub">Log in to TUMonline in the pop-up, open Token-Management and activate <b>TUM Flight Deck</b> with calendar access only. TUMonline also emailed you. The pop-up closes on its own when you're done.</span>
       <div><button type="button" class="btn" data-tum="open">Open TUMonline</button> <button type="button" class="btn gray" data-tum="disconnect">Cancel</button></div></div>`;
   } else {
-    body = `<form class="list" data-tum-form>
+    // Not ready yet: new connections stay behind the veil; existing ones can still sync and disconnect
+    body = `<div class="veiled compact"><form class="list" data-tum-form inert>
       <label class="row"><span class="grow">TUM ID<span class="sub">Your calendar, rooms and groups, live. You log in on TUMonline's own page</span></span><input class="field" name="tumId" placeholder="ab12cde" autocomplete="username" style="max-width:140px" value="${esc(TUM.tumId)}"></label>
       <div class="row"><button type="submit" class="btn wide">Connect TUMonline</button></div>
-    </form>`;
+    </form><div class="veil"><span>Under development</span></div></div>`;
   }
   el.innerHTML = `<div class="section-label">TUMonline</div>${body}${TUM.error ? `<p class="err">${esc(TUM.error)}</p>` : ''}`;
 }

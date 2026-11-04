@@ -517,6 +517,8 @@ a.row:hover, button.row:hover { text-decoration: none; }
   -webkit-backdrop-filter: blur(2px); backdrop-filter: blur(2px);
 }
 .veil span { font-size: 22px; line-height: 28px; font-weight: 500; color: var(--md-on-surface); text-align: center; }
+.veiled.compact { min-height: 0; }
+.veiled.compact .veil { align-items: center; padding-top: 0; }
 
 .swatches { display: flex; flex-wrap: wrap; gap: 12px; padding: 16px; }
 .swatch { width: 48px; height: 48px; border-radius: 50%; border: 0; background: var(--sw); position: relative; display: inline-flex; align-items: center; justify-content: center; color: #FFFFFF; }
