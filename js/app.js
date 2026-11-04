@@ -14,6 +14,7 @@ const PX_PER_MIN = 0.9;
 const UI = {
   commute: { key: null, at: 0, html: '', busy: false },
   commuteDate: null,    // the day the Commute tab is drawn for
+  weekDrawnOn: null,    // the date Week was last drawn on, to redraw it after midnight
   leave: { date: null, mode: 'default', time: '' }, // when you leave: 'default' (for/after classes) | 'now' | 'custom'
   enter: 'fade',        // entrance for the next render: 'fade' (new view) | 'next' | 'prev' (week change) | null
   flash: null,          // pressed-state change to animate across a re-render: { on, off: [selectors] }
@@ -119,10 +120,32 @@ function hoursHtml(from, to) {
 }
 
 // Whether a session is over or running right now
-function evState(c, now) {
-  const isToday = c.date === now.date;
-  const past = isToday && c.endMin <= now.minutes;
-  return { past, live: isToday && c.startMin <= now.minutes && !past && !c.cancelled };
+// What has passed on a day's track goes grey under one shade, which cuts through the class you're in
+function nowMarksHtml(from, to, now) {
+  const past = Math.min(now.minutes, to) - from;
+  return `${past > 0 ? `<div class="past-shade" style="height:${past * PX_PER_MIN}px"></div>` : ''}
+    ${now.minutes >= from && now.minutes <= to ? `<div class="now-line" style="top:${(now.minutes - from) * PX_PER_MIN}px"></div>` : ''}`;
+}
+
+// The 30 s tick: move the marks and update which class is running on the tiles already on screen,
+// so they transition instead of being redrawn
+function tickTrack(track, now) {
+  for (const tile of track.querySelectorAll('.ev[data-start]')) {
+    tile.classList.toggle('now', Number(tile.dataset.start) <= now.minutes && now.minutes < Number(tile.dataset.end));
+  }
+  const from = Number(track.dataset.from), to = Number(track.dataset.to);
+  const place = (cls, show, prop, px) => {
+    let el = track.querySelector(`.${cls}`);
+    if (!show) { if (el) el.remove(); return; }
+    if (!el) {
+      el = document.createElement('div');
+      el.className = cls;
+      track.appendChild(el);
+    }
+    el.style[prop] = `${px}px`;
+  };
+  place('past-shade', now.minutes > from, 'height', (Math.min(now.minutes, to) - from) * PX_PER_MIN);
+  place('now-line', now.minutes >= from && now.minutes <= to, 'top', (now.minutes - from) * PX_PER_MIN);
 }
 
 function eventsHtml(list, from, now, { compact = false } = {}) {
@@ -130,10 +153,10 @@ function eventsHtml(list, from, now, { compact = false } = {}) {
   return list.map((c, i) => {
     const top = (c.startMin - from) * PX_PER_MIN;
     const height = Math.max((c.endMin - c.startMin) * PX_PER_MIN - 2, 18);
-    const { past, live } = c.other ? {} : evState(c, now);
+    const live = !c.other && !c.cancelled && c.date === now.date && c.startMin <= now.minutes && now.minutes < c.endMin;
     const lane = lanes.get(c);
     const cls = [
-      past ? 'past' : '', live ? 'now' : '',
+      live ? 'now' : '',
       !c.other && STATE.skippedClasses.has(c.id) ? 'skipped' : '', c.cancelled ? 'cancelled' : '',
       lane ? 'laned' : '', c.custom ? 'custom' : '', c.other ? 'other' : ''
     ].join(' ');
@@ -142,7 +165,7 @@ function eventsHtml(list, from, now, { compact = false } = {}) {
     const sub = compact ? (c.other ? course.shortName.split(' ')[0] : where) : [`${c.startTime}–${c.endTime}`, where].filter(Boolean).join(' · ');
     const label = [course.name, TYPE_SHORT[c.type] || c.typeName, c.other ? `${c.group}, not your group` : '', `${c.startTime} to ${c.endTime}`, where].filter(Boolean).join(', ');
     return `<button type="button" class="ev ${cls}" style="--c:${colorOf(c.courseId)};--i:${i};top:${top}px;height:${height}px${lane ? `;--lane:${lane.lane};--lanes:${lane.lanes}` : ''}"
-      data-class="${esc(c.id)}" data-date="${c.date}" aria-label="${esc(label)}"${c.other ? ` title="${esc(label)}"` : ''}>
+      data-class="${esc(c.id)}" data-date="${c.date}"${c.other || c.cancelled ? '' : ` data-start="${c.startMin}" data-end="${c.endMin}"`} aria-label="${esc(label)}"${c.other ? ` title="${esc(label)}"` : ''}>
       <b>${c.custom ? esc(c.course) : compact && c.other ? esc(c.group.replace(/^Group /, 'G').replace(/^Room /, '')) : `${esc(course.shortName)}${c.type !== 'L' ? ` · ${esc(TYPE_SHORT[c.type] || '')}` : ''}${c.group ? ` ${esc(c.group.replace(/^Group /, 'G'))}` : ''}`}</b>
       ${height >= 36 ? `<span class="ev-sub">${esc(sub)}</span>` : ''}
     </button>`;
@@ -330,7 +353,6 @@ function renderToday() {
   const drawn = drawnItems(week).filter(c => c.date === focus.date);
   const { from, to } = hourRange(drawn);
   const closures = week.closures.filter(x => x.date === focus.date);
-  const showNow = focus.isToday && now.minutes >= from && now.minutes <= to;
 
   $('view').innerHTML = `<div class="today">
     <section class="day-col" aria-label="Day plan">
@@ -340,7 +362,7 @@ function renderToday() {
         <div class="tl-hours" style="height:${(to - from) * PX_PER_MIN}px">${hoursHtml(from, to)}</div>
         <div class="tl-track day-track" data-from="${from}" data-to="${to}" style="height:${(to - from) * PX_PER_MIN}px">
           ${eventsHtml(drawn, from, now)}
-          ${showNow ? `<div class="now-line" style="top:${(now.minutes - from) * PX_PER_MIN}px"></div>` : ''}
+          ${focus.isToday ? nowMarksHtml(from, to, now) : ''}
         </div>
       </div>
       <button type="button" class="btn gray add-appt" data-new-appt data-date="${focus.date}">${icon('add')}New appointment</button>
@@ -364,30 +386,21 @@ function todaySig(focus) {
   return focus ? `${focus.date}|${focus.sessions.map(c => `${c.id}@${c.startMin}-${c.endMin}${c.cancelled ? 'x' : ''}`).join(',')}|${[...STATE.skippedClasses].join(',')}` : 'none';
 }
 
-// The 30 s tick: when the day hasn't changed, move the "now" line and update which class is
-// past or running on the tiles already on screen, so both transition instead of being redrawn
+// The 30 s tick: a redraw only when the day itself changed
 function tickToday() {
   const now = munichNow();
   const focus = focusDay(now);
   const track = document.querySelector('#view .day-track');
   if (!focus || !track || todaySig(focus) !== UI.todaySig) return renderToday();
-  for (const tile of track.querySelectorAll('.ev')) {
-    const c = focus.sessions.find(x => x.id === tile.dataset.class && x.date === tile.dataset.date);
-    if (!c) continue;
-    const { past, live } = evState(c, now);
-    tile.classList.toggle('past', past);
-    tile.classList.toggle('now', live);
-  }
-  const from = Number(track.dataset.from), to = Number(track.dataset.to);
-  let line = track.querySelector('.now-line');
-  const show = focus.isToday && now.minutes >= from && now.minutes <= to;
-  if (show && !line) {
-    line = document.createElement('div');
-    line.className = 'now-line';
-    track.appendChild(line);
-  }
-  if (line && !show) line.remove();
-  else if (line) line.style.top = `${(now.minutes - from) * PX_PER_MIN}px`;
+  if (focus.isToday) tickTrack(track, now);
+}
+
+function tickWeek() {
+  const now = munichNow();
+  if (UI.weekDrawnOn !== now.date) return render();
+  const track = document.querySelector(`#view .week-col[data-date="${now.date}"]`);
+  if (track) tickTrack(track, now);
+  renderInspector();
 }
 
 // ================= COMMUTE =================
@@ -846,6 +859,7 @@ function renderWeek() {
   const w = STATE.weekIdx;
   const week = getWeek(w);
   const now = munichNow();
+  UI.weekDrawnOn = now.date;
   const counted = week.items.filter(c => attending(c) && !c.custom);
   const minutes = counted.reduce((s, c) => s + c.durationMin, 0);
   const campusDays = new Set(counted.map(c => c.dayIndex)).size;
@@ -879,11 +893,10 @@ function renderWeek() {
   const cols = week.days.map((date, d) => {
     const items = drawn.filter(c => c.dayIndex === d);
     const closure = week.closures.find(x => x.dayIndex === d);
-    const nowLine = date === now.date && now.minutes >= from && now.minutes <= to;
-    return `<div class="week-col tl-track" style="height:${height}px">
+    return `<div class="week-col tl-track" data-date="${date}" data-from="${from}" data-to="${to}" style="height:${height}px">
       ${closure ? `<div class="closure">${esc(closure.label)}</div>` : ''}
       ${eventsHtml(items, from, now, { compact: true })}
-      ${nowLine ? `<div class="now-line" style="top:${(now.minutes - from) * PX_PER_MIN}px;left:0"></div>` : ''}
+      ${date === now.date ? nowMarksHtml(from, to, now) : ''}
     </div>`;
   }).join('');
 
@@ -1604,6 +1617,7 @@ setInterval(() => {
   if (UI.tick % 2 === 0) UI.commute.at = 0;
   const open = $('sheet').open;
   if (STATE.view === 'today' && !open) tickToday();
+  if (STATE.view === 'week' && !open) tickWeek();
   if (STATE.view === 'commute' && !open) tickCommute();
   if (STATE.view === 'mensa' && !open) {
     const focus = focusDay();
@@ -1614,7 +1628,7 @@ setInterval(() => {
   if (UI.moodleWin) followMoodle(munichNow(), moodleTarget(munichNow(), focusDay()));
 }, 30e3);
 document.addEventListener('visibilitychange', () => {
-  if (document.visibilityState === 'visible' && ['today', 'commute', 'mensa'].includes(STATE.view)) render();
+  if (document.visibilityState === 'visible' && ['today', 'week', 'commute', 'mensa'].includes(STATE.view)) render();
 });
 
 // ================= START =================

@@ -389,7 +389,11 @@ a.row:hover, button.row:hover { text-decoration: none; }
 .ev b { font-weight: 600; font-size: 13px; }
 .ev.now { background: var(--c); color: #FFFFFF; box-shadow: var(--elev-1); }
 @supports (color: oklch(from red l c h)) { .ev.now { background: oklch(from var(--c) 0.50 0.14 h); } }
-.ev.past { opacity: 0.6; }
+.past-shade {
+  position: absolute; top: 0; left: 0; right: 0; z-index: 1; pointer-events: none;
+  background: color-mix(in srgb, var(--md-surface-low) 40%, transparent);
+  -webkit-backdrop-filter: grayscale(1); backdrop-filter: grayscale(1);
+}
 .ev.skipped { opacity: 0.5; background: repeating-linear-gradient(135deg, var(--md-surface-highest) 0 6px, var(--md-surface-low) 6px 12px); color: var(--md-on-surface-variant); }
 .ev.cancelled b { text-decoration: line-through; }
 .ev.other { background: color-mix(in srgb, var(--c) 8%, transparent); color: var(--md-on-surface-variant); border: 1px solid color-mix(in srgb, var(--c) 40%, transparent); padding: 3px 4px; font-size: 11px; line-height: 14px; }
@@ -473,6 +477,7 @@ a.row:hover, button.row:hover { text-decoration: none; }
 .week-head .campus { font-size: 12px; color: var(--md-on-surface-variant); }
 .week-col { position: relative; border-left: 1px solid var(--md-outline-variant); }
 .week-col .ev { left: 4px; right: 4px; }
+.week-col .now-line { left: 0; }
 .week-col { --pad: 4px; }
 .ev.laned {
   left: calc(var(--pad, 0px) + (100% - 2 * var(--pad, 0px)) * var(--lane) / var(--lanes)); right: auto;
@@ -637,6 +642,7 @@ a.row, button.row, .side-item, .seg button, .icon-btn, .sheet-done { position: r
 .ev:hover { box-shadow: var(--elev-1); }
 .ev:active { transform: scale(0.985); }
 .now-line { transition: top var(--dur-long) var(--ease-standard); }
+.past-shade { transition: height var(--dur-long) var(--ease-standard); }
 
 /* Entrances. A new view fades through (M3 "fade through"), its tiles and cards rise in, staggered */
 @keyframes fade-through { from { opacity: 0; transform: scale(0.98); } }
@@ -694,7 +700,7 @@ a.row, button.row, .side-item, .seg button, .icon-btn, .sheet-done { position: r
 /* Respect "reduce motion": keep colour changes, drop movement */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 1ms !important; animation-delay: 0ms !important; animation-iteration-count: 1 !important; }
-  .ev, .now-line, .sheet, .toast, .swatch, .switch .track::after { transition-property: background-color, color, opacity !important; }
+  .ev, .now-line, .past-shade, .sheet, .toast, .swatch, .switch .track::after { transition-property: background-color, color, opacity !important; }
   .ev:active, .swatch:hover, .swatch:active { transform: none; }
 }
 
