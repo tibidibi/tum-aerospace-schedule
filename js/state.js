@@ -173,6 +173,7 @@ function pollTumToken() {
         clearInterval(tumPollTimer);
         TUM.status = 'connected';
         saveTum();
+        closeTumWindow();
         await tumSync();
       }
     } catch (e) { /* keep polling; the token may not exist yet */ }
@@ -219,6 +220,7 @@ function applyDetectedGroups() {
 
 function tumDisconnect() {
   clearInterval(tumPollTimer);
+  closeTumWindow();
   Object.assign(TUM, { tumId: '', token: null, status: 'off', events: [], coverage: null, syncedAt: null, error: null });
   STATE.detectedGroups = {};
   saveTum();

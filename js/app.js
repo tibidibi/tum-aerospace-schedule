@@ -1119,6 +1119,27 @@ function openCourse(id) {
     ${course.hasGroups ? `<div class="list"><button type="button" class="row" data-goto-groups><span class="grow" style="color:var(--md-primary)">Change group</span>${icon('chevron_right', 'chev')}</button></div>` : ''}`);
 }
 
+function renderThemeBtn() {
+  const dark = document.documentElement.dataset.theme === 'dark';
+  const label = `Switch to ${dark ? 'light' : 'dark'} theme`;
+  const btn = $('themeBtn');
+  btn.querySelector('.msr').textContent = dark ? 'light_mode' : 'dark_mode';
+  btn.title = label;
+  btn.setAttribute('aria-label', label);
+}
+
+// Picking what the system already shows drops your override, so the app follows the system again
+function toggleTheme() {
+  const dark = document.documentElement.dataset.theme !== 'dark';
+  themeOverride = dark === systemDark.matches ? null : dark ? 'dark' : 'light';
+  try {
+    if (themeOverride) localStorage.setItem(THEME_KEY, themeOverride);
+    else localStorage.removeItem(THEME_KEY);
+  } catch (e) {}
+  applyTheme();
+  renderThemeBtn();
+}
+
 // Material You: every colour role is derived from this seed (see style.css)
 const SEEDS = [['#3070B3', 'TUM blue'], ['#006A6A', 'Teal'], ['#4C7A34', 'Green'], ['#9A6000', 'Amber'], ['#B4446E', 'Rose'], ['#6750A4', 'Violet']];
 const SEED_KEY = 'fd_md_seed';
@@ -1314,6 +1335,19 @@ function renderInstallSection() {
     </div>`;
 }
 
+// TUMonline has no sign-in we can call, so you log in on its own page and we never see the password.
+// Open it right on the click, before any await, or the browser blocks the pop-up.
+// Unlike Moodle's window this one keeps `opener`: with it cut, Chromium won't let us close the pop-up
+function openTumWindow() {
+  UI.tumWin = window.open(TUMONLINE_BASE, 'tum-online', 'popup,width=1000,height=800');
+  if (!UI.tumWin) toast('Your browser blocked the window. Allow pop-ups for this site, then try again.');
+}
+
+function closeTumWindow() {
+  if (UI.tumWin) UI.tumWin.close();
+  UI.tumWin = null;
+}
+
 function renderTumSection() {
   const el = $('tumSection');
   if (!el) return;
@@ -1326,12 +1360,12 @@ function renderTumSection() {
     </div>`;
   } else if (TUM.status === 'pending') {
     body = `<div class="card"><strong>Activate the token in TUMonline</strong>
-      <span class="sub">Open TUMonline › Token-Management and activate <b>TUM Flight Deck</b>. TUMonline also emailed you. This page notices on its own.</span>
-      <div><a class="btn" href="https://campus.tum.de/tumonline/" target="_blank" rel="noopener">Open TUMonline</a> <button type="button" class="btn gray" data-tum="disconnect">Cancel</button></div></div>`;
+      <span class="sub">Log in to TUMonline in the pop-up, open Token-Management and activate <b>TUM Flight Deck</b> with calendar access only. TUMonline also emailed you. The pop-up closes on its own when you're done.</span>
+      <div><button type="button" class="btn" data-tum="open">Open TUMonline</button> <button type="button" class="btn gray" data-tum="disconnect">Cancel</button></div></div>`;
   } else {
     body = `<form class="list" data-tum-form>
-      <label class="row"><span class="grow">TUM ID<span class="sub">Your calendar, rooms and groups, live</span></span><input class="field" name="tumId" placeholder="ab12cde" autocomplete="username" style="max-width:140px" value="${esc(TUM.tumId)}"></label>
-      <div class="row"><button type="submit" class="btn wide">Request token</button></div>
+      <label class="row"><span class="grow">TUM ID<span class="sub">Your calendar, rooms and groups, live. You log in on TUMonline's own page</span></span><input class="field" name="tumId" placeholder="ab12cde" autocomplete="username" style="max-width:140px" value="${esc(TUM.tumId)}"></label>
+      <div class="row"><button type="submit" class="btn wide">Connect TUMonline</button></div>
     </form>`;
   }
   el.innerHTML = `<div class="section-label">TUMonline</div>${body}${TUM.error ? `<p class="err">${esc(TUM.error)}</p>` : ''}`;
@@ -1345,6 +1379,7 @@ document.addEventListener('click', async e => {
   if (view) return setView(view.dataset.view);
   if (t.closest('[data-open-settings]')) return openSettings();
   if (t.closest('[data-open-account]')) return openAccount();
+  if (t.closest('[data-toggle-theme]')) return toggleTheme();
   const add = t.closest('[data-new-appt]');
   if (add) return openAppointment(null, add.dataset.date);
   const del = t.closest('[data-appt-delete]');
@@ -1462,7 +1497,7 @@ document.addEventListener('click', async e => {
     return homeDone('Home address removed');
   }
   const tum = t.closest('[data-tum]');
-  if (tum) return tum.dataset.tum === 'sync' ? tumSync() : tumDisconnect();
+  if (tum) return tum.dataset.tum === 'sync' ? tumSync() : tum.dataset.tum === 'open' ? openTumWindow() : tumDisconnect();
   if (t.closest('[data-notify]')) {
     const perm = await Notification.requestPermission();
     SETTINGS.notify = perm === 'granted';
@@ -1479,10 +1514,12 @@ document.addEventListener('submit', async e => {
   const btn = form.querySelector('button[type="submit"]');
   btn.disabled = true;
   btn.textContent = 'Requesting…';
+  if (TUM_ID_PATTERN.test(form.tumId.value.trim())) openTumWindow();
   try {
     await tumConnect(form.tumId.value);
   } catch (err) {
     TUM.error = err.message;
+    closeTumWindow();
   }
   renderTumSection();
   renderSidebar();
@@ -1596,6 +1633,8 @@ handleJoinLink();
 render();
 if (TUM.status === 'pending') pollTumToken();
 if (TUM.status === 'connected' && (!TUM.syncedAt || Date.now() - TUM.syncedAt > 3600e3)) tumSync({ quiet: true });
+systemDark.addEventListener('change', () => { applyTheme(); renderThemeBtn(); });
+renderThemeBtn();
 if ('serviceWorker' in navigator && location.protocol !== 'file:') navigator.serviceWorker.register('sw.js').catch(() => {});
 window.addEventListener('beforeinstallprompt', e => { e.preventDefault(); UI.installPrompt = e; renderInstallSection(); });
 window.addEventListener('appinstalled', () => { UI.installPrompt = null; UI.installed = true; renderInstallSection(); toast('Flight Deck installed'); });

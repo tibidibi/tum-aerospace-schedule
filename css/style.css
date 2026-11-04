@@ -69,64 +69,62 @@
   }
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --md-primary: #A5C8FF;
-    --md-on-primary: #00315E;
-    --md-primary-container: #124782;
-    --md-on-primary-container: #D4E3FF;
-    --md-secondary-container: #3D4758;
-    --md-on-secondary-container: #D9E3F8;
-    --md-tertiary-container: #573E60;
-    --md-on-tertiary-container: #F6DAFF;
-    --md-surface: #111318;
-    --md-surface-lowest: #0C0E13;
-    --md-surface-low: #191C20;
-    --md-surface-container: #1D2024;
-    --md-surface-high: #282A2F;
-    --md-surface-highest: #33353A;
-    --md-on-surface: #E2E2E9;
-    --md-on-surface-variant: #C3C6CF;
-    --md-outline: #8D9199;
-    --md-outline-variant: #43474E;
-    --md-inverse-surface: #E2E2E9;
-    --md-inverse-on-surface: #2E3036;
-    --md-inverse-primary: #2F5F98;
-    --md-error: #FFB4AB;
-    --md-error-container: #93000A;
-    --md-on-error-container: #FFDAD6;
-    --md-success: #8BD89C;
-    --md-success-container: #005228;
-    --md-on-success-container: #A6F5B6;
-    --md-warn-container: #643F00;
-    --md-on-warn-container: #FFDDB4;
-    --elev-1: 0 1px 3px 1px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.3);
-    color-scheme: dark;
-  }
-  @supports (color: oklch(from red l c h)) {
-    :root {
-      --md-primary: oklch(from var(--seed) 0.81 0.10 h);
-      --md-on-primary: oklch(from var(--seed) 0.30 0.09 h);
-      --md-primary-container: oklch(from var(--seed) 0.38 0.10 h);
-      --md-on-primary-container: oklch(from var(--seed) 0.92 0.04 h);
-      --md-secondary-container: oklch(from var(--seed) 0.37 0.03 h);
-      --md-on-secondary-container: oklch(from var(--seed) 0.91 0.025 h);
-      --md-tertiary-container: oklch(from var(--seed) 0.38 0.06 calc(h + 60));
-      --md-on-tertiary-container: oklch(from var(--seed) 0.92 0.04 calc(h + 60));
-      --md-surface: oklch(from var(--seed) 0.17 0.008 h);
-      --md-surface-lowest: oklch(from var(--seed) 0.14 0.006 h);
-      --md-surface-low: oklch(from var(--seed) 0.20 0.009 h);
-      --md-surface-container: oklch(from var(--seed) 0.22 0.01 h);
-      --md-surface-high: oklch(from var(--seed) 0.26 0.011 h);
-      --md-surface-highest: oklch(from var(--seed) 0.30 0.012 h);
-      --md-on-surface: oklch(from var(--seed) 0.92 0.008 h);
-      --md-on-surface-variant: oklch(from var(--seed) 0.81 0.016 h);
-      --md-outline: oklch(from var(--seed) 0.64 0.018 h);
-      --md-outline-variant: oklch(from var(--seed) 0.40 0.016 h);
-      --md-inverse-surface: oklch(from var(--seed) 0.92 0.008 h);
-      --md-inverse-on-surface: oklch(from var(--seed) 0.30 0.012 h);
-      --md-inverse-primary: oklch(from var(--seed) 0.47 0.13 h);
-    }
+:root[data-theme="dark"] {
+  --md-primary: #A5C8FF;
+  --md-on-primary: #00315E;
+  --md-primary-container: #124782;
+  --md-on-primary-container: #D4E3FF;
+  --md-secondary-container: #3D4758;
+  --md-on-secondary-container: #D9E3F8;
+  --md-tertiary-container: #573E60;
+  --md-on-tertiary-container: #F6DAFF;
+  --md-surface: #111318;
+  --md-surface-lowest: #0C0E13;
+  --md-surface-low: #191C20;
+  --md-surface-container: #1D2024;
+  --md-surface-high: #282A2F;
+  --md-surface-highest: #33353A;
+  --md-on-surface: #E2E2E9;
+  --md-on-surface-variant: #C3C6CF;
+  --md-outline: #8D9199;
+  --md-outline-variant: #43474E;
+  --md-inverse-surface: #E2E2E9;
+  --md-inverse-on-surface: #2E3036;
+  --md-inverse-primary: #2F5F98;
+  --md-error: #FFB4AB;
+  --md-error-container: #93000A;
+  --md-on-error-container: #FFDAD6;
+  --md-success: #8BD89C;
+  --md-success-container: #005228;
+  --md-on-success-container: #A6F5B6;
+  --md-warn-container: #643F00;
+  --md-on-warn-container: #FFDDB4;
+  --elev-1: 0 1px 3px 1px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.3);
+  color-scheme: dark;
+}
+@supports (color: oklch(from red l c h)) {
+  :root[data-theme="dark"] {
+    --md-primary: oklch(from var(--seed) 0.81 0.10 h);
+    --md-on-primary: oklch(from var(--seed) 0.30 0.09 h);
+    --md-primary-container: oklch(from var(--seed) 0.38 0.10 h);
+    --md-on-primary-container: oklch(from var(--seed) 0.92 0.04 h);
+    --md-secondary-container: oklch(from var(--seed) 0.37 0.03 h);
+    --md-on-secondary-container: oklch(from var(--seed) 0.91 0.025 h);
+    --md-tertiary-container: oklch(from var(--seed) 0.38 0.06 calc(h + 60));
+    --md-on-tertiary-container: oklch(from var(--seed) 0.92 0.04 calc(h + 60));
+    --md-surface: oklch(from var(--seed) 0.17 0.008 h);
+    --md-surface-lowest: oklch(from var(--seed) 0.14 0.006 h);
+    --md-surface-low: oklch(from var(--seed) 0.20 0.009 h);
+    --md-surface-container: oklch(from var(--seed) 0.22 0.01 h);
+    --md-surface-high: oklch(from var(--seed) 0.26 0.011 h);
+    --md-surface-highest: oklch(from var(--seed) 0.30 0.012 h);
+    --md-on-surface: oklch(from var(--seed) 0.92 0.008 h);
+    --md-on-surface-variant: oklch(from var(--seed) 0.81 0.016 h);
+    --md-outline: oklch(from var(--seed) 0.64 0.018 h);
+    --md-outline-variant: oklch(from var(--seed) 0.40 0.016 h);
+    --md-inverse-surface: oklch(from var(--seed) 0.92 0.008 h);
+    --md-inverse-on-surface: oklch(from var(--seed) 0.30 0.012 h);
+    --md-inverse-primary: oklch(from var(--seed) 0.47 0.13 h);
   }
 }
 
@@ -219,10 +217,10 @@ textarea.field { min-height: 96px; padding: 14px 16px; resize: vertical; font: i
 .toolbar {
   position: sticky; top: 0; z-index: 5;
   display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px;
-  padding: 24px 68px 16px 28px;
+  padding: 24px 108px 16px 28px;
   background: var(--md-surface);
 }
-.toolbar .account-btn { position: absolute; top: 16px; right: 16px; }
+.toolbar-corner { position: absolute; top: 16px; right: 16px; display: flex; align-items: center; }
 .account-btn .msr { font-size: 28px; }
 .title-block { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
 .eyebrow { font-size: 14px; font-weight: 500; color: var(--md-primary); letter-spacing: 0.01em; }
@@ -386,9 +384,7 @@ a.row:hover, button.row:hover { text-decoration: none; }
 }
 @supports (color: oklch(from red l c h)) {
   .ev { background: oklch(from var(--c) 0.90 0.06 h); color: oklch(from var(--c) 0.28 0.07 h); }
-  @media (prefers-color-scheme: dark) {
-    .ev { background: oklch(from var(--c) 0.34 0.07 h); color: oklch(from var(--c) 0.92 0.04 h); }
-  }
+  :where([data-theme="dark"]) .ev { background: oklch(from var(--c) 0.34 0.07 h); color: oklch(from var(--c) 0.92 0.04 h); }
 }
 .ev b { font-weight: 600; font-size: 13px; }
 .ev.now { background: var(--c); color: #FFFFFF; box-shadow: var(--elev-1); }
@@ -458,7 +454,7 @@ a.row:hover, button.row:hover { text-decoration: none; }
 .course-card { border-radius: 24px; padding: 20px; display: flex; flex-direction: column; gap: 4px; background: color-mix(in srgb, var(--c) 26%, var(--md-surface-lowest)); color: color-mix(in srgb, var(--c) 35%, var(--md-on-surface)); }
 @supports (color: oklch(from red l c h)) {
   .course-card { background: oklch(from var(--c) 0.90 0.06 h); color: oklch(from var(--c) 0.26 0.07 h); }
-  @media (prefers-color-scheme: dark) { .course-card { background: oklch(from var(--c) 0.33 0.07 h); color: oklch(from var(--c) 0.92 0.04 h); } }
+  :where([data-theme="dark"]) .course-card { background: oklch(from var(--c) 0.33 0.07 h); color: oklch(from var(--c) 0.92 0.04 h); }
 }
 .course-card .when { font-size: 12px; font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase; opacity: 0.85; }
 .course-card .name { font-size: 22px; line-height: 28px; }
@@ -548,8 +544,8 @@ a.row:hover, button.row:hover { text-decoration: none; }
   .sidebar { display: none; }
   .main { border-radius: 0; overflow: visible; min-height: 0; }
   .inspector { grid-column: 1; margin: 0 8px; border-radius: 28px; }
-  .toolbar { padding: 16px 60px 12px 16px; }
-  .toolbar .account-btn { top: 8px; right: 8px; }
+  .toolbar { padding: 16px 100px 12px 16px; }
+  .toolbar-corner { top: 8px; right: 8px; }
   .toolbar h1 { font-size: 28px; line-height: 36px; }
   .view { padding: 4px 12px 24px; }
   .day-col { padding: 12px 12px 16px 4px; }
@@ -704,7 +700,7 @@ a.row, button.row, .side-item, .seg button, .icon-btn, .sheet-done { position: r
 
 @media print {
   body { background: #FFFFFF; }
-  .sidebar, .inspector, .tabbar, .toolbar-actions, .account-btn { display: none !important; }
+  .sidebar, .inspector, .tabbar, .toolbar-actions, .toolbar-corner { display: none !important; }
   .app, .app.no-inspector { display: block; padding: 0; }
   .toolbar { position: static; }
 }

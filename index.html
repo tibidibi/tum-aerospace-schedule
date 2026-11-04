@@ -3,8 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <meta name="theme-color" content="#EDEDF4" media="(prefers-color-scheme: light)">
-  <meta name="theme-color" content="#1D2024" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#EDEDF4">
   <title>Flight Deck · TUM Aerospace</title>
   <meta name="description" content="Unofficial, student-made schedule for TUM Aerospace 1st semester: TUMonline sync, live commute, Mensa and Moodle. Not affiliated with or endorsed by the Technical University of Munich.">
   <link rel="manifest" href="manifest.webmanifest">
@@ -48,7 +47,10 @@
           <span class="subtitle" id="subtitle"></span>
         </div>
         <div class="toolbar-actions" id="toolbarActions"></div>
-        <button type="button" class="icon-btn account-btn" data-open-account aria-label="Account" title="Account"><span class="msr" aria-hidden="true">account_circle</span></button>
+        <div class="toolbar-corner">
+          <button type="button" class="icon-btn" id="themeBtn" data-toggle-theme><span class="msr" aria-hidden="true"></span></button>
+          <button type="button" class="icon-btn account-btn" data-open-account aria-label="Account" title="Account"><span class="msr" aria-hidden="true">account_circle</span></button>
+        </div>
       </header>
       <div id="view" class="view"></div>
     </main>
