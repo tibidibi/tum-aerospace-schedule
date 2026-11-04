@@ -396,7 +396,7 @@ a.row:hover, button.row:hover { text-decoration: none; }
 .past-shade {
   position: absolute; top: 0; left: 0; right: 0; z-index: 1; pointer-events: none;
   background: color-mix(in srgb, var(--md-surface-low) 40%, transparent);
-  -webkit-backdrop-filter: grayscale(1); backdrop-filter: grayscale(1);
+  -webkit-backdrop-filter: grayscale(0.55); backdrop-filter: grayscale(0.55);
 }
 .ev.skipped { opacity: 0.5; background: repeating-linear-gradient(135deg, var(--md-surface-highest) 0 6px, var(--md-surface-low) 6px 12px); color: var(--md-on-surface-variant); }
 .ev.cancelled b { text-decoration: line-through; }
@@ -657,8 +657,8 @@ a.row, button.row, .side-item, .seg button, .icon-btn, .sheet-done { position: r
 .view.enter-fade > * { animation: fade-through var(--dur-long) var(--ease-emph-decel) both; }
 .view.enter-fade :is(.travel > *, .section, .plan, .autopilot, .week-stats) { animation: rise-in var(--dur-long) var(--ease-emph-decel) both; animation-delay: 60ms; }
 .view.enter-fade .ev { animation: tile-in var(--dur-long) var(--ease-emph-decel) both; animation-delay: calc(80ms + var(--i, 0) * 30ms); }
-.view.enter-next :is(.week-col, .week-head) { animation: slide-next var(--dur-long) var(--ease-emph-decel) both; }
-.view.enter-prev :is(.week-col, .week-head) { animation: slide-prev var(--dur-long) var(--ease-emph-decel) both; }
+.view.enter-next :is(.week-col, .week-head, .day-col) { animation: slide-next var(--dur-long) var(--ease-emph-decel) both; }
+.view.enter-prev :is(.week-col, .week-head, .day-col) { animation: slide-prev var(--dur-long) var(--ease-emph-decel) both; }
 .title-block.enter-fade { animation: rise-in var(--dur-long) var(--ease-emph-decel) both; }
 .title-block.enter-next { animation: slide-next var(--dur-long) var(--ease-emph-decel) both; }
 .title-block.enter-prev { animation: slide-prev var(--dur-long) var(--ease-emph-decel) both; }

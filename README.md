@@ -9,7 +9,7 @@ No build step, no dependencies: plain HTML, CSS and JavaScript.
 ## What it does
 
 **Today** (the main page on phones; on tablets and desktop that's Week)
-- Just the day's classes and appointments, with a "now" line. What has passed goes grey, also in Week, right through the class you're in.
+- Just the day's classes and appointments, with a "now" line. What has passed fades, also in Week, right through the class you're in. Step to other days with the arrows.
 
 **Commute**
 - **Leave by**, MVG vs car vs bike, the connections with live delays and disruptions, rain at leave time, and a live departure board from your first stop.
@@ -25,7 +25,7 @@ No build step, no dependencies: plain HTML, CSS and JavaScript.
 
 **Light or dark:** the sun/moon next to the account icon. Until you pick, the app follows your system.
 
-Keys: **1–5** switch views, **← →** change week, **T** this week, **,** account and settings.
+Keys: **1–5** switch views, **← →** change day or week, **T** back to now, **,** account and settings.
 
 ## Files
 

@@ -15,6 +15,7 @@ const UI = {
   enter: 'fade',        // entrance for the next render: 'fade' (new view) | 'next' | 'prev' (week change) | null
   flash: null,          // pressed-state change to animate across a re-render: { on, off: [selectors] }
   todaySig: null,       // what Today's day plan was drawn from, so the 30 s tick can update it in place
+  day: null,            // the day you stepped to in Today: { date, on (the date you did) }
   board: { key: null, html: '' },
   lunch: { key: null, html: '' },
   leaveBy: {},          // date -> last leave-by (ms), to flag when it moves earlier
@@ -335,44 +336,78 @@ function renderSidebar() {
 
 // ================= TODAY =================
 
+// The day Today shows: the one you stepped to, else the day the rest of the app plans around.
+// A day later it goes back to following along.
+function shownDay(now) {
+  if (UI.day && UI.day.on !== now.date) UI.day = null;
+  const focus = UI.day ? null : focusDay(now);
+  const date = UI.day ? UI.day.date : focus ? focus.date : now.date;
+  const sessions = sessionsOn(date);
+  return { date, isToday: date === now.date, sessions, live: sessions.filter(c => attending(c) && !c.custom) };
+}
+
+const inSemester = date => weekIndexOf(date) >= 0 && weekIndexOf(date) < semesterWeeks();
+
+// Weeks have no weekends here, as in Week: Friday steps to Monday
+function stepDay(date, dir) {
+  let next = addDays(date, dir);
+  while (weekdayIndex(next) > 4) next = addDays(next, dir);
+  return next;
+}
+
+function goToDay(date) {
+  const now = munichNow();
+  const shown = shownDay(now).date;
+  if (date !== shown) UI.enter = date > shown ? 'next' : 'prev';
+  UI.day = { date, on: now.date };
+  render();
+}
+
+function relativeDay(date, now) {
+  return { 0: 'Today', 1: 'Tomorrow', '-1': 'Yesterday' }[daysBetween(now.date, date)] || null;
+}
+
 function renderToday() {
   const now = munichNow();
-  const focus = focusDay(now);
-  if (!focus) {
-    setToolbar({ eyebrow: weekdayName(now.date), title: dayMonth(now.date), subtitle: 'No classes in the next three weeks' });
-    $('view').innerHTML = `<p class="empty">Nothing on your schedule. Enjoy the break.</p>
-      <p class="empty"><button type="button" class="btn gray" data-new-appt data-date="${now.date}">${icon('add')}New appointment</button></p>`;
-    return;
-  }
-  const tomorrow = addDays(now.date, 1) === focus.date;
-  const own = focus.sessions.filter(c => c.custom).length;
+  const day = shownDay(now);
+  const relative = relativeDay(day.date, now);
+  const own = day.sessions.filter(c => c.custom).length;
+  const dayButton = (dir, label, ic) => `<button type="button" data-day="${dir}" aria-label="${label}" ${inSemester(stepDay(day.date, dir)) ? '' : 'disabled'}>${icon(ic)}</button>`;
   setToolbar({
-    eyebrow: tomorrow ? `Tomorrow · ${weekdayName(focus.date)}` : weekdayName(focus.date),
-    title: dayMonth(focus.date),
-    subtitle: [campusLabel(focus), `${focus.live.length} class${focus.live.length === 1 ? '' : 'es'}`, own ? `${own} appointment${own === 1 ? '' : 's'}` : ''].filter(Boolean).join(' · ')
+    eyebrow: relative && !day.isToday ? `${relative} · ${weekdayName(day.date)}` : weekdayName(day.date),
+    title: dayMonth(day.date),
+    subtitle: day.sessions.length
+      ? [campusLabel(day), `${day.live.length} class${day.live.length === 1 ? '' : 'es'}`, own ? `${own} appointment${own === 1 ? '' : 's'}` : ''].filter(Boolean).join(' · ')
+      : 'No classes',
+    actions: `
+      <div class="seg" role="group" aria-label="Change day">
+        ${dayButton(-1, 'Previous day', 'chevron_left')}
+        <button type="button" data-day="today">Today</button>
+        ${dayButton(1, 'Next day', 'chevron_right')}
+      </div>`
   });
 
-  const week = getWeek(weekIndexOf(focus.date));
-  const drawn = drawnItems(week).filter(c => c.date === focus.date);
+  const week = inSemester(day.date) ? getWeek(weekIndexOf(day.date)) : null;
+  const drawn = week ? drawnItems(week).filter(c => c.date === day.date) : [];
   const { from, to } = hourRange(drawn);
-  const closures = week.closures.filter(x => x.date === focus.date);
+  const closures = week ? week.closures.filter(x => x.date === day.date) : [];
 
   $('view').innerHTML = `<div class="today">
     <section class="day-col" aria-label="Day plan">
-      <div class="col-head"><h2>${focus.isToday ? 'Today' : tomorrow ? 'Tomorrow' : weekdayName(focus.date)}</h2><span>${focus.sessions[0].startTime}–${focus.sessions[focus.sessions.length - 1].endTime}</span>${otherGroupsToggle()}</div>
+      <div class="col-head"><h2>${relative || weekdayName(day.date)}</h2><span>${day.sessions.length ? `${day.sessions[0].startTime}–${day.sessions[day.sessions.length - 1].endTime}` : ''}</span>${otherGroupsToggle()}</div>
       ${closures.map(x => `<div class="closure">${esc(x.label)}</div>`).join('')}
-      <div class="timeline" style="--hour-px:${60 * PX_PER_MIN}px">
+      ${drawn.length ? `<div class="timeline" style="--hour-px:${60 * PX_PER_MIN}px">
         <div class="tl-hours" style="height:${(to - from) * PX_PER_MIN}px">${hoursHtml(from, to)}</div>
         <div class="tl-track day-track" data-from="${from}" data-to="${to}" style="height:${(to - from) * PX_PER_MIN}px">
           ${eventsHtml(drawn, from, now)}
-          ${focus.isToday ? nowMarksHtml(from, to, now) : ''}
+          ${day.isToday ? nowMarksHtml(from, to, now) : ''}
         </div>
-      </div>
-      <button type="button" class="btn gray add-appt" data-new-appt data-date="${focus.date}">${icon('add')}New appointment</button>
+      </div>` : '<p class="empty">No classes this day.</p>'}
+      <button type="button" class="btn gray add-appt" data-new-appt data-date="${day.date}">${icon('add')}New appointment</button>
     </section>
   </div>`;
 
-  UI.todaySig = todaySig(focus);
+  UI.todaySig = todaySig(day);
 }
 
 function campusLabel(focus) {
@@ -385,17 +420,17 @@ function dayEyebrow(focus, now) {
   return addDays(now.date, 1) === focus.date ? `Tomorrow · ${day}` : day;
 }
 
-function todaySig(focus) {
-  return focus ? `${focus.date}|${focus.sessions.map(c => `${c.id}@${c.startMin}-${c.endMin}${c.cancelled ? 'x' : ''}`).join(',')}|${[...STATE.skippedClasses].join(',')}` : 'none';
+function todaySig(day) {
+  return `${day.date}|${day.sessions.map(c => `${c.id}@${c.startMin}-${c.endMin}${c.cancelled ? 'x' : ''}`).join(',')}|${[...STATE.skippedClasses].join(',')}`;
 }
 
 // The 30 s tick: a redraw only when the day itself changed
 function tickToday() {
   const now = munichNow();
-  const focus = focusDay(now);
+  const day = shownDay(now);
+  if (todaySig(day) !== UI.todaySig) return renderToday();
   const track = document.querySelector('#view .day-track');
-  if (!focus || !track || todaySig(focus) !== UI.todaySig) return renderToday();
-  if (focus.isToday) tickTrack(track, now);
+  if (day.isToday && track) tickTrack(track, now);
 }
 
 function tickWeek() {
@@ -1412,6 +1447,11 @@ document.addEventListener('click', async e => {
 
   const info = t.closest('[data-course-info]');
   if (info) return openCourse(info.dataset.courseInfo);
+  const dayBtn = t.closest('[data-day]');
+  if (dayBtn) {
+    const dir = Number(dayBtn.dataset.day);
+    return goToDay(dir ? stepDay(shownDay(munichNow()).date, dir) : munichNow().date);
+  }
   const week = t.closest('[data-week]');
   if (week) return goToWeek(week.dataset.week === 'today' ? currentWeekIndex() : STATE.weekIdx + Number(week.dataset.week));
   if (t.closest('[data-export]')) return exportICS();
@@ -1608,6 +1648,11 @@ document.addEventListener('keydown', e => {
   else if (e.key === ',') openAccount();
   else if (STATE.view === 'week' && (e.key === 'ArrowLeft' || e.key === 'ArrowRight')) {
     goToWeek(STATE.weekIdx + (e.key === 'ArrowLeft' ? -1 : 1));
+  } else if (STATE.view === 'today' && (e.key === 'ArrowLeft' || e.key === 'ArrowRight')) {
+    const next = stepDay(shownDay(munichNow()).date, e.key === 'ArrowLeft' ? -1 : 1);
+    if (inSemester(next)) goToDay(next);
+  } else if (STATE.view === 'today' && (e.key === 't' || e.key === 'T')) {
+    goToDay(munichNow().date);
   } else if (e.key === 't' || e.key === 'T') {
     goToWeek(currentWeekIndex());
   }
