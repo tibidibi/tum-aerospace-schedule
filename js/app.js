@@ -16,6 +16,7 @@ const UI = {
   flash: null,          // pressed-state change to animate across a re-render: { on, off: [selectors] }
   todaySig: null,       // what Today's day plan was drawn from, so the 30 s tick can update it in place
   day: null,            // the day you stepped to in Today: { date, on (the date you did) }
+  homeBy: { key: null, time: null, at: 0, busy: false }, // when you're home after a day's last class
   board: { key: null, html: '' },
   lunch: { key: null, html: '' },
   leaveBy: {},          // date -> last leave-by (ms), to flag when it moves earlier
@@ -371,14 +372,11 @@ function renderToday() {
   const now = munichNow();
   const day = shownDay(now);
   const relative = relativeDay(day.date, now);
-  const own = day.sessions.filter(c => c.custom).length;
   const dayButton = (dir, label, ic) => `<button type="button" data-day="${dir}" aria-label="${label}" ${inSemester(stepDay(day.date, dir)) ? '' : 'disabled'}>${icon(ic)}</button>`;
   setToolbar({
     eyebrow: relative && !day.isToday ? `${relative} · ${weekdayName(day.date)}` : weekdayName(day.date),
     title: dayMonth(day.date),
-    subtitle: day.sessions.length
-      ? [campusLabel(day), `${day.live.length} class${day.live.length === 1 ? '' : 'es'}`, own ? `${own} appointment${own === 1 ? '' : 's'}` : ''].filter(Boolean).join(' · ')
-      : 'No classes',
+    subtitle: daySubtitle(day),
     actions: `
       <div class="seg" role="group" aria-label="Change day">
         ${dayButton(-1, 'Previous day', 'chevron_left')}
@@ -408,6 +406,64 @@ function renderToday() {
   </div>`;
 
   UI.todaySig = todaySig(day);
+  fillHomeBy(day, now);
+}
+
+function daySubtitle(day) {
+  if (!day.sessions.length) return 'No classes';
+  const own = day.sessions.filter(c => c.custom).length;
+  const first = day.live[0];
+  return [
+    campusLabel(day),
+    `${day.live.length} class${day.live.length === 1 ? '' : 'es'}`,
+    own ? `${own} appointment${own === 1 ? '' : 's'}` : '',
+    first ? `${fmtDuration(Math.max(...day.live.map(c => c.endMin)) - first.startMin)} on campus` : '',
+    first && UI.homeBy.key === homeByKey(day) && UI.homeBy.time ? `home by ${UI.homeBy.time}` : ''
+  ].filter(Boolean).join(' · ');
+}
+
+function homeByKey(day) {
+  const last = Math.max(...day.live.map(c => c.endMin));
+  return `${day.date}|${last}|${JSON.stringify(SETTINGS.modes)}|${SETTINGS.home ? SETTINGS.home.lat : ''}`;
+}
+
+// When you're home after the day's last class: the next trip by the fastest way you travel, refreshed every few minutes.
+// Not for days that are over: there's no trip left to plan.
+async function fillHomeBy(day, now) {
+  if (!SETTINGS.home || !day.live.length) return;
+  const lastEnd = Math.max(...day.live.map(c => c.endMin));
+  if (day.date < now.date || (day.isToday && lastEnd <= now.minutes)) return;
+  const key = homeByKey(day);
+  if (UI.homeBy.busy || (UI.homeBy.key === key && Date.now() - UI.homeBy.at < 5 * 60e3)) return;
+  UI.homeBy.busy = true;
+  try {
+    const time = await homeArrival(day, lastEnd);
+    UI.homeBy = { key, time, at: Date.now(), busy: false };
+  } catch (e) {
+    UI.homeBy.busy = false;
+    return;
+  }
+  if (STATE.view !== 'today') return;
+  const shown = shownDay(munichNow());
+  if (shown.date === day.date) $('subtitle').textContent = daySubtitle(day);
+  else fillHomeBy(shown, munichNow()); // you stepped on while this was loading
+}
+
+async function homeArrival(day, lastEnd) {
+  const last = day.live.find(c => c.endMin === lastEnd);
+  const campus = CAMPUSES[last.campus] || CAMPUSES.Ottobrunn;
+  const from = await classPlace(last);
+  const home = SETTINGS.home;
+  const leaveAt = new Date(Math.max(munichDate(day.date, lastEnd).getTime(), Date.now()));
+  const [mvg, car, bike] = await Promise.all([
+    SETTINGS.modes.mvg ? mvgRoutes(from, home, leaveAt, { arrive: false, cacheKey: 'routes:homeby' }).catch(() => null) : null,
+    SETTINGS.modes.car && workerUrl() ? roadRoute(workerUrl(), 'car', from, home, leaveAt).catch(() => null) : null,
+    SETTINGS.modes.bike && workerUrl() ? roadRoute(workerUrl(), 'bicycle', from, home, leaveAt).catch(() => null) : null
+  ]);
+  const earliest = leaveAt.getTime() - 60e3;
+  const next = (mvg || []).filter(r => !r.cancelled && r.depart >= earliest).sort((a, b) => a.depart - b.depart)[0] || null;
+  const pick = departModes({ mvg: next, car, bike }, { leaveAt, carBufferMin: campus.carBufferMin, bikeBufferMin: campus.bikeBufferMin }).find(m => m.fastest);
+  return pick ? hhmm(pick.arrive) : null;
 }
 
 function campusLabel(focus) {
@@ -431,6 +487,7 @@ function tickToday() {
   if (todaySig(day) !== UI.todaySig) return renderToday();
   const track = document.querySelector('#view .day-track');
   if (day.isToday && track) tickTrack(track, now);
+  fillHomeBy(day, now);
 }
 
 function tickWeek() {
@@ -592,6 +649,16 @@ function commuteSubtitle(focus) {
   return [campusLabel(focus), homeBy ? `home by ${homeBy}` : ''].filter(Boolean).join(' · ');
 }
 
+// Where a class is: its room if NavigaTUM knows it, else its campus
+async function classPlace(cls) {
+  try {
+    const info = await roomInfo(cls.room);
+    if (info && info.lat) return info;
+  } catch (e) {}
+  const campus = CAMPUSES[cls.campus] || CAMPUSES.Ottobrunn;
+  return { lat: campus.lat, lon: campus.lon, building: campus.name };
+}
+
 async function commuteHtml(now, focus, out = {}) {
   if (!focus.live.length) return '<p class="empty">No classes this day, so no trip to plan.</p>';
   if (!SETTINGS.home) {
@@ -606,11 +673,7 @@ async function commuteHtml(now, focus, out = {}) {
   const { toCampus, arrive, when } = plan;
   const anchor = toCampus ? first : last;
   const campus = CAMPUSES[anchor.campus] || CAMPUSES.Ottobrunn;
-  let place = { lat: campus.lat, lon: campus.lon, building: campus.name };
-  try {
-    const info = await roomInfo(anchor.room);
-    if (info && info.lat) place = info;
-  } catch (e) {}
+  const place = await classPlace(anchor);
   const home = SETTINGS.home;
   const from = toCampus ? home : place;
   const to = toCampus ? place : home;

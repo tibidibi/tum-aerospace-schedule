@@ -9,7 +9,7 @@ No build step, no dependencies: plain HTML, CSS and JavaScript.
 ## What it does
 
 **Today** (the main page on phones; on tablets and desktop that's Week)
-- Just the day's classes and appointments, with a "now" line. What has passed fades, also in Week, right through the class you're in. Step to other days with the arrows.
+- Just the day's classes and appointments, with a "now" line. What has passed fades, also in Week, right through the class you're in. Step to other days with the arrows. The line under the date says how long you're on campus and when you're home.
 
 **Commute**
 - **Leave by**, MVG vs car vs bike, the connections with live delays and disruptions, rain at leave time, and a live departure board from your first stop.
