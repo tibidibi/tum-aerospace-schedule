@@ -8,18 +8,22 @@ No build step, no dependencies: plain HTML, CSS and JavaScript.
 
 ## What it does
 
-**Today**
-- A narrow day plan with a "now" line, next to your commute: **leave by**, MVG vs car vs bike, the connections with live delays and disruptions, rain at leave time, and a live departure board from your first stop.
-- **Lunch:** your free window while the Mensa is open (11:00–14:00) and today's menu, filtered by diet.
-- **Moodle** on the right for the class you're in or the next one. *Follow along* opens Moodle on the right half of your screen and moves it to each course as it starts.
+**Today** (the main page on phones; on tablets and desktop that's Week)
+- Just the day's classes and appointments, with a "now" line.
 
-**Week**, with semester weeks (breaks left out) and `.ics` export. The **eye** on Today and Week also shows the exercise groups you're not in; tap one to see it or switch to it. **Groups**: pick your exercise groups, or let **Autopilot** rank all 1,456 combinations. **Squad**: share your schedule as a link and see shared groups and free time together.
+**Commute**
+- **Leave by**, MVG vs car vs bike, the connections with live delays and disruptions, rain at leave time, and a live departure board from your first stop.
+
+**Mensa**
+- Your free window while the Mensa is open (11:00–14:00) and the day's menu, filtered by diet.
+
+**Week**, with semester weeks (breaks left out) and `.ics` export. The **eye** on Today and Week also shows the exercise groups you're not in; tap one to see it or switch to it. **Moodle** sits next to the week, for the class you're in or the next one: *Follow along* opens Moodle on the right half of your screen and moves it to each course as it starts. **Groups**: pick your exercise groups, or let **Autopilot** rank all 1,456 combinations. **Squad**: share your schedule as a link and see shared groups and free time together.
 
 **Your own appointments**: one-off or weekly. They show in the day plan and the week and go into the `.ics` export.
 
 **TUMonline sync** (account icon, top right): enter your TUM ID, activate the token named **TUM Flight Deck** in TUMonline › Token-Management, and the app syncs on its own. Your TUMonline calendar then wins: its times, rooms and cancellations replace the PDF data, and your exercise groups are picked from your registrations. The token stays in your browser. When you activate it, grant it **only calendar access**: that's all the app reads, and it limits what a leaked token could see.
 
-Keys: **1–4** switch views, **← →** change week, **T** this week, **,** settings.
+Keys: **1–5** switch views, **← →** change week, **T** this week, **,** settings.
 
 ## Files
 

@@ -13,6 +13,7 @@ const PX_PER_MIN = 0.9;
 
 const UI = {
   commute: { key: null, at: 0, html: '', busy: false },
+  commuteDate: null,    // the day the Commute tab is drawn for
   leave: { date: null, mode: 'default', time: '' }, // when you leave: 'default' (for/after classes) | 'now' | 'custom'
   enter: 'fade',        // entrance for the next render: 'fade' (new view) | 'next' | 'prev' (week change) | null
   flash: null,          // pressed-state change to animate across a re-render: { on, off: [selectors] }
@@ -166,13 +167,15 @@ function render() {
     if (b.dataset.view === STATE.view) b.setAttribute('aria-current', 'page');
     else b.removeAttribute('aria-current');
   });
-  document.querySelector('.app').classList.toggle('no-inspector', !['today', 'week'].includes(STATE.view));
+  document.querySelector('.app').classList.toggle('no-inspector', STATE.view !== 'week');
   renderSidebar();
   if (STATE.view === 'today') renderToday();
   else if (STATE.view === 'week') renderWeek();
+  else if (STATE.view === 'commute') renderCommute();
+  else if (STATE.view === 'mensa') renderMensa();
   else if (STATE.view === 'groups') renderGroups();
   else renderSquad();
-  if (['today', 'week'].includes(STATE.view)) renderInspector();
+  if (STATE.view === 'week') renderInspector();
   if (UI.sheet === 'account') renderTumSection();
   playEnter();
   applyFlash();
@@ -316,13 +319,11 @@ function renderToday() {
     return;
   }
   const tomorrow = addDays(now.date, 1) === focus.date;
-  const campus = focus.live.length ? focus.live[0].campus : null;
   const own = focus.sessions.filter(c => c.custom).length;
-  UI.subtitle = [campus ? `Campus ${campus}` : '', `${focus.live.length} class${focus.live.length === 1 ? '' : 'es'}`, own ? `${own} appointment${own === 1 ? '' : 's'}` : ''].filter(Boolean).join(' · ');
   setToolbar({
-    eyebrow: focus.isToday ? weekdayName(focus.date) : tomorrow ? `Tomorrow · ${weekdayName(focus.date)}` : weekdayName(focus.date),
+    eyebrow: tomorrow ? `Tomorrow · ${weekdayName(focus.date)}` : weekdayName(focus.date),
     title: dayMonth(focus.date),
-    subtitle: todaySubtitle(focus)
+    subtitle: [campusLabel(focus), `${focus.live.length} class${focus.live.length === 1 ? '' : 'es'}`, own ? `${own} appointment${own === 1 ? '' : 's'}` : ''].filter(Boolean).join(' · ')
   });
 
   const week = getWeek(weekIndexOf(focus.date));
@@ -344,25 +345,19 @@ function renderToday() {
       </div>
       <button type="button" class="btn gray add-appt" data-new-appt data-date="${focus.date}">${icon('add')}New appointment</button>
     </section>
-    <section class="travel" aria-label="Travel and lunch">
-      <div id="commute" class="commute">
-        ${commuteHead(now, focus)}
-        <div id="commuteBody">${commuteKey(now, focus) === UI.commute.key ? UI.commute.html
-          : UI.commute.key && UI.commute.key.startsWith(focus.date) ? `<div class="stale">${UI.commute.html}</div>` // keep the last trip on screen while the new one loads
-          : '<p class="section-note">Finding connections…</p>'}</div>
-      </div>
-      <div id="board">${UI.board.key === focus.date ? UI.board.html : ''}</div>
-      <div id="lunch">${UI.lunch.key === lunchKey(focus) ? UI.lunch.html : ''}</div>
-    </section>
   </div>`;
 
   UI.todaySig = todaySig(focus);
-  // What's already drawn, so swapIn only animates real changes
-  if (commuteKey(now, focus) === UI.commute.key) $('commuteBody')._html = UI.commute.html;
-  if (UI.board.key === focus.date) $('board')._html = UI.board.html;
-  if (UI.lunch.key === lunchKey(focus)) $('lunch')._html = UI.lunch.html;
-  if (commuteKey(now, focus) !== UI.commute.key || Date.now() - UI.commute.at > 60e3) fillCommute(now, focus);
-  if (UI.lunch.key !== lunchKey(focus)) fillLunch(focus);
+}
+
+function campusLabel(focus) {
+  return focus.live.length ? `Campus ${focus.live[0].campus}` : '';
+}
+
+// Commute and Mensa plan around the same day as Today, and say which day that is
+function dayEyebrow(focus, now) {
+  const day = `${weekdayName(focus.date)}, ${dayMonth(focus.date)}`;
+  return addDays(now.date, 1) === focus.date ? `Tomorrow · ${day}` : day;
 }
 
 function todaySig(focus) {
@@ -393,12 +388,46 @@ function tickToday() {
   }
   if (line && !show) line.remove();
   else if (line) line.style.top = `${(now.minutes - from) * PX_PER_MIN}px`;
-  $('subtitle').textContent = todaySubtitle(focus);
-  if (commuteKey(now, focus) !== UI.commute.key || Date.now() - UI.commute.at > 60e3) fillCommute(now, focus);
-  if (UI.lunch.key !== lunchKey(focus)) fillLunch(focus);
 }
 
 // ================= COMMUTE =================
+
+function renderCommute() {
+  const now = munichNow();
+  const focus = focusDay(now);
+  if (!focus) {
+    setToolbar({ eyebrow: weekdayName(now.date), title: 'Commute', subtitle: 'No classes in the next three weeks' });
+    $('view').innerHTML = '<p class="empty">No trips to plan.</p>';
+    return;
+  }
+  setToolbar({ eyebrow: dayEyebrow(focus, now), title: 'Commute', subtitle: commuteSubtitle(focus) });
+  $('view').innerHTML = `<div class="travel">
+    <div id="commute" class="commute">
+      ${commuteHead(now, focus)}
+      <div id="commuteBody">${commuteKey(now, focus) === UI.commute.key ? UI.commute.html
+        : UI.commute.key && UI.commute.key.startsWith(focus.date) ? `<div class="stale">${UI.commute.html}</div>` // keep the last trip on screen while the new one loads
+        : '<p class="section-note">Finding connections…</p>'}</div>
+    </div>
+    <div id="board">${UI.board.key === focus.date ? UI.board.html : ''}</div>
+  </div>`;
+  // What's already drawn, so swapIn only animates real changes
+  if (commuteKey(now, focus) === UI.commute.key) $('commuteBody')._html = UI.commute.html;
+  if (UI.board.key === focus.date) $('board')._html = UI.board.html;
+  UI.commuteDate = focus.date;
+  refreshCommute(now, focus);
+}
+
+function refreshCommute(now, focus) {
+  if (focus && (commuteKey(now, focus) !== UI.commute.key || Date.now() - UI.commute.at > 60e3)) fillCommute(now, focus);
+}
+
+// The 30 s tick: new trips swap in on their own; the leave controls only change when the plan does
+function tickCommute() {
+  const now = munichNow();
+  const focus = focusDay(now);
+  if (!focus || UI.commuteDate !== focus.date || commuteKey(now, focus) !== UI.commute.key) return renderCommute();
+  refreshCommute(now, focus);
+}
 
 function commuteKey(now, focus) {
   if (!focus.live.length) return `${focus.date}|noclass`;
@@ -501,19 +530,19 @@ async function fillCommute(now, focus) {
   if (key !== commuteKey(munichNow(), focus)) return;
   UI.commute = { ...UI.commute, key, html, homeBy: out.homeBy || null, at: Date.now() };
   const el = $('commuteBody');
-  if (el && STATE.view === 'today') {
+  if (el && STATE.view === 'commute') {
     swapIn(el, UI.commute.html);
-    $('subtitle').textContent = todaySubtitle(focus);
+    $('subtitle').textContent = commuteSubtitle(focus);
   }
 }
 
-function todaySubtitle(focus) {
+function commuteSubtitle(focus) {
   const homeBy = UI.commute.key && UI.commute.key.startsWith(`${focus.date}|home`) ? UI.commute.homeBy : null;
-  return homeBy ? `${UI.subtitle} · home by ${homeBy}` : UI.subtitle;
+  return [campusLabel(focus), homeBy ? `home by ${homeBy}` : ''].filter(Boolean).join(' · ');
 }
 
 async function commuteHtml(now, focus, out = {}) {
-  if (!focus.live.length) return '';
+  if (!focus.live.length) return '<p class="empty">No classes this day, so no trip to plan.</p>';
   if (!SETTINGS.home) {
     return `<div class="section">
       <div class="card"><strong>Add your home address</strong>
@@ -644,7 +673,7 @@ function fillBoardLater(route, focus) {
         </table></div>
       </div>` : '' };
     const el = $('board');
-    if (el && STATE.view === 'today') swapIn(el, UI.board.html);
+    if (el && STATE.view === 'commute') swapIn(el, UI.board.html);
   }).catch(() => {});
   return '';
 }
@@ -662,7 +691,23 @@ function maybeNotify(focus, first, pick, route) {
     : new Notification(title, { body })).catch(() => {});
 }
 
-// ================= LUNCH =================
+// ================= MENSA =================
+
+function renderMensa() {
+  const now = munichNow();
+  const focus = focusDay(now);
+  if (!focus) {
+    setToolbar({ eyebrow: weekdayName(now.date), title: 'Mensa', subtitle: 'No classes in the next three weeks' });
+    $('view').innerHTML = '<p class="empty">No lunch to plan.</p>';
+    return;
+  }
+  setToolbar({ eyebrow: dayEyebrow(focus, now), title: 'Mensa', subtitle: campusLabel(focus) });
+  const key = lunchKey(focus);
+  const shown = UI.lunch.key === key ? UI.lunch.html : '<p class="section-note">Loading the menu…</p>';
+  $('view').innerHTML = `<div class="travel"><div id="lunch">${shown}</div></div>`;
+  $('lunch')._html = shown;
+  if (UI.lunch.key !== key) fillLunch(focus);
+}
 
 function lunchKey(focus) {
   return `${focus.date}|${SETTINGS.diet}|${SETTINGS.favourites}|${workerUrl()}|${focus.live.length}`;
@@ -670,11 +715,6 @@ function lunchKey(focus) {
 
 async function fillLunch(focus) {
   const key = lunchKey(focus);
-  if (!focus.live.length) {
-    UI.lunch = { key, html: '' };
-    if ($('lunch')) $('lunch').innerHTML = '';
-    return;
-  }
   const campusName = (focus.live.find(c => c.campus) || {}).campus || 'Ottobrunn';
   const campus = CAMPUSES[campusName];
   const win = lunchWindow(focus.live, LUNCH_HOURS, 15);
@@ -710,7 +750,7 @@ async function fillLunch(focus) {
       <div class="list">${blocks.join('')}</div>
     </div>` };
   const el = $('lunch');
-  if (el && STATE.view === 'today') swapIn(el, UI.lunch.html);
+  if (el && STATE.view === 'mensa') swapIn(el, UI.lunch.html);
 }
 
 // ================= INSPECTOR: MOODLE =================
@@ -1511,7 +1551,7 @@ $('sheet').addEventListener('close', () => {
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape' && $('sheet').open) return $('sheet').close();
   if (e.target.closest('input, select, textarea') || e.metaKey || e.ctrlKey || e.altKey || $('sheet').open) return;
-  const views = { 1: 'today', 2: 'week', 3: 'groups', 4: 'squad' };
+  const views = { 1: 'week', 2: 'commute', 3: 'mensa', 4: 'groups', 5: 'squad' };
   if (views[e.key]) setView(views[e.key]);
   else if (e.key === ',') openSettings();
   else if (STATE.view === 'week' && (e.key === 'ArrowLeft' || e.key === 'ArrowRight')) {
@@ -1525,16 +1565,20 @@ document.addEventListener('keydown', e => {
 setInterval(() => {
   if (document.visibilityState !== 'visible') return;
   UI.tick++;
-  if (STATE.view === 'today') {
-    if (UI.tick % 2 === 0) UI.commute.at = 0;
-    if (!$('sheet').open) tickToday();
-    renderInspector();
-  } else if (UI.moodleWin) {
-    followMoodle(munichNow(), moodleTarget(munichNow(), focusDay()));
+  if (UI.tick % 2 === 0) UI.commute.at = 0;
+  const open = $('sheet').open;
+  if (STATE.view === 'today' && !open) tickToday();
+  if (STATE.view === 'commute' && !open) tickCommute();
+  if (STATE.view === 'mensa' && !open) {
+    const focus = focusDay();
+    if (!focus || UI.lunch.key !== lunchKey(focus)) renderMensa();
   }
+  // The "leave in 10 min" reminder comes from the commute, so it keeps updating on every tab
+  if (STATE.view !== 'commute' && SETTINGS.notify && SETTINGS.home) refreshCommute(munichNow(), focusDay());
+  if (UI.moodleWin) followMoodle(munichNow(), moodleTarget(munichNow(), focusDay()));
 }, 30e3);
 document.addEventListener('visibilitychange', () => {
-  if (document.visibilityState === 'visible' && STATE.view === 'today') render();
+  if (document.visibilityState === 'visible' && ['today', 'commute', 'mensa'].includes(STATE.view)) render();
 });
 
 // ================= START =================
@@ -1544,6 +1588,10 @@ loadSettings();
 loadTum();
 if (TUM.status === 'connected') STATE.detectedGroups = detectGroups(TUM.events);
 STATE.weekIdx = currentWeekIndex();
+// Today is the phone's main page; with a sidebar (tablet and up, same breakpoint as style.css) that's Week
+const phone = matchMedia('(max-width: 760px)');
+if (!phone.matches) STATE.view = 'week';
+phone.addEventListener('change', () => { if (!phone.matches && STATE.view === 'today') setView('week'); });
 handleJoinLink();
 render();
 if (TUM.status === 'pending') pollTumToken();

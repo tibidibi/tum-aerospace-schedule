@@ -14,7 +14,7 @@ const STATE = {
   attendance: {},            // 'YYYY-MM-DD|classId' -> 'went' | 'skipped'
   autopilot: 'latestStart',
   showOtherGroups: false,    // the eye on Today and Week: also draw the groups you're not in
-  view: 'today',             // 'today' | 'week' | 'groups' | 'squad'
+  view: 'today',             // 'today' | 'week' | 'commute' | 'mensa' | 'groups' | 'squad'
   weekIdx: 0,
   custom: [],                // your own appointments: { id, title, date, start, end, campus, room, notes, repeat: 'none' | 'weekly' }
   customRev: 0               // bumps on every change, for the week cache
