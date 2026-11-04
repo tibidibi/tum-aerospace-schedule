@@ -1141,7 +1141,8 @@ function renderSquad() {
   const together = friends.length ? DAYS.map((day, d) => ({ day, slots: freeTogether([mine, ...friends.map(f => f.schedule)], d) })).filter(x => x.slots.length) : [];
   const link = mySquadLink();
 
-  $('view').innerHTML = `<div class="squad">
+  // Not ready yet: the page stays visible behind the veil, but can't be used
+  $('view').innerHTML = `<div class="veiled"><div class="squad" inert>
     <section class="section">
       <div class="section-label">Your link</div>
       <div class="list">
@@ -1164,7 +1165,7 @@ function renderSquad() {
       <div class="list">${together.map(x => `<div class="row"><span class="grow">${x.day}</span><span class="value num">${x.slots.map(s => `${minutesToTime(s.from)}–${minutesToTime(s.to)}`).join(', ')}</span></div>`).join('')
         || '<div class="row muted">No shared breaks on days you are all on campus.</div>'}</div>
     </section>` : ''}
-  </div>`;
+  </div><div class="veil"><span>Under development</span></div></div>`;
 }
 
 // ================= SHEETS: CLASS DETAIL & ACCOUNT =================

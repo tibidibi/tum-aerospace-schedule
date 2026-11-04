@@ -508,6 +508,14 @@ a.row:hover, button.row:hover { text-decoration: none; }
 .avatar { width: 40px; height: 40px; border-radius: 50%; background: var(--md-tertiary-container); color: var(--md-on-tertiary-container); display: inline-flex; align-items: center; justify-content: center; font-weight: 500; flex-shrink: 0; }
 .link-box { display: flex; gap: 8px; align-items: center; }
 .link-box input { flex: 1; min-width: 0; color: var(--md-on-surface-variant); }
+.veiled { position: relative; min-height: 60vh; }
+.veil {
+  position: absolute; inset: 0; z-index: 1; border-radius: 24px;
+  display: flex; align-items: flex-start; justify-content: center; padding-top: 96px;
+  background: color-mix(in srgb, var(--md-surface-highest) 72%, transparent);
+  -webkit-backdrop-filter: blur(2px); backdrop-filter: blur(2px);
+}
+.veil span { font-size: 22px; line-height: 28px; font-weight: 500; color: var(--md-on-surface); text-align: center; }
 
 .swatches { display: flex; flex-wrap: wrap; gap: 12px; padding: 16px; }
 .swatch { width: 48px; height: 48px; border-radius: 50%; border: 0; background: var(--sw); position: relative; display: inline-flex; align-items: center; justify-content: center; color: #FFFFFF; }
