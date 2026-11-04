@@ -471,6 +471,7 @@ a.row:hover, button.row:hover { text-decoration: none; }
 
 /* ================= WEEK ================= */
 .week-wrap { overflow-x: auto; }
+.week-wrap + .add-appt { margin: 12px 0 0 48px; }
 .week { min-width: 720px; display: grid; grid-template-columns: 48px repeat(5, minmax(0, 1fr)); }
 .week.with-others { min-width: 1040px; }
 .week-head { padding: 0 6px 12px; display: flex; flex-direction: column; align-items: center; gap: 4px; }

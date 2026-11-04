@@ -974,9 +974,7 @@ function renderWeek() {
         <button type="button" data-week="today">Today</button>
         <button type="button" data-week="1" aria-label="Next week" ${w === n - 1 ? 'disabled' : ''}>${icon('chevron_right')}</button>
       </div>
-      ${otherGroupsToggle()}
-      <button type="button" class="btn gray" data-new-appt>${icon('add')}New appointment</button>
-      <button type="button" class="btn gray" data-export>Export .ics</button>`
+      ${otherGroupsToggle()}`
   });
 
   const drawn = drawnItems(week);
@@ -1012,7 +1010,8 @@ function renderWeek() {
         <span></span>${heads}
         <div class="tl-hours" style="height:${height}px">${hoursHtml(from, to)}</div>${cols}
       </div>
-    </div>`;
+    </div>
+    <button type="button" class="btn gray add-appt" data-new-appt>${icon('add')}New appointment</button>`;
 }
 
 // Your own appointments as VEVENTs: one-off, or weekly until the end of the lecture period
