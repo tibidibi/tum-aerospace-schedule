@@ -25,7 +25,7 @@ No build step, no dependencies: plain HTML, CSS and JavaScript.
 
 **Light or dark:** the sun/moon next to the account icon. Until you pick, the app follows your system.
 
-Keys: **1–5** switch views, **← →** change week, **T** this week, **,** settings.
+Keys: **1–5** switch views, **← →** change week, **T** this week, **,** account and settings.
 
 ## Files
 
@@ -56,7 +56,7 @@ Then open http://localhost:8080. A real web server is needed (not `file://`) for
 
 1. The repository has to be public (or on a paid plan).
 2. Settings › Pages › Build and deployment › Source: **Deploy from a branch**, branch **main**, folder **/ (root)**.
-3. After a minute it's live at `https://<your-user>.github.io/tum-aerospace-schedule/`. Open it and use *Settings › App › Install*, or *Add to Home Screen* on an iPhone, to install it.
+3. After a minute it's live at `https://<your-user>.github.io/tum-aerospace-schedule/`. Open it and use *Account › App › Install*, or *Add to Home Screen* on an iPhone, to install it.
 
 Every push to `main` redeploys. The `.nojekyll` file makes Pages serve the files as they are.
 
@@ -72,7 +72,7 @@ Garching's canteens come straight from the [Eat API](https://tum-dev.github.io/e
 
 ## Optional: the Worker
 
-A free Cloudflare Worker in [`worker/`](worker/) adds what a static page can't do on its own. Paste its URL into Settings › Advanced.
+A free Cloudflare Worker in [`worker/`](worker/) adds what a static page can't do on its own. Paste its URL into Account › Advanced.
 
 | Route | What it adds |
 |---|---|

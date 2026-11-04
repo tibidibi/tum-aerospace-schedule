@@ -1,6 +1,6 @@
 /**
- * Flight Deck · Cupertino: Today (a narrow day plan, getting there and home, departures, lunch),
- * Week, Groups (with Autopilot), Squad and Settings, with Moodle in the right-hand inspector.
+ * Flight Deck · Cupertino: Today (phones only), Week, Commute, Mensa, Groups (with Autopilot), Squad and
+ * the Account sheet with your settings, with Moodle in the right-hand inspector next to the week.
  */
 
 const COURSE_COLORS = {
@@ -25,7 +25,7 @@ const UI = {
   moodleWin: null,
   moodleUrl: null,
   homeResults: [],
-  sheet: null,          // 'settings' | 'class'
+  sheet: null,          // 'account' | 'class' | 'home' | …
   tick: 0
 };
 
@@ -621,7 +621,7 @@ async function commuteHtml(now, focus, out = {}) {
       <span class="m-leave">leave ${hhmm(m.leaveBy)}${m.delayMin > 0 ? ` · <span class="late">+${m.delayMin} ${m.mode === 'car' ? 'traffic' : 'delay'}</span>` : ''}</span>
     </div>`).join('')}</div>` : '';
   const notes = [car, bike].filter(x => x && x.error).map(x => `<p class="err">${esc(x.error)}</p>`).join('')
-    + ((SETTINGS.modes.car || SETTINGS.modes.bike) && !workerUrl() ? '<p class="section-note">Add a Worker URL in Settings to compare car and bike.</p>' : '');
+    + ((SETTINGS.modes.car || SETTINGS.modes.bike) && !workerUrl() ? '<p class="section-note">Add a Worker URL under Account to compare car and bike.</p>' : '');
   const inMin = pick && focus.isToday ? (pick.leaveBy - Date.now()) / 60e3 : null;
 
   return `
@@ -1011,7 +1011,10 @@ function handleJoinLink() {
   if (!friend) return toast('That squad link is broken or out of date.');
   const name = friend.name || 'A classmate';
   if (!confirm(`Add ${name}'s schedule to your squad? You'll see shared classes and free time together.`)) return;
-  SETTINGS.squad = SETTINGS.squad.filter(f => f.name !== friend.name).concat([{ name, groups: friend.groups, skipped: friend.skipped }]);
+  // A new link under the same name replaces the old one. Without a name, only the same schedule counts as the same person
+  const schedule = f => JSON.stringify([f.groups, f.skipped]);
+  const isSame = f => f.name === name && (friend.name || schedule(f) === schedule(friend));
+  SETTINGS.squad = SETTINGS.squad.filter(f => !isSame(f)).concat([{ name, groups: friend.groups, skipped: friend.skipped }]);
   saveSettings();
   STATE.view = 'squad';
   toast(`${name} joined your squad`);
@@ -1050,7 +1053,7 @@ function renderSquad() {
   </div>`;
 }
 
-// ================= SHEETS: CLASS DETAIL & SETTINGS =================
+// ================= SHEETS: CLASS DETAIL & ACCOUNT =================
 
 function openSheet(kind, title, body) {
   UI.sheet = kind;
@@ -1243,7 +1246,7 @@ function saveAppointment(e) {
   toast(id ? 'Appointment saved' : `Added ${data.title} · ${formatDateShort(data.date)} ${data.start}`);
 }
 
-// Your home address: search MVG for a new one, or remove it. `back` reopens Settings afterwards.
+// Your home address: search MVG for a new one, or remove it. `back` reopens Account afterwards.
 function openHome(back = false) {
   UI.homeBack = back;
   openSheet('home', 'Home address', `
@@ -1263,18 +1266,27 @@ function homeDone(message) {
   SETTINGS.leadMinutes = {};
   saveSettings();
   toast(message);
-  if (UI.homeBack) openSettings();
+  if (UI.homeBack) openAccount();
   else $('sheet').close();
 }
 
-function openSettings() {
-  openSheet('settings', 'Settings', `
+// Your TUMonline and Moodle sign-ins first, then the app's settings.
+// Moodle has no sign-in we can call and forbids iframes, so you log in on its own page and we never see the password
+function openAccount() {
+  openSheet('account', 'Account', `
+    <section class="section" id="tumSection"></section>
+    <section class="section">
+      <div class="section-label">Moodle</div>
+      <div class="list">
+        <a class="row" href="https://www.moodle.tum.de/login/index.php" target="_blank" rel="noopener"><span class="grow">Log in to Moodle<span class="sub">Opens TUM's login in a new tab. Course links then open signed in</span></span>${icon('open_in_new', 'chev sm')}</a>
+      </div>
+    </section>
     <section class="section" id="appearanceSection">${appearanceHtml()}</section>
     <section class="section" id="installSection"></section>
     <section class="section">
       <div class="section-label">Home</div>
       <div class="list">
-        <button type="button" class="row" data-edit-home data-from-settings><span class="grow">${SETTINGS.home ? esc(SETTINGS.home.name) : 'Not set'}<span class="sub">${SETTINGS.home ? esc(SETTINGS.home.place) : 'Used to plan your trips to campus and back'}</span></span><span class="value">${SETTINGS.home ? 'Change' : 'Set'}</span>${icon('chevron_right', 'chev')}</button>
+        <button type="button" class="row" data-edit-home data-from-account><span class="grow">${SETTINGS.home ? esc(SETTINGS.home.name) : 'Not set'}<span class="sub">${SETTINGS.home ? esc(SETTINGS.home.place) : 'Used to plan your trips to campus and back'}</span></span><span class="value">${SETTINGS.home ? 'Change' : 'Set'}</span>${icon('chevron_right', 'chev')}</button>
       </div>
     </section>
     <section class="section">
@@ -1303,20 +1315,8 @@ function openSettings() {
       </div>
     </section>
     <p class="section-note">Unofficial student tool, not affiliated with TUM. Always check TUMonline.</p>`);
-  renderInstallSection();
-}
-
-// Moodle has no sign-in we can call and forbids iframes, so you log in on its own page and we never see the password
-function openAccount() {
-  openSheet('account', 'Account', `
-    <section class="section" id="tumSection"></section>
-    <section class="section">
-      <div class="section-label">Moodle</div>
-      <div class="list">
-        <a class="row" href="https://www.moodle.tum.de/login/index.php" target="_blank" rel="noopener"><span class="grow">Log in to Moodle<span class="sub">Opens TUM's login in a new tab. Course links then open signed in</span></span>${icon('open_in_new', 'chev sm')}</a>
-      </div>
-    </section>`);
   renderTumSection();
+  renderInstallSection();
 }
 
 // Chrome and Edge offer a real install prompt; Safari and the rest only have their own menus
@@ -1377,7 +1377,6 @@ document.addEventListener('click', async e => {
   const t = e.target;
   const view = t.closest('[data-view]');
   if (view) return setView(view.dataset.view);
-  if (t.closest('[data-open-settings]')) return openSettings();
   if (t.closest('[data-open-account]')) return openAccount();
   if (t.closest('[data-toggle-theme]')) return toggleTheme();
   const add = t.closest('[data-new-appt]');
@@ -1486,7 +1485,7 @@ document.addEventListener('click', async e => {
     return;
   }
   const editHome = t.closest('[data-edit-home]');
-  if (editHome) return openHome('fromSettings' in editHome.dataset);
+  if (editHome) return openHome('fromAccount' in editHome.dataset);
   const home = t.closest('[data-home-index]');
   if (home) {
     SETTINGS.home = UI.homeResults[Number(home.dataset.homeIndex)];
@@ -1502,7 +1501,7 @@ document.addEventListener('click', async e => {
     const perm = await Notification.requestPermission();
     SETTINGS.notify = perm === 'granted';
     saveSettings();
-    return openSettings();
+    return openAccount();
   }
 });
 
@@ -1590,7 +1589,7 @@ document.addEventListener('keydown', e => {
   if (e.target.closest('input, select, textarea') || e.metaKey || e.ctrlKey || e.altKey || $('sheet').open) return;
   const views = { 1: 'week', 2: 'commute', 3: 'mensa', 4: 'groups', 5: 'squad' };
   if (views[e.key]) setView(views[e.key]);
-  else if (e.key === ',') openSettings();
+  else if (e.key === ',') openAccount();
   else if (STATE.view === 'week' && (e.key === 'ArrowLeft' || e.key === 'ArrowRight')) {
     goToWeek(STATE.weekIdx + (e.key === 'ArrowLeft' ? -1 : 1));
   } else if (e.key === 't' || e.key === 'T') {
