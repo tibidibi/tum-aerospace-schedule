@@ -1384,17 +1384,10 @@ function homeDone(message) {
   else $('sheet').close();
 }
 
-// Your TUMonline and Moodle sign-ins first, then the app's settings.
-// Moodle has no sign-in we can call and forbids iframes, so you log in on its own page and we never see the password
+// Your TUMonline sign-in first, then the app's settings.
 function openAccount() {
   openSheet('account', 'Account', `
     <section class="section" id="tumSection"></section>
-    <section class="section">
-      <div class="section-label">Moodle</div>
-      <div class="list">
-        <a class="row" href="https://www.moodle.tum.de/login/index.php" target="_blank" rel="noopener"><span class="grow">Log in to Moodle<span class="sub">Opens TUM's login in a new tab. Course links then open signed in</span></span>${icon('open_in_new', 'chev sm')}</a>
-      </div>
-    </section>
     <section class="section" id="appearanceSection">${appearanceHtml()}</section>
     <section class="section" id="installSection"></section>
     <section class="section">
