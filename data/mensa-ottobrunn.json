@@ -280,14 +280,38 @@
      "prices": null
     },
     {
-     "name": "Truthahnschnitzel (1 Stück) mit Paprikasauce",
+     "name": "Pasta mit Kürbis-Tomatensauce",
+     "dish_type": "",
+     "labels": [
+      "VEGAN",
+      "VEGETARIAN"
+     ],
+     "prices": null
+    },
+    {
+     "name": "Hähnchenspieß (1 Stück) mit Paprikasauce",
      "dish_type": "Grill",
+     "labels": [],
+     "prices": null
+    },
+    {
+     "name": "Hirschgulasch in Preiselbeersauce",
+     "dish_type": "",
      "labels": [],
      "prices": null
     },
     {
      "name": "Veganer Gulaschtopf mit Kartoffeln, Wurzelgemüse und Schwarzbier",
      "dish_type": "Wok",
+     "labels": [
+      "VEGAN",
+      "VEGETARIAN"
+     ],
+     "prices": null
+    },
+    {
+     "name": "Falafel mit Tomatensauce",
+     "dish_type": "",
      "labels": [
       "VEGAN",
       "VEGETARIAN"
@@ -304,7 +328,13 @@
      "prices": null
     },
     {
-     "name": "Bayerisch Creme mit Waldbeeren",
+     "name": "Spinatknödel mit Bergkäsesauce",
+     "dish_type": "Vegetarisch/fleischlos",
+     "labels": [],
+     "prices": null
+    },
+    {
+     "name": "Creme Tiramisu mit Amaretto",
      "dish_type": "Dessert (Glas)",
      "labels": [
       "VEGETARIAN"
@@ -641,6 +671,50 @@
      "dish_type": "Dessert (Glas)",
      "labels": [
       "VEGAN",
+      "VEGETARIAN"
+     ],
+     "prices": null
+    }
+   ]
+  },
+  {
+   "date": "2026-11-18",
+   "dishes": [
+    {
+     "name": "Allgäuer Käsespätzle mit Röstzwiebeln",
+     "dish_type": "Pasta",
+     "labels": [
+      "VEGETARIAN"
+     ],
+     "prices": null
+    },
+    {
+     "name": "Pikanter Pilztopf mit Kartoffeln und Kraut",
+     "dish_type": "Studitopf",
+     "labels": [
+      "VEGAN",
+      "VEGETARIAN"
+     ],
+     "prices": null
+    },
+    {
+     "name": "Quinoa-Grünkern-Strudel mit Sauerrahm-Dip",
+     "dish_type": "Vegetarisch/fleischlos",
+     "labels": [
+      "VEGETARIAN"
+     ],
+     "prices": null
+    },
+    {
+     "name": "Pfannengyros von der Pute mit Tsatsiki",
+     "dish_type": "Fleisch",
+     "labels": [],
+     "prices": null
+    },
+    {
+     "name": "Grießbrei mit Zimtzucker",
+     "dish_type": "Dessert (Glas)",
+     "labels": [
       "VEGETARIAN"
      ],
      "prices": null
