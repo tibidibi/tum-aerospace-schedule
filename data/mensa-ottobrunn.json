@@ -356,15 +356,7 @@
      "prices": null
     },
     {
-     "name": "Gnocchi Alfredo mit Gemüse",
-     "dish_type": "Vegetarisch/fleischlos",
-     "labels": [
-      "VEGETARIAN"
-     ],
-     "prices": null
-    },
-    {
-     "name": "Mariniertes Zanderfilet (1 Stück) mit Zitrone, Chilli und Koriander",
+     "name": "Panierter Seelachs (1 Stück) mit Dillrahmsauce",
      "dish_type": "Fisch",
      "labels": [
       "FISH"
@@ -380,7 +372,7 @@
      "prices": null
     },
     {
-     "name": "Latte Macchiato Creme - koffeinhaltig",
+     "name": "Mousse Bourbon-Vanille",
      "dish_type": "Dessert (Glas)",
      "labels": [],
      "prices": null
@@ -717,6 +709,50 @@
      "labels": [
       "VEGETARIAN"
      ],
+     "prices": null
+    }
+   ]
+  },
+  {
+   "date": "2026-11-19",
+   "dishes": [
+    {
+     "name": "Schweinesteak (1 Stück) vom Grill (S vom Strohschwein) mit Champignonsauce",
+     "dish_type": "Grill",
+     "labels": [],
+     "prices": null
+    },
+    {
+     "name": "Thailändische Frühlingsrolle mit Sweet-Chilisauce",
+     "dish_type": "Wok",
+     "labels": [
+      "VEGAN",
+      "VEGETARIAN"
+     ],
+     "prices": null
+    },
+    {
+     "name": "Curry-Mie-Nudeln mit Asiagemüse",
+     "dish_type": "Wok",
+     "labels": [
+      "VEGAN",
+      "VEGETARIAN"
+     ],
+     "prices": null
+    },
+    {
+     "name": "Kürbis-Reistopf mit Tomaten",
+     "dish_type": "Studitopf",
+     "labels": [
+      "VEGAN",
+      "VEGETARIAN"
+     ],
+     "prices": null
+    },
+    {
+     "name": "Panna Cotta mit Amarettini",
+     "dish_type": "Dessert (Glas)",
+     "labels": [],
      "prices": null
     }
    ]
