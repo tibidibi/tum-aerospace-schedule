@@ -756,6 +756,51 @@
      "prices": null
     }
    ]
+  },
+  {
+   "date": "2026-11-20",
+   "dishes": [
+    {
+     "name": "Gemüsecurry",
+     "dish_type": "Wok",
+     "labels": [
+      "VEGAN",
+      "VEGETARIAN"
+     ],
+     "prices": null
+    },
+    {
+     "name": "Linseneintopf mit Gemüse",
+     "dish_type": "Studitopf",
+     "labels": [
+      "VEGAN",
+      "VEGETARIAN"
+     ],
+     "prices": null
+    },
+    {
+     "name": "Paella (mit Meeresfrüchten und Hähnchenfleisch)",
+     "dish_type": "Fisch",
+     "labels": [],
+     "prices": null
+    },
+    {
+     "name": "Kaiserschmarrn mit Zwetschgenröstern",
+     "dish_type": "Süßspeise",
+     "labels": [
+      "VEGETARIAN"
+     ],
+     "prices": null
+    },
+    {
+     "name": "Joghurt mit Kirschen",
+     "dish_type": "Dessert (Glas)",
+     "labels": [
+      "VEGETARIAN"
+     ],
+     "prices": null
+    }
+   ]
   }
  ]
 }
