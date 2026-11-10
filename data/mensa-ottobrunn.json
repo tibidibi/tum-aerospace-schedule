@@ -575,7 +575,14 @@
   },
   {
    "date": "2026-11-13",
-   "dishes": []
+   "dishes": [
+    {
+     "name": "TUM-Veranstaltung - keine reguläre Mittagsverpflegung!",
+     "dish_type": "Studitopf",
+     "labels": [],
+     "prices": null
+    }
+   ]
   },
   {
    "date": "2026-11-16",
@@ -794,6 +801,51 @@
     },
     {
      "name": "Joghurt mit Kirschen",
+     "dish_type": "Dessert (Glas)",
+     "labels": [
+      "VEGETARIAN"
+     ],
+     "prices": null
+    }
+   ]
+  },
+  {
+   "date": "2026-11-23",
+   "dishes": [
+    {
+     "name": "Mac & Cheese",
+     "dish_type": "Pasta",
+     "labels": [
+      "VEGETARIAN"
+     ],
+     "prices": null
+    },
+    {
+     "name": "Asiatischer Reis-Gemüse-Topf",
+     "dish_type": "Studitopf",
+     "labels": [
+      "VEGAN",
+      "VEGETARIAN"
+     ],
+     "prices": null
+    },
+    {
+     "name": "Veganes Pastinaken-Kartoffel-Gulasch",
+     "dish_type": "Vegetarisch/fleischlos",
+     "labels": [
+      "VEGAN",
+      "VEGETARIAN"
+     ],
+     "prices": null
+    },
+    {
+     "name": "Hähnchenschnitzel mit Kürbiskernpanade (1 Stück) und Kräuterdip",
+     "dish_type": "Fleisch",
+     "labels": [],
+     "prices": null
+    },
+    {
+     "name": "Grießbrei mit Zimtzucker",
      "dish_type": "Dessert (Glas)",
      "labels": [
       "VEGETARIAN"
