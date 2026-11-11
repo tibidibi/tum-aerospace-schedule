@@ -486,10 +486,9 @@
      "prices": null
     },
     {
-     "name": "Gegrillte Zucchini mit Tomaten-Paprika-Ragout",
+     "name": "Asiatische Gemüse-Reis-Bällchen , dazu Kräuterdip",
      "dish_type": "Grill",
      "labels": [
-      "VEGAN",
       "VEGETARIAN"
      ],
      "prices": null
@@ -504,23 +503,28 @@
      "prices": null
     },
     {
-     "name": "Entenkeule (1 Stück) mit Bratenssauce",
+     "name": "Entenkeule (1 Stück) mit Orangensauce",
      "dish_type": "Fleisch",
      "labels": [],
      "prices": null
     },
     {
-     "name": "Veganer Sojacreme-Joghurt mit Brombeeren und Minze",
+     "name": "Gegrillte Entenbrust (1 Stück) mit Orangensauce",
+     "dish_type": "",
+     "labels": [],
+     "prices": null
+    },
+    {
+     "name": "Faschingskrapfen mit Vierfruchtfüllung",
      "dish_type": "Dessert (Glas)",
      "labels": [
-      "VEGAN",
       "VEGETARIAN"
      ],
      "prices": null
     },
     {
-     "name": "Faschingskrapfen mit Vierfruchtfüllung",
-     "dish_type": "",
+     "name": "Creme Tiramisu",
+     "dish_type": "Dessert (Glas)",
      "labels": [
       "VEGETARIAN"
      ],
@@ -730,7 +734,7 @@
      "prices": null
     },
     {
-     "name": "Thailändische Frühlingsrolle mit Sweet-Chilisauce",
+     "name": "Curry-Mie-Nudeln mit Asiagemüse",
      "dish_type": "Wok",
      "labels": [
       "VEGAN",
@@ -739,7 +743,7 @@
      "prices": null
     },
     {
-     "name": "Curry-Mie-Nudeln mit Asiagemüse",
+     "name": "Thailändische Frühlingsrolle mit Sweet-Chilisauce",
      "dish_type": "Wok",
      "labels": [
       "VEGAN",
@@ -846,6 +850,53 @@
     },
     {
      "name": "Grießbrei mit Zimtzucker",
+     "dish_type": "Dessert (Glas)",
+     "labels": [
+      "VEGETARIAN"
+     ],
+     "prices": null
+    }
+   ]
+  },
+  {
+   "date": "2026-11-24",
+   "dishes": [
+    {
+     "name": "Pasta Verdura",
+     "dish_type": "Pasta",
+     "labels": [
+      "VEGAN",
+      "VEGETARIAN"
+     ],
+     "prices": null
+    },
+    {
+     "name": "Couscous arabische Art mit Karotten und Kichererbsen",
+     "dish_type": "Studitopf",
+     "labels": [
+      "VEGAN",
+      "VEGETARIAN"
+     ],
+     "prices": null
+    },
+    {
+     "name": "Spanferkelrollbraten (1 Scheibe) mit Biersauce",
+     "dish_type": "Fleisch",
+     "labels": [
+      "PORK"
+     ],
+     "prices": null
+    },
+    {
+     "name": "Mini-Germknödel mit Kirschfüllung, dazu Vanillesauce",
+     "dish_type": "Süßspeise",
+     "labels": [
+      "VEGETARIAN"
+     ],
+     "prices": null
+    },
+    {
+     "name": "Mousse au chocolat mit glasierten Kirschen",
      "dish_type": "Dessert (Glas)",
      "labels": [
       "VEGETARIAN"
