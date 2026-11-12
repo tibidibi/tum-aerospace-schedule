@@ -3,51 +3,6 @@
  "source": "https://www.studierendenwerk-muenchen-oberbayern.de/gastronomie/speiseplan/speiseplan_433_-de.html",
  "days": [
   {
-   "date": "2026-10-28",
-   "dishes": [
-    {
-     "name": "Buntes Gemüse in scharfer Kokosmilch",
-     "dish_type": "Wok",
-     "labels": [
-      "VEGAN",
-      "VEGETARIAN"
-     ],
-     "prices": null
-    },
-    {
-     "name": "Graupen-Gemüse-Eintopf",
-     "dish_type": "Studitopf",
-     "labels": [
-      "VEGAN",
-      "VEGETARIAN"
-     ],
-     "prices": null
-    },
-    {
-     "name": "Blumenkohl-Käse-Medaillon mit Salsa",
-     "dish_type": "Vegetarisch/fleischlos",
-     "labels": [
-      "VEGETARIAN"
-     ],
-     "prices": null
-    },
-    {
-     "name": "Schweinebraten (1 Scheibe) mit Biersauce (S vom Strohschwein)",
-     "dish_type": "Fleisch",
-     "labels": [],
-     "prices": null
-    },
-    {
-     "name": "Heidelbeer-Mascarpone-Creme",
-     "dish_type": "Dessert (Glas)",
-     "labels": [
-      "VEGETARIAN"
-     ],
-     "prices": null
-    }
-   ]
-  },
-  {
    "date": "2026-10-29",
    "dishes": [
     {
@@ -901,6 +856,49 @@
      "labels": [
       "VEGETARIAN"
      ],
+     "prices": null
+    }
+   ]
+  },
+  {
+   "date": "2026-11-25",
+   "dishes": [
+    {
+     "name": "Spätzlepfanne mit Gemüse",
+     "dish_type": "Pasta",
+     "labels": [
+      "VEGETARIAN"
+     ],
+     "prices": null
+    },
+    {
+     "name": "Brasilianisches Brathähnchen (1 Stück)- Frango a Passarinho mit Mango-Chili-Dip",
+     "dish_type": "Wok",
+     "labels": [],
+     "prices": null
+    },
+    {
+     "name": "Reistopf mit Kidneybohnen, Paprika und Mais",
+     "dish_type": "Studitopf",
+     "labels": [
+      "VEGAN",
+      "VEGETARIAN"
+     ],
+     "prices": null
+    },
+    {
+     "name": "Orientalischer Gemüse-Couscous mit Kichererbsen",
+     "dish_type": "Vegan",
+     "labels": [
+      "VEGAN",
+      "VEGETARIAN"
+     ],
+     "prices": null
+    },
+    {
+     "name": "Mousse Bourbon-Vanille",
+     "dish_type": "Dessert (Glas)",
+     "labels": [],
      "prices": null
     }
    ]
