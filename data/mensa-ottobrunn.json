@@ -3,49 +3,6 @@
  "source": "https://www.studierendenwerk-muenchen-oberbayern.de/gastronomie/speiseplan/speiseplan_433_-de.html",
  "days": [
   {
-   "date": "2026-10-29",
-   "dishes": [
-    {
-     "name": "Pasta mit Gemüsebolognese",
-     "dish_type": "Pasta",
-     "labels": [
-      "VEGAN",
-      "VEGETARIAN"
-     ],
-     "prices": null
-    },
-    {
-     "name": "Champignonreistopf",
-     "dish_type": "Studitopf",
-     "labels": [
-      "VEGAN",
-      "VEGETARIAN"
-     ],
-     "prices": null
-    },
-    {
-     "name": "Spinatknödel mit Bergkäsesauce",
-     "dish_type": "Vegetarisch/fleischlos",
-     "labels": [],
-     "prices": null
-    },
-    {
-     "name": "Andalusisches Rinderragout",
-     "dish_type": "Fleisch",
-     "labels": [
-      "BEEF"
-     ],
-     "prices": null
-    },
-    {
-     "name": "Tiramisu",
-     "dish_type": "Dessert (Glas)",
-     "labels": [],
-     "prices": null
-    }
-   ]
-  },
-  {
    "date": "2026-10-30",
    "dishes": [
     {
@@ -899,6 +856,51 @@
      "name": "Mousse Bourbon-Vanille",
      "dish_type": "Dessert (Glas)",
      "labels": [],
+     "prices": null
+    }
+   ]
+  },
+  {
+   "date": "2026-11-26",
+   "dishes": [
+    {
+     "name": "Pasta mit Steinpilzen",
+     "dish_type": "Pasta",
+     "labels": [
+      "VEGAN",
+      "VEGETARIAN"
+     ],
+     "prices": null
+    },
+    {
+     "name": "Grüner Erbseneintopf",
+     "dish_type": "Studitopf",
+     "labels": [
+      "VEGAN",
+      "VEGETARIAN"
+     ],
+     "prices": null
+    },
+    {
+     "name": "Spinatknödel mit Bergkäsesauce",
+     "dish_type": "Vegetarisch/fleischlos",
+     "labels": [],
+     "prices": null
+    },
+    {
+     "name": "Di Manzo - Rindfleisch in Balsamico",
+     "dish_type": "Fleisch",
+     "labels": [
+      "BEEF"
+     ],
+     "prices": null
+    },
+    {
+     "name": "Schokopudding mit Sahne",
+     "dish_type": "Dessert (Glas)",
+     "labels": [
+      "VEGETARIAN"
+     ],
      "prices": null
     }
    ]
