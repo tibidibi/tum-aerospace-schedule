@@ -3,42 +3,6 @@
  "source": "https://www.studierendenwerk-muenchen-oberbayern.de/gastronomie/speiseplan/speiseplan_433_-de.html",
  "days": [
   {
-   "date": "2026-10-30",
-   "dishes": [
-    {
-     "name": "Grüner Erbseneintopf",
-     "dish_type": "Studitopf",
-     "labels": [
-      "VEGAN",
-      "VEGETARIAN"
-     ],
-     "prices": null
-    },
-    {
-     "name": "Gegrilltes Zanderfilet (1 Stück) mit Zitronensauce",
-     "dish_type": "Fisch",
-     "labels": [
-      "FISH"
-     ],
-     "prices": null
-    },
-    {
-     "name": "Kaiserschmarrn mit Apfelmus",
-     "dish_type": "Süßspeise",
-     "labels": [
-      "VEGETARIAN"
-     ],
-     "prices": null
-    },
-    {
-     "name": "Lebkuchen Mousse",
-     "dish_type": "Dessert (Glas)",
-     "labels": [],
-     "prices": null
-    }
-   ]
-  },
-  {
    "date": "2026-11-02",
    "dishes": [
     {
