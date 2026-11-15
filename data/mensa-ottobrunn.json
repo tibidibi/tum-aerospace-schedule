@@ -868,6 +868,52 @@
      "prices": null
     }
    ]
+  },
+  {
+   "date": "2026-11-27",
+   "dishes": [
+    {
+     "name": "Pasta mit Tomaten-Frischkäse-Sauce",
+     "dish_type": "Pasta",
+     "labels": [
+      "VEGETARIAN"
+     ],
+     "prices": null
+    },
+    {
+     "name": "Kartoffelgulasch mit Paprika",
+     "dish_type": "Studitopf",
+     "labels": [
+      "VEGAN",
+      "VEGETARIAN"
+     ],
+     "prices": null
+    },
+    {
+     "name": "Seelachsfilet Lemon Koriander (1 Stück)",
+     "dish_type": "Fisch",
+     "labels": [
+      "FISH"
+     ],
+     "prices": null
+    },
+    {
+     "name": "Pfannkuchen mit Heidelbeerfüllung und Vanillesauce",
+     "dish_type": "Süßspeise",
+     "labels": [
+      "VEGETARIAN"
+     ],
+     "prices": null
+    },
+    {
+     "name": "Vanille-Zimtcreme mit Blaubeeren",
+     "dish_type": "Dessert (Glas)",
+     "labels": [
+      "VEGETARIAN"
+     ],
+     "prices": null
+    }
+   ]
   }
  ]
 }
