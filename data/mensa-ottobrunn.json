@@ -3,54 +3,6 @@
  "source": "https://www.studierendenwerk-muenchen-oberbayern.de/gastronomie/speiseplan/speiseplan_433_-de.html",
  "days": [
   {
-   "date": "2026-11-02",
-   "dishes": [
-    {
-     "name": "Käsekrainer (1 Stück)",
-     "dish_type": "Grill",
-     "labels": [
-      "PORK",
-      "BEEF"
-     ],
-     "prices": null
-    },
-    {
-     "name": "Gemüsecurry aus Blumenkohl und Broccoli",
-     "dish_type": "Wok",
-     "labels": [
-      "VEGAN",
-      "VEGETARIAN"
-     ],
-     "prices": null
-    },
-    {
-     "name": "Graupen-Gemüse-Eintopf",
-     "dish_type": "Studitopf",
-     "labels": [
-      "VEGAN",
-      "VEGETARIAN"
-     ],
-     "prices": null
-    },
-    {
-     "name": "Gefüllte Paprikaschote",
-     "dish_type": "Vegetarisch/fleischlos",
-     "labels": [
-      "VEGETARIAN"
-     ],
-     "prices": null
-    },
-    {
-     "name": "Quark mit Mango",
-     "dish_type": "Dessert (Glas)",
-     "labels": [
-      "VEGETARIAN"
-     ],
-     "prices": null
-    }
-   ]
-  },
-  {
    "date": "2026-11-03",
    "dishes": [
     {
@@ -610,7 +562,7 @@
      "prices": null
     },
     {
-     "name": "Curry-Mie-Nudeln mit Asiagemüse",
+     "name": "Thailändische Frühlingsrolle mit Sweet-Chilisauce",
      "dish_type": "Wok",
      "labels": [
       "VEGAN",
@@ -619,7 +571,7 @@
      "prices": null
     },
     {
-     "name": "Thailändische Frühlingsrolle mit Sweet-Chilisauce",
+     "name": "Curry-Mie-Nudeln mit Asiagemüse",
      "dish_type": "Wok",
      "labels": [
       "VEGAN",
@@ -911,6 +863,50 @@
      "labels": [
       "VEGETARIAN"
      ],
+     "prices": null
+    }
+   ]
+  },
+  {
+   "date": "2026-11-30",
+   "dishes": [
+    {
+     "name": "Ravioli mit Tomate-Basilikumfüllung , dazu Tomatensauce",
+     "dish_type": "Pasta",
+     "labels": [
+      "VEGETARIAN"
+     ],
+     "prices": null
+    },
+    {
+     "name": "Polenta mit Wurzelgemüse",
+     "dish_type": "Studitopf",
+     "labels": [
+      "VEGAN",
+      "VEGETARIAN"
+     ],
+     "prices": null
+    },
+    {
+     "name": "Kartoffeltaschen mit Kräuterfrischkäse und Sauerrahmdip",
+     "dish_type": "Vegetarisch/fleischlos",
+     "labels": [
+      "VEGETARIAN"
+     ],
+     "prices": null
+    },
+    {
+     "name": "Cordon bleu vom Schwein (1 Stück) (mit Formfleisch Kochschinken)",
+     "dish_type": "Fleisch",
+     "labels": [
+      "PORK"
+     ],
+     "prices": null
+    },
+    {
+     "name": "Bayerisch Creme mit Himbeermark",
+     "dish_type": "Dessert (Glas)",
+     "labels": [],
      "prices": null
     }
    ]
