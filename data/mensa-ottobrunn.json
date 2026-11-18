@@ -3,50 +3,6 @@
  "source": "https://www.studierendenwerk-muenchen-oberbayern.de/gastronomie/speiseplan/speiseplan_433_-de.html",
  "days": [
   {
-   "date": "2026-11-03",
-   "dishes": [
-    {
-     "name": "Schweizer Knöpflepfanne mit feinem Gemüse und Käse",
-     "dish_type": "Pasta",
-     "labels": [
-      "VEGETARIAN"
-     ],
-     "prices": null
-    },
-    {
-     "name": "Veganer Eintopf mit Kraut, Kartoffeln und Roter Beete",
-     "dish_type": "Studitopf",
-     "labels": [
-      "VEGAN",
-      "VEGETARIAN"
-     ],
-     "prices": null
-    },
-    {
-     "name": "Tomate-Mozzarella-Strudel mit Tomatenragout",
-     "dish_type": "Vegetarisch/fleischlos",
-     "labels": [
-      "VEGETARIAN"
-     ],
-     "prices": null
-    },
-    {
-     "name": "Schweineschnitzel Wiener Art (1 Stück)",
-     "dish_type": "Fleisch",
-     "labels": [
-      "PORK"
-     ],
-     "prices": null
-    },
-    {
-     "name": "Kokos-Panna-Cotta mit Himbeersauce",
-     "dish_type": "Dessert (Glas)",
-     "labels": [],
-     "prices": null
-    }
-   ]
-  },
-  {
    "date": "2026-11-04",
    "dishes": [
     {
@@ -512,9 +468,10 @@
    "date": "2026-11-18",
    "dishes": [
     {
-     "name": "Allgäuer Käsespätzle mit Röstzwiebeln",
+     "name": "Pasta all'arrabiata",
      "dish_type": "Pasta",
      "labels": [
+      "VEGAN",
       "VEGETARIAN"
      ],
      "prices": null
@@ -562,7 +519,7 @@
      "prices": null
     },
     {
-     "name": "Thailändische Frühlingsrolle mit Sweet-Chilisauce",
+     "name": "Curry-Mie-Nudeln mit Asiagemüse",
      "dish_type": "Wok",
      "labels": [
       "VEGAN",
@@ -571,7 +528,7 @@
      "prices": null
     },
     {
-     "name": "Curry-Mie-Nudeln mit Asiagemüse",
+     "name": "Thailändische Frühlingsrolle mit Sweet-Chilisauce",
      "dish_type": "Wok",
      "labels": [
       "VEGAN",
@@ -905,6 +862,51 @@
     },
     {
      "name": "Bayerisch Creme mit Himbeermark",
+     "dish_type": "Dessert (Glas)",
+     "labels": [],
+     "prices": null
+    }
+   ]
+  },
+  {
+   "date": "2026-12-01",
+   "dishes": [
+    {
+     "name": "Pasta mit mediterraner Tomatensauce",
+     "dish_type": "Pasta",
+     "labels": [
+      "VEGAN",
+      "VEGETARIAN"
+     ],
+     "prices": null
+    },
+    {
+     "name": "Gersteneintopf",
+     "dish_type": "Studitopf",
+     "labels": [
+      "VEGAN",
+      "VEGETARIAN"
+     ],
+     "prices": null
+    },
+    {
+     "name": "Frische Rahmschwammerl",
+     "dish_type": "Vegetarisch/fleischlos",
+     "labels": [
+      "VEGETARIAN"
+     ],
+     "prices": null
+    },
+    {
+     "name": "Münchner Biergulasch vom Rind",
+     "dish_type": "Fleisch",
+     "labels": [
+      "BEEF"
+     ],
+     "prices": null
+    },
+    {
+     "name": "Tagesdessert",
      "dish_type": "Dessert (Glas)",
      "labels": [],
      "prices": null
