@@ -3,55 +3,6 @@
  "source": "https://www.studierendenwerk-muenchen-oberbayern.de/gastronomie/speiseplan/speiseplan_433_-de.html",
  "days": [
   {
-   "date": "2026-11-04",
-   "dishes": [
-    {
-     "name": "Pasta mit Gemüsebolognese",
-     "dish_type": "Pasta",
-     "labels": [
-      "VEGAN",
-      "VEGETARIAN"
-     ],
-     "prices": null
-    },
-    {
-     "name": "Zartweizen mit Tomaten, Zucchini und Auberginen",
-     "dish_type": "Studitopf",
-     "labels": [
-      "VEGAN",
-      "VEGETARIAN"
-     ],
-     "prices": null
-    },
-    {
-     "name": "Rinderbraten (1 Scheibe) mit Rotweinsauce",
-     "dish_type": "Fleisch",
-     "labels": [
-      "BEEF"
-     ],
-     "prices": null
-    },
-    {
-     "name": "Yufkateigschnecke mit Spinatfüllung mit Sojajoghurtdip",
-     "dish_type": "Vegan",
-     "labels": [
-      "VEGAN",
-      "VEGETARIAN"
-     ],
-     "prices": null
-    },
-    {
-     "name": "Schokoladen-Seidentofu-Creme mit Agavendicksaft",
-     "dish_type": "Dessert (Glas)",
-     "labels": [
-      "VEGAN",
-      "VEGETARIAN"
-     ],
-     "prices": null
-    }
-   ]
-  },
-  {
    "date": "2026-11-05",
    "dishes": [
     {
@@ -519,7 +470,7 @@
      "prices": null
     },
     {
-     "name": "Curry-Mie-Nudeln mit Asiagemüse",
+     "name": "Thailändische Frühlingsrolle mit Sweet-Chilisauce",
      "dish_type": "Wok",
      "labels": [
       "VEGAN",
@@ -528,7 +479,7 @@
      "prices": null
     },
     {
-     "name": "Thailändische Frühlingsrolle mit Sweet-Chilisauce",
+     "name": "Curry-Mie-Nudeln mit Asiagemüse",
      "dish_type": "Wok",
      "labels": [
       "VEGAN",
@@ -903,6 +854,50 @@
      "labels": [
       "BEEF"
      ],
+     "prices": null
+    },
+    {
+     "name": "Tagesdessert",
+     "dish_type": "Dessert (Glas)",
+     "labels": [],
+     "prices": null
+    }
+   ]
+  },
+  {
+   "date": "2026-12-02",
+   "dishes": [
+    {
+     "name": "Vegane Pasta mit Räuchertofu",
+     "dish_type": "Pasta",
+     "labels": [
+      "VEGAN",
+      "VEGETARIAN"
+     ],
+     "prices": null
+    },
+    {
+     "name": "Reistopf mit Kidneybohnen, Paprika und Mais",
+     "dish_type": "Studitopf",
+     "labels": [
+      "VEGAN",
+      "VEGETARIAN"
+     ],
+     "prices": null
+    },
+    {
+     "name": "Yufkateigschnecke mit Spinatfüllung mit Sojajoghurtdip",
+     "dish_type": "Vegetarisch/fleischlos",
+     "labels": [
+      "VEGAN",
+      "VEGETARIAN"
+     ],
+     "prices": null
+    },
+    {
+     "name": "Hirschgulasch",
+     "dish_type": "Fleisch",
+     "labels": [],
      "prices": null
     },
     {
