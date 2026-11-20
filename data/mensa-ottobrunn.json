@@ -3,82 +3,6 @@
  "source": "https://www.studierendenwerk-muenchen-oberbayern.de/gastronomie/speiseplan/speiseplan_433_-de.html",
  "days": [
   {
-   "date": "2026-11-05",
-   "dishes": [
-    {
-     "name": "Tortellini mit Kürbis-Tomatensauce",
-     "dish_type": "Pasta",
-     "labels": [
-      "VEGAN",
-      "VEGETARIAN"
-     ],
-     "prices": null
-    },
-    {
-     "name": "Pasta mit Kürbis-Tomatensauce",
-     "dish_type": "",
-     "labels": [
-      "VEGAN",
-      "VEGETARIAN"
-     ],
-     "prices": null
-    },
-    {
-     "name": "Hähnchenspieß (1 Stück) mit Paprikasauce",
-     "dish_type": "Grill",
-     "labels": [],
-     "prices": null
-    },
-    {
-     "name": "Hirschgulasch in Preiselbeersauce",
-     "dish_type": "",
-     "labels": [],
-     "prices": null
-    },
-    {
-     "name": "Veganer Gulaschtopf mit Kartoffeln, Wurzelgemüse und Schwarzbier",
-     "dish_type": "Wok",
-     "labels": [
-      "VEGAN",
-      "VEGETARIAN"
-     ],
-     "prices": null
-    },
-    {
-     "name": "Falafel mit Tomatensauce",
-     "dish_type": "",
-     "labels": [
-      "VEGAN",
-      "VEGETARIAN"
-     ],
-     "prices": null
-    },
-    {
-     "name": "Bulgur mit roten Linsen, Bohnen und Tomaten",
-     "dish_type": "Studitopf",
-     "labels": [
-      "VEGAN",
-      "VEGETARIAN"
-     ],
-     "prices": null
-    },
-    {
-     "name": "Spinatknödel mit Bergkäsesauce",
-     "dish_type": "Vegetarisch/fleischlos",
-     "labels": [],
-     "prices": null
-    },
-    {
-     "name": "Creme Tiramisu mit Amaretto",
-     "dish_type": "Dessert (Glas)",
-     "labels": [
-      "VEGETARIAN"
-     ],
-     "prices": null
-    }
-   ]
-  },
-  {
    "date": "2026-11-06",
    "dishes": [
     {
@@ -517,22 +441,13 @@
      "prices": null
     },
     {
-     "name": "Linseneintopf mit Gemüse",
-     "dish_type": "Studitopf",
-     "labels": [
-      "VEGAN",
-      "VEGETARIAN"
-     ],
-     "prices": null
-    },
-    {
      "name": "Paella (mit Meeresfrüchten und Hähnchenfleisch)",
      "dish_type": "Fisch",
      "labels": [],
      "prices": null
     },
     {
-     "name": "Kaiserschmarrn mit Zwetschgenröstern",
+     "name": "Kaiserschmarrn mit Apfelmus",
      "dish_type": "Süßspeise",
      "labels": [
       "VEGETARIAN"
@@ -898,6 +813,44 @@
      "name": "Hirschgulasch",
      "dish_type": "Fleisch",
      "labels": [],
+     "prices": null
+    },
+    {
+     "name": "Tagesdessert",
+     "dish_type": "Dessert (Glas)",
+     "labels": [],
+     "prices": null
+    }
+   ]
+  },
+  {
+   "date": "2026-12-03",
+   "dishes": [
+    {
+     "name": "Spinatspätzlepfanne mit Bergkäse und abgeschmelzten Zwiebeln",
+     "dish_type": "Pasta",
+     "labels": [],
+     "prices": null
+    },
+    {
+     "name": "Eintopf mit roten Linsen, Möhren und Blumenkohl",
+     "dish_type": "Studitopf",
+     "labels": [],
+     "prices": null
+    },
+    {
+     "name": "Schweinegeschnetzeltes (S vom Strohschwein) in Rahmsauce",
+     "dish_type": "Fleisch",
+     "labels": [],
+     "prices": null
+    },
+    {
+     "name": "Kürbisfalafel mit Zucchini-Hummus",
+     "dish_type": "Vegan",
+     "labels": [
+      "VEGAN",
+      "VEGETARIAN"
+     ],
      "prices": null
     },
     {
