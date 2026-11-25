@@ -3,52 +3,6 @@
  "source": "https://www.studierendenwerk-muenchen-oberbayern.de/gastronomie/speiseplan/speiseplan_433_-de.html",
  "days": [
   {
-   "date": "2026-11-10",
-   "dishes": [
-    {
-     "name": "Pasta mit Sojabolognese",
-     "dish_type": "Pasta",
-     "labels": [
-      "VEGAN",
-      "VEGETARIAN"
-     ],
-     "prices": null
-    },
-    {
-     "name": "Gegrillte Hähnchenbrust (1 Stück) mit Thaipesto",
-     "dish_type": "Grill",
-     "labels": [],
-     "prices": null
-    },
-    {
-     "name": "Gersteneintopf",
-     "dish_type": "Studitopf",
-     "labels": [
-      "VEGAN",
-      "VEGETARIAN"
-     ],
-     "prices": null
-    },
-    {
-     "name": "Gekräutertes Pilzragout (Champignons, Egerlingen und Austernpilzen)",
-     "dish_type": "Vegetarisch/fleischlos",
-     "labels": [
-      "VEGAN",
-      "VEGETARIAN"
-     ],
-     "prices": null
-    },
-    {
-     "name": "Topfencreme mit Zwetschgenröster",
-     "dish_type": "Dessert (Glas)",
-     "labels": [
-      "VEGETARIAN"
-     ],
-     "prices": null
-    }
-   ]
-  },
-  {
    "date": "2026-11-11",
    "dishes": [
     {
@@ -476,7 +430,7 @@
    "date": "2026-11-25",
    "dishes": [
     {
-     "name": "Spätzlepfanne mit Gemüse",
+     "name": "Spinatspätzlepfanne mit Champignons, Kraut und Paprika",
      "dish_type": "Pasta",
      "labels": [
       "VEGETARIAN"
@@ -484,13 +438,13 @@
      "prices": null
     },
     {
-     "name": "Brasilianisches Brathähnchen (1 Stück)- Frango a Passarinho mit Mango-Chili-Dip",
+     "name": "Brasilianisches Brathähnchen (1 Stück)- Frango a Passarinho mit Sauerrahm-Dip",
      "dish_type": "Wok",
      "labels": [],
      "prices": null
     },
     {
-     "name": "Reistopf mit Kidneybohnen, Paprika und Mais",
+     "name": "Gemüsecurry aus Blumenkohl und Broccoli",
      "dish_type": "Studitopf",
      "labels": [
       "VEGAN",
@@ -499,16 +453,31 @@
      "prices": null
     },
     {
-     "name": "Orientalischer Gemüse-Couscous mit Kichererbsen",
-     "dish_type": "Vegan",
+     "name": "Ravioli gefüllt mit Tomate und Basilikum, dazu Tomatensauce",
+     "dish_type": "Vegetarisch/fleischlos",
      "labels": [
-      "VEGAN",
       "VEGETARIAN"
      ],
      "prices": null
     },
     {
-     "name": "Mousse Bourbon-Vanille",
+     "name": "Kartoffeltaschen mit Kräuterfrischkäse und Sauerrahmdip",
+     "dish_type": "",
+     "labels": [
+      "VEGETARIAN"
+     ],
+     "prices": null
+    },
+    {
+     "name": "Schweineschnitzel Wiener Art (1 Stück) mit Sauerrahmdip",
+     "dish_type": "Fleisch",
+     "labels": [
+      "PORK"
+     ],
+     "prices": null
+    },
+    {
+     "name": "Weiße Schokoladenmousse",
      "dish_type": "Dessert (Glas)",
      "labels": [],
      "prices": null
@@ -842,6 +811,51 @@
     },
     {
      "name": "Thailändische Frühlingsrolle mit Sweet-Chilisauce",
+     "dish_type": "Vegan",
+     "labels": [
+      "VEGAN",
+      "VEGETARIAN"
+     ],
+     "prices": null
+    },
+    {
+     "name": "Tagesdessert",
+     "dish_type": "Dessert (Glas)",
+     "labels": [],
+     "prices": null
+    }
+   ]
+  },
+  {
+   "date": "2026-12-08",
+   "dishes": [
+    {
+     "name": "Köfte (3 Stück) mit Gurken-Minz-Joghurt-Dip",
+     "dish_type": "Grill",
+     "labels": [
+      "BEEF"
+     ],
+     "prices": null
+    },
+    {
+     "name": "Veganer Eintopf mit Kraut, Kartoffeln und Roter Beete",
+     "dish_type": "Studitopf",
+     "labels": [
+      "VEGAN",
+      "VEGETARIAN"
+     ],
+     "prices": null
+    },
+    {
+     "name": "Apfelkücherl mit Vanillesauce",
+     "dish_type": "Süßspeise",
+     "labels": [
+      "VEGETARIAN"
+     ],
+     "prices": null
+    },
+    {
+     "name": "Veganes Sojagulasch mit Paprika",
      "dish_type": "Vegan",
      "labels": [
       "VEGAN",
