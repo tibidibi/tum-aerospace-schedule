@@ -3,65 +3,6 @@
  "source": "https://www.studierendenwerk-muenchen-oberbayern.de/gastronomie/speiseplan/speiseplan_433_-de.html",
  "days": [
   {
-   "date": "2026-11-11",
-   "dishes": [
-    {
-     "name": "Dim Sum: Asian Dumplings mit Asiagemüse",
-     "dish_type": "Pasta",
-     "labels": [
-      "VEGAN",
-      "VEGETARIAN"
-     ],
-     "prices": null
-    },
-    {
-     "name": "Asiatische Gemüse-Reis-Bällchen , dazu Kräuterdip",
-     "dish_type": "Grill",
-     "labels": [
-      "VEGETARIAN"
-     ],
-     "prices": null
-    },
-    {
-     "name": "Eintopf mit Reis, Bohnen und Gemüse",
-     "dish_type": "Studitopf",
-     "labels": [
-      "VEGAN",
-      "VEGETARIAN"
-     ],
-     "prices": null
-    },
-    {
-     "name": "Entenkeule (1 Stück) mit Orangensauce",
-     "dish_type": "Fleisch",
-     "labels": [],
-     "prices": null
-    },
-    {
-     "name": "Gegrillte Entenbrust (1 Stück) mit Orangensauce",
-     "dish_type": "",
-     "labels": [],
-     "prices": null
-    },
-    {
-     "name": "Faschingskrapfen mit Vierfruchtfüllung",
-     "dish_type": "Dessert (Glas)",
-     "labels": [
-      "VEGETARIAN"
-     ],
-     "prices": null
-    },
-    {
-     "name": "Creme Tiramisu",
-     "dish_type": "Dessert (Glas)",
-     "labels": [
-      "VEGETARIAN"
-     ],
-     "prices": null
-    }
-   ]
-  },
-  {
    "date": "2026-11-12",
    "dishes": [
     {
@@ -488,16 +429,31 @@
    "date": "2026-11-26",
    "dishes": [
     {
-     "name": "Pasta mit Steinpilzen",
+     "name": "Pasta mit Pilzrahmsauce aus Steinpilzen und Champignons",
      "dish_type": "Pasta",
      "labels": [
-      "VEGAN",
       "VEGETARIAN"
      ],
      "prices": null
     },
     {
-     "name": "Grüner Erbseneintopf",
+     "name": "Gefüllte Pasta mit Tomaten und Basilikum dazu Sahnesauce mit Steinpilzen und Champignons",
+     "dish_type": "",
+     "labels": [
+      "VEGETARIAN"
+     ],
+     "prices": null
+    },
+    {
+     "name": "Spinatspätzlepfanne mit Champignons, Kraut und Paprika dazu Bergkäsesauce",
+     "dish_type": "Pasta",
+     "labels": [
+      "VEGETARIAN"
+     ],
+     "prices": null
+    },
+    {
+     "name": "Bulgur mit Gemüse",
      "dish_type": "Studitopf",
      "labels": [
       "VEGAN",
@@ -520,7 +476,15 @@
      "prices": null
     },
     {
-     "name": "Schokopudding mit Sahne",
+     "name": "Cordon bleu vom Schwein (1 Stück) (mit Formfleisch Kochschinken)",
+     "dish_type": "Fleisch",
+     "labels": [
+      "PORK"
+     ],
+     "prices": null
+    },
+    {
+     "name": "Schokocreme mit Kirschen",
      "dish_type": "Dessert (Glas)",
      "labels": [
       "VEGETARIAN"
@@ -533,14 +497,6 @@
    "date": "2026-11-27",
    "dishes": [
     {
-     "name": "Pasta mit Tomaten-Frischkäse-Sauce",
-     "dish_type": "Pasta",
-     "labels": [
-      "VEGETARIAN"
-     ],
-     "prices": null
-    },
-    {
      "name": "Kartoffelgulasch mit Paprika",
      "dish_type": "Studitopf",
      "labels": [
@@ -550,7 +506,7 @@
      "prices": null
     },
     {
-     "name": "Seelachsfilet Lemon Koriander (1 Stück)",
+     "name": "Panierter Seelachs (1 Stück) mit Remouladensuce",
      "dish_type": "Fisch",
      "labels": [
       "FISH"
@@ -560,14 +516,6 @@
     {
      "name": "Pfannkuchen mit Heidelbeerfüllung und Vanillesauce",
      "dish_type": "Süßspeise",
-     "labels": [
-      "VEGETARIAN"
-     ],
-     "prices": null
-    },
-    {
-     "name": "Vanille-Zimtcreme mit Blaubeeren",
-     "dish_type": "Dessert (Glas)",
      "labels": [
       "VEGETARIAN"
      ],
@@ -861,6 +809,49 @@
       "VEGAN",
       "VEGETARIAN"
      ],
+     "prices": null
+    },
+    {
+     "name": "Tagesdessert",
+     "dish_type": "Dessert (Glas)",
+     "labels": [],
+     "prices": null
+    }
+   ]
+  },
+  {
+   "date": "2026-12-09",
+   "dishes": [
+    {
+     "name": "Gemüsecurry aus Blumenkohl und Broccoli",
+     "dish_type": "Wok",
+     "labels": [
+      "VEGAN",
+      "VEGETARIAN"
+     ],
+     "prices": null
+    },
+    {
+     "name": "Eintopf mit Reis, Bohnen und Gemüse",
+     "dish_type": "Studitopf",
+     "labels": [
+      "VEGAN",
+      "VEGETARIAN"
+     ],
+     "prices": null
+    },
+    {
+     "name": "Quinoa-Grünkern-Strudel mit Sauerrahm-Dip",
+     "dish_type": "Vegetarisch/fleischlos",
+     "labels": [
+      "VEGETARIAN"
+     ],
+     "prices": null
+    },
+    {
+     "name": "Putengulasch mit Paprika",
+     "dish_type": "Fleisch",
+     "labels": [],
      "prices": null
     },
     {
