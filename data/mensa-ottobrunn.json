@@ -3,51 +3,6 @@
  "source": "https://www.studierendenwerk-muenchen-oberbayern.de/gastronomie/speiseplan/speiseplan_433_-de.html",
  "days": [
   {
-   "date": "2026-11-12",
-   "dishes": [
-    {
-     "name": "Tortellini (Käsefüllung) mit Kräutersauce",
-     "dish_type": "Pasta",
-     "labels": [
-      "VEGETARIAN"
-     ],
-     "prices": null
-    },
-    {
-     "name": "Putensteak (1 Stück) mit Chimichuri aus Koriander, Tomate und Petersilie",
-     "dish_type": "Grill",
-     "labels": [],
-     "prices": null
-    },
-    {
-     "name": "Pikante Hirse mit schwarzen Bohnen und Gemüse",
-     "dish_type": "Studitopf",
-     "labels": [
-      "VEGAN",
-      "VEGETARIAN"
-     ],
-     "prices": null
-    },
-    {
-     "name": "Falafel mit Hummus",
-     "dish_type": "Vegan",
-     "labels": [
-      "VEGAN",
-      "VEGETARIAN"
-     ],
-     "prices": null
-    },
-    {
-     "name": "Schokopudding mit Sahne",
-     "dish_type": "Dessert (Glas)",
-     "labels": [
-      "VEGETARIAN"
-     ],
-     "prices": null
-    }
-   ]
-  },
-  {
    "date": "2026-11-13",
    "dishes": [
     {
@@ -506,6 +461,30 @@
      "prices": null
     },
     {
+     "name": "Überbackene Spinatknödel in Bergkäsesauce",
+     "dish_type": "Vegetarisch/fleischlos",
+     "labels": [
+      "VEGETARIAN"
+     ],
+     "prices": null
+    },
+    {
+     "name": "Käsespätzle mit Röstzwiebeln",
+     "dish_type": "",
+     "labels": [
+      "VEGETARIAN"
+     ],
+     "prices": null
+    },
+    {
+     "name": "Di Manzo - Rindfleisch in Balsamico",
+     "dish_type": "Fleisch",
+     "labels": [
+      "BEEF"
+     ],
+     "prices": null
+    },
+    {
      "name": "Panierter Seelachs (1 Stück) mit Remouladensuce",
      "dish_type": "Fisch",
      "labels": [
@@ -520,6 +499,15 @@
       "VEGETARIAN"
      ],
      "prices": null
+    },
+    {
+     "name": "Veganer Pudding Vanillegeschmack",
+     "dish_type": "Dessert (Glas)",
+     "labels": [
+      "VEGAN",
+      "VEGETARIAN"
+     ],
+     "prices": null
     }
    ]
   },
@@ -527,7 +515,7 @@
    "date": "2026-11-30",
    "dishes": [
     {
-     "name": "Ravioli mit Tomate-Basilikumfüllung , dazu Tomatensauce",
+     "name": "Ravioli mit Tomate-Basilikumfüllung , dazu Tomaten-Frischkäse Sauce",
      "dish_type": "Pasta",
      "labels": [
       "VEGETARIAN"
@@ -852,6 +840,49 @@
      "name": "Putengulasch mit Paprika",
      "dish_type": "Fleisch",
      "labels": [],
+     "prices": null
+    },
+    {
+     "name": "Tagesdessert",
+     "dish_type": "Dessert (Glas)",
+     "labels": [],
+     "prices": null
+    }
+   ]
+  },
+  {
+   "date": "2026-12-10",
+   "dishes": [
+    {
+     "name": "Kürbis-Teigtaschen mit Käsesauce, Kirschtomaten und Basilikum",
+     "dish_type": "Pasta",
+     "labels": [
+      "VEGETARIAN"
+     ],
+     "prices": null
+    },
+    {
+     "name": "Gegrillte Hähnchenbrust (1 Stück) mit Pfannengemüse",
+     "dish_type": "Grill",
+     "labels": [],
+     "prices": null
+    },
+    {
+     "name": "Pikanter Eintopf mit weißen Bohnen und Paprika",
+     "dish_type": "Studitopf",
+     "labels": [
+      "VEGAN",
+      "VEGETARIAN"
+     ],
+     "prices": null
+    },
+    {
+     "name": "Veganes Tomatenragout mit Falafel",
+     "dish_type": "Vegan",
+     "labels": [
+      "VEGAN",
+      "VEGETARIAN"
+     ],
      "prices": null
     },
     {
